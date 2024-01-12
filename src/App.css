@@ -4,3 +4,54 @@
   height: auto;
 }
 
+.servicesBox {
+  z-index: 2000;
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 71%;
+  height: 90px;
+  display: flex;
+  font-size: 20px;
+  color: grey;
+}
+
+.chatService {
+  flex: 1;
+  border: 1px solid grey;
+  padding-top: 30px;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 15px 0 0 15px;
+}
+.chatService:hover {
+  background-color: lightgoldenrodyellow;
+}
+
+.mapService {
+  flex: 1;
+  border-top: 1px solid grey;
+  border-right: 1px solid grey;
+  border-bottom: 1px solid grey;
+  padding-top: 30px;
+  cursor: pointer;
+  background-color: white;
+}
+.mapService:hover {
+  background-color: lightgoldenrodyellow;
+}
+
+.loginService {
+  flex: 1;
+  border-top: 1px solid grey;
+  border-right: 1px solid grey;
+  border-bottom: 1px solid grey;
+  padding-top: 30px;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 0 15px 15px 0;
+}
+.loginService:hover {
+  background-color: lightgoldenrodyellow;
+}

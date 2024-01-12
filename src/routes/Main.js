@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../static/Main.css";
 import { Container as MapDiv, NaverMap, Marker, useNavermaps } from 'react-naver-maps'
 
@@ -7,11 +8,17 @@ const searchBox = {
 }
 
 const inputStyle = {
+    // width: '70%',
+    // height: '90px',
+    // position: 'relative',
+    // margin: '20px 0 20px 40px',
+    paddingLeft: '20px',
+    position: 'absolute',
+    top: '5%',
+    left: '50%',
+    transform: 'translate(-50%, 0)',
     width: '70%',
     height: '90px',
-    position: 'relative',
-    paddingLeft: '20px',
-    margin: '20px 0 20px 40px',
     borderRadius: '15px',
     border: '1px solid grey',
     fontSize: '20px',
@@ -29,52 +36,14 @@ const buttonStyle = {
     height: '10%',
     backgroundColor: 'transparent',
     fontSize: '40px',
-    position: 'relative',
-    top: '8px',
-    right: '120px',
-}
-
-const ServicesBox = {
-    zIndex: 2000,
     position: 'absolute',
-    top: '500px',
-    width: '71%',
-    height: '90px',
-    backgroundColor: 'white',
-    display: 'flex',
-    borderRadius: '15px',
-    border: '1px solid grey',
-    margin: '20px 0 20px 160px',
-    fontSize: '20px',
-    color: 'grey',
-}
-
-const chatService = {
-    flex: 1,
-    borderRight: '1px solid grey',
-    paddingTop: '30px',
-    cursor: 'pointer',
-}
-
-const mapService = {
-    flex: 1,
-    borderRight: '1px solid grey',
-    paddingTop: '30px',
-    cursor: 'pointer',
-}
-
-const loginService = {
-    flex: 1,
-    paddingTop: '30px',
-    cursor: 'pointer',
-}
-
-const hoverStyle = {
-    backgroundColor: 'lightblue',
+    top: '50px',
+    right: '190px',
 }
 
 function Main() {
     const navermaps = useNavermaps();
+    const navigate = useNavigate();
 
     const [address, setAddress] = useState('');
     const [roadAddress, setRoadAddress] = useState(null);
@@ -111,7 +80,7 @@ function Main() {
     }
     
     return (
-        <MapDiv style={{ width: '100%', height: '700px' }}>
+        <MapDiv style={{ width: '100%', height: '740px' }}>
             <NaverMap defaultCenter={{ lat: lat, lng: lng }} defaultZoom={17} >
                 <Marker position={{ lat: lat, lng: lng }} />
                 <div style={searchBox}>
@@ -123,11 +92,6 @@ function Main() {
                             setAddress('');
                         }}>🔍</button>
                     </form>
-                </div>
-                <div style={ServicesBox}>
-                    <div className='chatService' style={{ ...chatService }}>채팅방 💬</div>
-                    <div style={{ ...mapService }}>홈(지도) 🗺️</div>
-                    <div style={{ ...loginService }}>로그인 👥</div>
                 </div>
             </NaverMap>
         </MapDiv>
