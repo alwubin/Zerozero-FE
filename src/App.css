@@ -1,10 +1,11 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
   width: 100%;
   height: auto;
 }
 
 .servicesBox {
+  text-align: center;
   z-index: 2000;
   position: absolute;
   top: 90%;
