@@ -4,36 +4,6 @@ import Chat from './routes/Chat.js';
 import Login from './routes/Login.js';
 import { Routes, Route, useNavigate } from 'react-router-dom'
 
-// const chatService = {
-//   flex: 1,
-//   border: '1px solid grey',
-//   paddingTop: '30px',
-//   cursor: 'pointer',
-//   backgroundColor: 'white',
-//   borderRadius: '15px 0 0 15px',
-// }
-
-// const mapService = {
-//   flex: 1,
-//   borderTop: '1px solid grey',
-//   borderRight: '1px solid grey',
-//   borderBottom: '1px solid grey',
-//   paddingTop: '30px',
-//   cursor: 'pointer',
-//   backgroundColor: 'white',
-// }
-
-// const loginService = {
-//   flex: 1,
-//   borderTop: '1px solid grey',
-//   borderRight: '1px solid grey',
-//   borderBottom: '1px solid grey',
-//   paddingTop: '30px',
-//   cursor: 'pointer',
-//   backgroundColor: 'white',
-//   borderRadius: '0 15px 15px 0',
-// }
-
 function App() {
   const navigate = useNavigate();
   return (

@@ -5,7 +5,7 @@
 }
 
 .servicesBox {
-  text-align: center;
+  /* text-align: center;
   z-index: 2000;
   position: absolute;
   top: 90%;
@@ -15,16 +15,31 @@
   height: 90px;
   display: flex;
   font-size: 20px;
-  color: grey;
+  color: grey; */
+  text-align: center;
+  z-index: 1000;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  max-width: 540px;
+  height: 60px;
+  padding: 0 20px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: flex;
+  flex-direction: row;
+  border: none;
 }
 
 .chatService {
   flex: 1;
-  border: 1px solid grey;
-  padding-top: 30px;
+  border-right: 1px solid #e2e0e0;
+  padding-top: 20px;
+  font-size: 14px;
   cursor: pointer;
   background-color: white;
-  border-radius: 15px 0 0 15px;
+  color: #262626;
+
 }
 .chatService:hover {
   background-color: lightgoldenrodyellow;
@@ -32,12 +47,12 @@
 
 .mapService {
   flex: 1;
-  border-top: 1px solid grey;
-  border-right: 1px solid grey;
-  border-bottom: 1px solid grey;
-  padding-top: 30px;
+  border-right: 1px solid #e2e0e0;
+  padding-top: 20px;
+  font-size: 14px;
   cursor: pointer;
   background-color: white;
+  color: #262626;
 }
 .mapService:hover {
   background-color: lightgoldenrodyellow;
@@ -45,13 +60,12 @@
 
 .loginService {
   flex: 1;
-  border-top: 1px solid grey;
-  border-right: 1px solid grey;
-  border-bottom: 1px solid grey;
-  padding-top: 30px;
+  padding-top: 20px;
+  font-size: 14px;
   cursor: pointer;
   background-color: white;
-  border-radius: 0 15px 15px 0;
+  color: #262626;
+
 }
 .loginService:hover {
   background-color: lightgoldenrodyellow;
