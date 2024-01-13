@@ -1,44 +1,29 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../static/Main.css";
 import { Container as MapDiv, NaverMap, Marker, useNavermaps } from 'react-naver-maps'
+import '../static/Main.css';
 
-const searchBox = {
-    zIndex: 2000,
+const mapStyle = {
+    position: 'absolute',
+    top: '0',
+    bottom: '0',
+    width: '100%',
+    maxWidth: '500px',
+    padding: '0 20px',
+    left: '50%',
+    transform: 'translate(-50%, 0)',
+    overflow: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
 }
 
 const inputStyle = {
-    // width: '70%',
-    // height: '90px',
-    // position: 'relative',
-    // margin: '20px 0 20px 40px',
-    paddingLeft: '20px',
-    position: 'absolute',
-    top: '5%',
-    left: '50%',
-    transform: 'translate(-50%, 0)',
-    width: '70%',
-    height: '90px',
-    borderRadius: '15px',
-    border: '1px solid grey',
-    fontSize: '20px',
-    backgroundColor: 'white',
-}
-
-const buttonStyle = {
-    WebkitAppearance: 'button',
-    cursor: 'pointer',
-    padding: '0px',
-    WebkitBorderRadius: '5px',
+    width: '100%',
+    outline: 'none',
     border: 'none',
-    outline: '0 none',
-    width: '10%',
-    height: '10%',
-    backgroundColor: 'transparent',
-    fontSize: '40px',
-    position: 'absolute',
-    top: '50px',
-    right: '190px',
+    height: '20px',
+    fontSize: '14px',
+    fontWeight: '400',
 }
 
 function Main() {
@@ -80,18 +65,24 @@ function Main() {
     }
     
     return (
-        <MapDiv style={{ width: '100%', height: '740px' }}>
+        <MapDiv style={mapStyle}>
             <NaverMap defaultCenter={{ lat: lat, lng: lng }} defaultZoom={17} >
                 <Marker position={{ lat: lat, lng: lng }} />
-                <div style={searchBox}>
-                    <form>
-                        <input style={inputStyle} placeholder="지역이나 장소를 검색해 보세요" value={address} onChange={handleChange}/>
-                        <button style={buttonStyle} onClick={(e) => {
-                            e.preventDefault();
-                            searchAddress();
-                            setAddress('');
-                        }}>🔍</button>
-                    </form>
+                <div className="contentWrap">
+                    <div className="inputWrap">
+                        <input 
+                            style={inputStyle}
+                            placeholder="지역이나 장소를 검색해 보세요" 
+                            value={address} 
+                            onChange={handleChange}/>
+                    </div>
+
+                    <button className="searchButton" 
+                        onClick={(e) => {
+                        e.preventDefault();
+                        searchAddress();
+                        setAddress('');
+                    }}>🔍</button>
                 </div>
             </NaverMap>
         </MapDiv>
