@@ -3,17 +3,17 @@ import '../static/Login.css';
 
 const User = { //사용자 데이터
     email: 'Zerozero@gmail.com',
-    pw: 'Zerozero123@'
+    password: 'Zerozero123@'
 }
 
 
 function Login() {
     const [email, setEmail] = useState('');
-    const [pw, setPw] = useState('');
+    const [password, setPassword] = useState('');
 
     //validation for email password
     const [emailValid, setEmailValid] = useState(false);
-    const [pwValid, setPwValid] = useState(false);
+    const [passwordValid, setPasswordValid] = useState(false);
     const [notAllow, setNotAllow] = useState(true);
 
     const handleEmail = (e) => {
@@ -27,53 +27,58 @@ function Login() {
         }
     }
 
-    const handlePw = (e) => {
-        setPw(e.target.value);
+    const handlePassword = (e) => {
+        setPassword(e.target.value);
         const regex = 
             /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
-        if(regex.test(pw)) {
-            setPwValid(true);
+        if(regex.test(password)) {
+            setPasswordValid(true);
         } else {
-            setPwValid(false);
+            setPasswordValid(false);
         }
     }
 
     const onClickConfirmButton = () => {
-        if(email === User.email && pw === User.pw) {
+        if(email === User.email && password === User.password) {
             alert('로그인에 성공했습니다.');
         } else {
             alert('등록되지 않은 사용자입니다.')
         }
     }
 
+    const onClickSignUpButton = () => {
+        alert('회원가입 페이지로 이동합니다.');
+        window.location.href = '/signup';
+    }
+
     //vaild state값 변화가 있을 때마다 실행 
     useEffect(() => {
-        if (emailValid && pwValid) {
+        if (emailValid && passwordValid) {
             setNotAllow(false);
             return;
         }
         setNotAllow(true);
-    },[emailValid, pwValid])
+    },[emailValid, passwordValid])
 
     return (
         <div className='loginPage'>
-            <div className='titleWrap'>
+            <div className='loginTitleWrap'>
                 이메일과 비밀번호를
                 <br/>
                 입력해주세요
             </div>
 
-            <div className='contentWrap'>
-                <div className='inputTitle'>이메일 주소</div>
-                <div className='inputWrap'>
+            <div className='loginContentWrap'>
+                <div className='loginInputTitle'>이메일 주소</div>
+                <div className='loginInputWrap'>
                     <input
                         type='text' 
-                        className='input' 
+                        className='loginInput' 
                         placeholder='Zerozero@gmail.com'
                         value={email}
                         onChange={handleEmail}/>
                 </div>
-                <div className='errorMsgWrap'>
+                <div className='loginErrorMsgWrap'>
                     {
                         !emailValid && email.length > 0 && (
                             <div>올바른 이메일을 입력해주세요.</div>
@@ -82,21 +87,21 @@ function Login() {
                 </div>
 
 
-                <div className='inputTitle' style={{ marginTop: "26px" }}>
+                <div className='loginInputTitle' style={{ marginTop: "26px" }}>
                     비밀번호
                 </div>
-                <div className='inputWrap'>
+                <div className='loginInputWrap'>
                     <input
                         type='password' 
-                        className='input'
+                        className='loginInput'
                         placeholder='영문, 숫자, 특수문자 포함 8자 이상'
-                        value={pw}
-                        onChange={handlePw}
+                        value={password}
+                        onChange={handlePassword}
                     />
                 </div>
-                <div className='errorMsgWrap'>
+                <div className='loginErrorMsgWrap'>
                     {
-                        !pwValid && pw.length > 0 && (
+                        !passwordValid && password.length > 0 && (
                             <div>영문, 숫자, 특수문자 포함 8자 이상 입력해주세요.</div>
                         )
                     }
@@ -106,7 +111,7 @@ function Login() {
                     확인
                 </button>
 
-                <button className='joinButton'>
+                <button className='signUpButton' onClick={onClickSignUpButton}>
                     회원가입
                 </button>
             </div>

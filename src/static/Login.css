@@ -16,25 +16,25 @@
     flex-direction: column;
 }
 
-.titleWrap {
+.loginTitleWrap {
     margin: 87px 0 0 0;
     font-size: 26px;
     font-weight: 700;
     color: #262626;
 }
 
-.contentWrap {
+.loginContentWrap {
     margin-top: 26px;
     flex: 1;
 }
 
-.inputTitle {
+.loginInputTitle {
     font-size: 12px;
     font-weight: 600;
     color: #262626;
 }
 
-.inputWrap {
+.loginInputWrap {
     display: flex;
     border-radius: 8px;
     padding: 16px;
@@ -43,11 +43,11 @@
     border: 1px solid #e2e0e0;
 }
 
-.inputWrap:focus-within {
+.loginInputWrap:focus-within {
     border: 1px solid #cd5c5c
 }
 
-.input {
+.loginInput {
     width: 100%;
     outline: none;
     border: none;
@@ -56,11 +56,11 @@
     font-weight: 400;
 }
 
-.input::placeholder {
+.loginInput::placeholder {
     color: #dadada;
 }
 
-.errorMsgWrap {
+.loginErrorMsgWrap {
     margin-top: 8px;
     color: #ef0000;
     font-size: 12px;
@@ -83,7 +83,7 @@
     color: white;
 }
 
-.joinButton {
+.signUpButton {
     width: 48%;
     height: 48px;
     margin-top: 26px;
