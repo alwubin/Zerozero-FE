@@ -1,38 +1,72 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
+  width: 100%;
+  height: auto;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.servicesBox {
+  /* text-align: center;
+  z-index: 2000;
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 71%;
+  height: 90px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  font-size: 20px;
+  color: grey; */
+  text-align: center;
+  z-index: 1000;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  max-width: 540px;
+  height: 60px;
+  padding: 0 20px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: flex;
+  flex-direction: row;
+  border: none;
 }
 
-.App-link {
-  color: #61dafb;
+.chatService {
+  flex: 1;
+  border-right: 1px solid #e2e0e0;
+  padding-top: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: white;
+  color: #262626;
+
+}
+.chatService:hover {
+  background-color: lightgoldenrodyellow;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.mapService {
+  flex: 1;
+  border-right: 1px solid #e2e0e0;
+  padding-top: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: white;
+  color: #262626;
+}
+.mapService:hover {
+  background-color: lightgoldenrodyellow;
+}
+
+.loginService {
+  flex: 1;
+  padding-top: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: white;
+  color: #262626;
+
+}
+.loginService:hover {
+  background-color: lightgoldenrodyellow;
 }
