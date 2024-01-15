@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import '../static/Login.css';
-
-const User = { //사용자 데이터
-    email: 'Zerozero@gmail.com',
-    password: 'Zerozero123@'
-}
 
 
 function Login() {
@@ -15,6 +11,25 @@ function Login() {
     const [emailValid, setEmailValid] = useState(false);
     const [passwordValid, setPasswordValid] = useState(false);
     const [notAllow, setNotAllow] = useState(true);
+
+    const loginUser = () => {
+        axios.post('http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/auth/authenticate', 
+            {
+                'email' : email,
+                'password' : password
+            },
+            { withCredentials: true }
+        )
+        .then((res) => {
+            console.log(res);
+            alert('로그인 성공');
+            window.location.href = '/';
+        })
+        .catch((err) => {
+            console.log(err);
+            alert('로그인 실패');
+        })
+    }
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
@@ -35,14 +50,6 @@ function Login() {
             setPasswordValid(true);
         } else {
             setPasswordValid(false);
-        }
-    }
-
-    const onClickConfirmButton = () => {
-        if(email === User.email && password === User.password) {
-            alert('로그인에 성공했습니다.');
-        } else {
-            alert('등록되지 않은 사용자입니다.')
         }
     }
 
@@ -107,8 +114,8 @@ function Login() {
                     }
                 </div>
 
-                <button className='loginButton' disabled={notAllow} onClick={onClickConfirmButton}>
-                    확인
+                <button className='loginButton' disabled={notAllow} onClick={loginUser}>
+                    로그인
                 </button>
 
                 <button className='signUpButton' onClick={onClickSignUpButton}>

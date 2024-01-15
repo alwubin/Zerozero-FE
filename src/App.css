@@ -1,21 +1,9 @@
 .App {
-  /* text-align: center; */
   width: 100%;
   height: auto;
 }
 
 .servicesBox {
-  /* text-align: center;
-  z-index: 2000;
-  position: absolute;
-  top: 90%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 71%;
-  height: 90px;
-  display: flex;
-  font-size: 20px;
-  color: grey; */
   text-align: center;
   z-index: 1000;
   position: absolute;
@@ -33,40 +21,44 @@
 
 .chatService {
   flex: 1;
-  border-right: 1px solid #e2e0e0;
-  padding-top: 20px;
+  padding-top: 10px;
   font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
-  background-color: white;
+  background-color: #fffafa;
   color: #262626;
 
 }
 .chatService:hover {
-  background-color: lightgoldenrodyellow;
+  background-color: #fffafa;
+  color: #CD5C5C;
 }
 
 .mapService {
   flex: 1;
-  border-right: 1px solid #e2e0e0;
-  padding-top: 20px;
+  padding-top: 10px;
   font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
-  background-color: white;
+  background-color: #fffafa;
   color: #262626;
 }
 .mapService:hover {
-  background-color: lightgoldenrodyellow;
+  background-color: #fffafa;
+  color: #CD5C5C;
 }
 
 .loginService {
   flex: 1;
-  padding-top: 20px;
+  padding-top: 10px;
   font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
-  background-color: white;
+  background-color: #fffafa;
   color: #262626;
 
 }
 .loginService:hover {
-  background-color: lightgoldenrodyellow;
+  background-color: #fffafa;
+  color: #CD5C5C;
 }
