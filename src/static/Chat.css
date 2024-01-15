@@ -8,7 +8,7 @@
   
     left: 50%;
     transform: translate(-50%, 0);
-    background-color: #F7F7F7;
+    background-color: #212121;
 
     overflow: hidden;
 
@@ -20,7 +20,7 @@
     margin: 87px 0 0 0;
     font-size: 26px;
     font-weight: 700;
-    color: #262626;
+    color: #fffafa;
 }
 
     
