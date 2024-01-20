@@ -1,4 +1,4 @@
-.loginPage {
+.signUpPage {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -16,25 +16,41 @@
     flex-direction: column;
 }
 
-.loginTitleWrap {
+.signUpTitle {
     margin: 87px 0 0 0;
     font-size: 26px;
     font-weight: 700;
     color: #fffafa;
 }
+.signUpSubTitle {
+    font-size: 13px;
+    font-weight: 500;
+    color: #fffafa;
+}
 
-.loginContentWrap {
-    margin-top: 26px;
+.signUpContentWrap {
     flex: 1;
 }
 
-.loginInputTitle {
+.signUpInputTitleWrap {
+    margin-top: 18px;
+}
+
+.signUpInputTitle {
+    display: inline-block;
     font-size: 12px;
     font-weight: 600;
     color: #fffafa;
 }
 
-.loginInputWrap {
+.signUpErrorMsgWrap {
+    margin-top: 8px;
+    float: right;
+    color: #ef0000;
+    font-size: 12px;
+}
+
+.signUpInputWrap {
     display: flex;
     border-radius: 8px;
     padding: 16px;
@@ -43,30 +59,64 @@
     border: 1px solid #e2e0e0;
 }
 
-.loginInputWrap:focus-within {
+.signUpInputWrap:focus-within {
     border: 1px solid #cd5c5c
 }
 
-.loginInput {
+
+.signUpInput {
     width: 100%;
     outline: none;
     border: none;
-    height: 17px;
+    height: 20px;
     font-size: 14px;
     font-weight: 400;
 }
 
-.loginInput::placeholder {
+.signUpInput::placeholder {
     color: #dadada;
 }
 
-.loginErrorMsgWrap {
-    margin-top: 8px;
-    color: #ef0000;
-    font-size: 12px;
+.signUpEmailInput {
+    width: 30%;
+    outline: none;
+    border: none;
+    height: 20px;
+    font-size: 14px;
+    font-weight: 400;
 }
 
-.loginButton {
+.signUpEmailInput::placeholder {
+    color: #dadada;
+}
+
+.signUpOptInput {
+    width: 28%;
+    margin-right: 10px;
+    outline: none;
+    border: none;
+    height: 20px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.checkDuplicateButton {
+    width: 18%;
+    height: 25px;
+    border: none;
+    font-weight: 500;
+    background-color: #cd5c5c;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.checkDuplicateButton:disabled {
+    background-color: #dadada;
+    color: white;
+}
+
+.joinButton {
     width: 48%;
     height: 48px;
     margin-top: 26px;
@@ -78,12 +128,12 @@
     cursor: pointer;
 }
 
-.loginButton:disabled {
+.joinButton:disabled {
     background-color: #dadada;
     color: white;
 }
 
-.signUpButton {
+.cancelButton {
     width: 48%;
     height: 48px;
     margin-top: 26px;
@@ -95,5 +145,3 @@
     border-radius: 8px;
     cursor: pointer;
 }
-
-

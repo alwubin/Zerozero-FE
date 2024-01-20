@@ -1,11 +1,15 @@
 import React from 'react';
+import '../static/Chat.css';
 
 function Chat() {
     return (
-        <div>
-            <h1>1:1 채팅 페이지</h1>
+        <div className='chatPage'>
+            <div className='titleWrap'>
+                가게 제보를 받습니다 📢
+            </div>
         </div>
     )
 }
+
 
 export default Chat;
