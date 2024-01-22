@@ -1,0 +1,36 @@
+.contentWrap {
+    z-index: 1000;
+    margin-top: 26px;
+    flex: 1;
+}
+
+.inputWrap {
+    display: flex;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 8px;
+    background-color: white;
+    border: 1px solid #e2e0e0;
+}
+
+.inputWrap:focus-within {
+    border: 1px solid #cd5c5c;
+}
+
+.input::placeholder {
+    color: #dadada;
+}
+
+.searchButton {
+    position: relative;
+    bottom: 40px;
+    display: flex;
+    border: none;
+    outline: none;
+    width: 10%;
+    font-size: larger;
+    float: right;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+}
