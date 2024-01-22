@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../static/Login.css';
+import '../styles/Login.css';
 
 
 function Login() {
@@ -11,6 +11,11 @@ function Login() {
     const [emailValid, setEmailValid] = useState(false);
     const [passwordValid, setPasswordValid] = useState(false);
     const [notAllow, setNotAllow] = useState(true);
+
+    /**
+     * CHECKLIST
+     * [X] session storage에 로그인 성공 시 받아온 토큰 저장
+     */
 
     const loginUser = () => {
         axios.post('http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/auth/authenticate', 
@@ -23,6 +28,8 @@ function Login() {
         .then((res) => {
             console.log(res);
             alert('로그인 성공');
+            console.log(res.data.result.token);
+            localStorage.setItem('token', res.data.result.token);
             window.location.href = '/';
         })
         .catch((err) => {

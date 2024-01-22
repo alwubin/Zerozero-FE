@@ -29,10 +29,6 @@
   color: #262626;
 
 }
-.chatService:hover {
-  background-color: #fffafa;
-  color: #CD5C5C;
-}
 
 .mapService {
   flex: 1;
@@ -42,10 +38,6 @@
   cursor: pointer;
   background-color: #fffafa;
   color: #262626;
-}
-.mapService:hover {
-  background-color: #fffafa;
-  color: #CD5C5C;
 }
 
 .loginService {
@@ -57,8 +49,4 @@
   background-color: #fffafa;
   color: #262626;
 
-}
-.loginService:hover {
-  background-color: #fffafa;
-  color: #CD5C5C;
 }

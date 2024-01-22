@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container as MapDiv, NaverMap, Marker, useNavermaps } from 'react-naver-maps'
-import '../static/Main.css';
+import '../styles/Main.css';
 
 const mapStyle = {
     position: 'absolute',

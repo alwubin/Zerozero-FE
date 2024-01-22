@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react'; 
+import CustomAlert from '../components/CustomAlert';
 import axios from 'axios';
-import '../static/SignUp.css'
+import '../styles/SignUp.css'
 
+/**
+ * CHECKLIST
+ * [X] 중복 확인 성공 시 '사용 가능한 이메일/닉네임 입니다' 띄우기
+ * [X] 팝업 창 모달로 작성해서 가져오기
+ */
 
 function SignUp() {
     const [email, setEmail] = useState('');
@@ -9,6 +15,10 @@ function SignUp() {
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
     const [nickname, setNickname] = useState('');
+
+    //for Alert modal
+    const [showEmailAlert, setShowEmailAlert] = useState(false);
+    const [showNicknameAlert, setShowNicknameAlert] = useState(false);
 
     //duplicate for email password nickname
     const [emailDuplicate, setEmailDuplicate] = useState(true);
@@ -49,6 +59,7 @@ function SignUp() {
             setEmailDuplicate(false);
         })
         setEmailDuplicate(true);
+        setShowEmailAlert(true); 
     }
 
     const checkNicknameDuplication = () => {
@@ -61,6 +72,7 @@ function SignUp() {
             setNicknameDuplicate(false);
         })
         setNicknameDuplicate(true);
+        setShowNicknameAlert(true); 
     }
 
     const handleEmail = (e) => {
@@ -143,6 +155,14 @@ function SignUp() {
             <div className='signUpContentWrap'>
                 <div className='signUpInputTitleWrap'>
                     <div className='signUpInputTitle'>이메일 주소</div>
+                    <div className='signUpSuccessMsgWrap'>
+                        {
+                            showEmailAlert && (
+                                <CustomAlert 
+                                message='사용 가능한 이메일입니다!'/>
+                            )
+                        }
+                    </div>
                     <div className='signUpErrorMsgWrap'>
                         {
                             !emailDuplicate && (
@@ -161,19 +181,14 @@ function SignUp() {
                             value={email}
                             onChange={handleEmail}
                         /> @ &nbsp; 
-                        {/* <input
-                            type='text'
-                            className='signUpEmailInput'
-                            name='emailSelected'
-                            value={emailOpt}
-                            onChange={handleEmailOpt}
-                            /> */}
+
                         <input
                                 type='text'
                                 className='signUpEmailInput'
                                 name='emailSelected'
                                 value={emailOpt}
                                 readOnly/>
+                            
                         <select
                             className='signUpOptInput'
                             name='emailOpt'
@@ -238,6 +253,14 @@ function SignUp() {
 
                 <div className='signUpInputTitleWrap'>
                     <div className='signUpInputTitle'>닉네임</div>
+                    <div className='signUpSuccessMsgWrap'>
+                        {
+                            showNicknameAlert && (
+                                <CustomAlert 
+                                message='사용 가능한 닉네임입니다!'/>
+                            )
+                        }
+                    </div>
                     <div className='signUpErrorMsgWrap'>
                         {
                             !nicknameDuplicate && (

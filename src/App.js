@@ -1,19 +1,56 @@
 import './App.css';
-import Main from './routes/Main.js';
-import Chat from './routes/Chat.js';
-import Login from './routes/Login.js';
-import SignUp from './routes/SignUp.js';
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import Main from './pages/Main.js';
+import Chat from './pages/Chat.js';
+import Login from './pages/Login.js';
+import SignUp from './pages/SignUp.js';
+import MyPage from './pages/MyPage.js';
+
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
 import { BiComment } from "react-icons/bi";
 import { GiSodaCan } from "react-icons/gi";
 import { FaMapPin } from "react-icons/fa";
 import { AiOutlineUser } from "react-icons/ai";
 import { useState } from 'react';
 
+/**
+ * CHECKLIST
+ * [X] private route 분리 - 마이페이지
+ * [X] 로그인 상태에 따라 분리 로그인 페이지 또는 마이페이지로 이동
+ * [X] 로그인 시 하단 바 로그인 버튼이 마이페이지 버튼으로 변경
+ */
+
 
 function App() {
-  const navigate = useNavigate();
   const [isClicked, setIsClicked] = useState('/');
+  const navigate = useNavigate();
+  const [hoveredService, setHoveredService] = useState(null);
+
+  const handleMouseOver = (service) => {
+    setHoveredService(service);
+  };
+
+  const handleMouseOut = () => {
+    setHoveredService(null);
+  };
+
+  const navigateAndSetClicked = (path) => {
+    navigate(path);
+    setIsClicked(path);
+  };
+
+  const isAuthenticated = () => {
+    const token = localStorage.getItem('token');
+  
+    return !!token; // 있으면 true, 없으면 false 반환
+  }
+
+  const handleLoginClick = () => {
+    if (isAuthenticated) {
+      navigateAndSetClicked('/mypage');
+    } else {
+      navigateAndSetClicked('/login');
+    }
+  };
 
   const clicked = {
     backgroundColor:'#fffafa',
@@ -30,18 +67,28 @@ function App() {
       <Routes>
         <Route path="/" element={<Main/>} />
         <Route path="/chat" element={<Chat/>} />
-        <Route path="/login" element={<Login/>} />
+        <Route 
+            path="/login" 
+            element={ isAuthenticated() ? <Navigate to="/mypage" /> : <Login/> } 
+        />
         <Route path="/signup" element={<SignUp/>} /> 
+        <Route 
+            path="/mypage" 
+            element={ isAuthenticated() ? <MyPage/> : <Navigate to="/login" /> } 
+        />
         <Route path="*" element={<div>잘못된 접근입니다.</div>} /> 
       </Routes>
 
+      {/* Footer: 하단 바 */}
       <div className='servicesBox'>
         <div className='chatService' 
-          onClick={() => {
-            navigate('/chat');
-            setIsClicked('/chat');
+          onClick={() => {navigateAndSetClicked('/chat')}}
+          style={{
+            ...(isClicked === '/chat' || hoveredService === 'chat' ? clicked : unClicked),
           }}
-          style={isClicked === '/chat' ? clicked : unClicked}>
+          onMouseOver={() => handleMouseOver('chat')}
+          onMouseOut={handleMouseOut}
+          >
           <div className='chatIcon'>
             <BiComment style={{fontSize:'27px'}}/>
             <GiSodaCan style={{zIndex:'1001', fontSize:'12px', position:'absolute', bottom:'33px', left:'104px'}}/>
@@ -50,11 +97,13 @@ function App() {
         </div>
 
         <div className='mapService' 
-          onClick={() => {
-            navigate('/');
-            setIsClicked('/');
+          onClick={() => {navigateAndSetClicked('/')}}
+          style={{
+            ...(isClicked === '/' || hoveredService === 'map' ? clicked : unClicked),
           }}
-          style={isClicked === '/' ? clicked : unClicked}>
+          onMouseOver={() => handleMouseOver('map')}
+          onMouseOut={handleMouseOut}
+          >
           <div className='mapIcon'>
             <FaMapPin style={{fontSize:'23px', paddingTop:'2px'}}/>
           </div>
@@ -62,15 +111,19 @@ function App() {
         </div>
 
         <div className='loginService' 
-          onClick={() => {
-            navigate('/login');
-            setIsClicked('/login');
+          onClick={handleLoginClick}
+          style={{
+            ...((isClicked === '/login' || isClicked === '/mypage') || 
+            (hoveredService === 'login' || hoveredService === 'mypage') 
+            ? clicked : unClicked),
           }}
-          style={isClicked === '/login' ? clicked : unClicked}>
+          onMouseOver={() => handleMouseOver('login')}
+          onMouseOut={handleMouseOut}
+          >
           <div className='loginIcon'>
             <AiOutlineUser style={{fontSize:'27px'}}/>
           </div>
-          로그인
+          {isAuthenticated() ? '마이페이지' : '로그인'}
         </div>
         
       </div>
