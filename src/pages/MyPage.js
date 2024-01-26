@@ -37,7 +37,7 @@ function MyPage() {
                         {/* 닉네임 */}
                         호빵이는제로칼로리
                     </div>
-                    <button className='editButton'>✏️</button>
+                    <button className='editButton'>수정하기</button>
                 </div>
 
                 <div className='myActivities'>
