@@ -63,15 +63,15 @@
 
 .editButton {
     position: relative;
-    top: 20px;
-    font-size: 10px;
-    width: 10%;
-    height: 28px;
-    background-color: #cd5c5c;
+    top: 22px;
+    font-size: 20px;
     color: #fffafa;
     border-radius: 8px;
     cursor: pointer;
     border: none;
+}
+.editButton:hover {
+    color: #fafad2;
 }
 
 
