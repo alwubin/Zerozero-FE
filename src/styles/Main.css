@@ -1,10 +1,13 @@
 .contentWrap {
     z-index: 1000;
     margin-top: 26px;
+    margin-left: 50px;
     flex: 1;
+    justify-content : center;
 }
 
 .inputWrap {
+    width: 90%;
     display: flex;
     border-radius: 8px;
     padding: 16px;
@@ -24,6 +27,7 @@
 .searchButton {
     position: relative;
     bottom: 40px;
+    right: 15px;
     display: flex;
     border: none;
     outline: none;

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container as MapDiv, NaverMap, Marker, useNavermaps } from 'react-naver-maps'
+import { IoIosSearch } from "react-icons/io";
 import '../styles/Main.css';
 
 const mapStyle = {
@@ -30,6 +31,7 @@ function Main() {
     const navermaps = useNavermaps();
 
     const [address, setAddress] = useState('');
+    const [roadAddress, setRoadAddress] = useState('');
 
     const [lat, setLat] = useState(37.3595704); //y
     const [lng, setLng] = useState(127.105399); //x
@@ -39,6 +41,15 @@ function Main() {
         const newAddress = e.target.value
         setAddress(newAddress);
     }
+
+    var contentString = [
+        `<div class="contentWrap">`,
+        `   <h3>${storeName}</h3>`,
+        `   <p>도로명 주소: ${roadAddress}<br />`,
+        `       등록한 사용자: 호빵이는제로칼로리`,
+        `   </p>`,
+        `</div>`
+    ].join(``);
 
     function searchAddress(){
         navermaps.Service.geocode(
@@ -56,22 +67,18 @@ function Main() {
                 const items = response.v2.addresses[0];
                 console.log('아이템: ', items);
 
-                let addressList = items.jibunAddress.split(' '); //지번 주소
-                // console.log('주소 리스트: ', addressList);
-    
-                for (let i = 0; i < addressList.length; i++) {
-                    if(!isNaN(+addressList[i])) break;
-                    addressList.splice(i, 1);
-                    i--;
-                }
-                for (let i = 0; i < addressList.length; i++) {
-                    if(isNaN(+addressList[i])) break;
-                    addressList.splice(i, 1);
-                    i--;
-                }
+                const roadAddress = items.roadAddress;
+                setRoadAddress(roadAddress);
 
-                setstoreName([...addressList].join(' ')); //주소명
-                console.log('장소명: ', storeName);
+                var regex = /[0-9]/; 
+                var index = roadAddress.search(regex); 
+
+                //장소명 동기적으로 처리하는 callback 함수
+                setstoreName((prevStoreName) => {
+                    const newStoreName = roadAddress.substring(index + 2, roadAddress.length).trim();
+                    console.log('장소명: ', newStoreName);
+                    return newStoreName;
+                });
 
                 console.log('위도: ', items.y, '경도: ', items.x);
                 setLng(items.x);
@@ -83,14 +90,20 @@ function Main() {
     
     return (
         <MapDiv style={mapStyle}>
-            <NaverMap 
-                // defaultCenter={{ lat: 37.3595704, lng: 127.105399 }}
-                center={{ lat: lat, lng: lng }} 
-            >
+            <NaverMap center={{ lat: lat, lng: lng }} >
                 <Marker 
-                    // defaultPosition={{ lat: 37.3595704, lng: 127.105399 }}
                     position={{ lat: lat, lng: lng }} 
-                />
+                    onClick={() => {alert(`여기는 입니다.`)}}
+                >
+                    {/* <InfoWindow
+                        content={contentString}
+                    /> */}
+                    {/* <Listener 
+                        type="click" 
+                        listener={() => window.alert(`${storeName} 클릭됨`)} />
+                         */}
+                </Marker>
+                
                 <div className="contentWrap">
                     <div className="inputWrap">
                         <input 
@@ -105,7 +118,7 @@ function Main() {
                         e.preventDefault();
                         searchAddress();
                         setAddress('');
-                    }}>🔍</button>
+                    }}><IoIosSearch/></button>
                 </div>
             </NaverMap>
         </MapDiv>
