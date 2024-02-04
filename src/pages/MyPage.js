@@ -47,7 +47,7 @@ function MyPage() {
                             0
                         </div>
                         <div className='valueTitle'>
-                            내 랭킹 👑
+                            내 랭킹
                         </div>
                     </div>
                     <div className='activity' style={{marginRight:'20px'}}>
@@ -56,7 +56,7 @@ function MyPage() {
                             0
                         </div>
                         <div className='valueTitle'>
-                            제보한 횟수 📢
+                            제보한 횟수
                         </div>
                     </div>
                     <div className='activity'>
@@ -65,7 +65,7 @@ function MyPage() {
                             0
                         </div>
                         <div className='valueTitle'>
-                            내가 등록한 장소 🔍
+                            내가 등록한 장소
                         </div>
                     </div>
                 </div>
