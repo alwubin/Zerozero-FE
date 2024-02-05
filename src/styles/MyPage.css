@@ -62,12 +62,16 @@
 }
 
 .editButton {
-    margin: 17px 20px 0 10px;
+    position: relative;
+    top: 22px;
     font-size: 20px;
-    height: 30px;
-    width: 30px;
+    color: #fffafa;
+    border-radius: 8px;
+    cursor: pointer;
     border: none;
-    background: none;
+}
+.editButton:hover {
+    color: #fafad2;
 }
 
 
@@ -107,7 +111,7 @@
     border: none;
     font-weight: 700;
     background-color: #cd5c5c;
-    color: white;
+    color: #fffafa;
     border-radius: 8px;
     cursor: pointer;
     display: inline-block;

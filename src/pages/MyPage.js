@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'; 
 import '../styles/MyPage.css';
+import { HiPencil } from "react-icons/hi";
 
 /**
  * CHECKLIST
@@ -37,7 +38,7 @@ function MyPage() {
                         {/* 닉네임 */}
                         호빵이는제로칼로리
                     </div>
-                    <button className='editButton'>✏️</button>
+                    <div className='editButton'><HiPencil/></div>
                 </div>
 
                 <div className='myActivities'>
@@ -46,7 +47,7 @@ function MyPage() {
                             0
                         </div>
                         <div className='valueTitle'>
-                            내 랭킹 👑
+                            내 랭킹
                         </div>
                     </div>
                     <div className='activity' style={{marginRight:'20px'}}>
@@ -55,7 +56,7 @@ function MyPage() {
                             0
                         </div>
                         <div className='valueTitle'>
-                            제보한 횟수 📢
+                            제보한 횟수
                         </div>
                     </div>
                     <div className='activity'>
@@ -64,7 +65,7 @@ function MyPage() {
                             0
                         </div>
                         <div className='valueTitle'>
-                            내가 등록한 장소 🔍
+                            내가 등록한 장소
                         </div>
                     </div>
                 </div>
