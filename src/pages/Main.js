@@ -1,4 +1,4 @@
-import { Container as MapDiv, NaverMap, Marker, useNavermaps, Overlay, useListener } from 'react-naver-maps'
+import { Container as MapDiv, NaverMap, Marker, useNavermaps, InfoWindow } from 'react-naver-maps'
 import { useState, useEffect } from 'react'
 import axios from 'axios';
 
@@ -70,8 +70,8 @@ function Main() {
         .catch((err) => {
             console.log('해당 판매점을 찾을 수 없습니다.');
             console.log(err);
-            alert('시간 만료로 로그아웃됩니다.')
-            logoutUser();
+            // alert('시간 만료로 로그아웃됩니다.')
+            // logoutUser();
         })
 
     }
@@ -95,7 +95,6 @@ function Main() {
                             position={new navermaps.LatLng((location.mapy)*0.0000001, (location.mapx)*0.0000001)}
                             onClick={() => { console.log(location.title) }}
                         >
-                            {/* <Listener target={lo} type='click' listener={() => {console.log('click') }} /> */}
                         </Marker>
                     );
                 })}
@@ -116,6 +115,7 @@ function Main() {
         </MapDiv>
     )
 }
+
 
 
 export default Main;
