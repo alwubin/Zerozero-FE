@@ -61,8 +61,7 @@ function MyPage() {
                 {/* <div className='myBadge'>👑</div> */}
                 <div className='profile'>
                     <div className='myImage'>
-                        {/* 프로필 이미지 */}
-                        <img className='profileImage' src='profile.jpeg'/>
+                        <img className='profileImage' src={profileImage || 'defaultImage.png'} alt='프로필 이미지'/>
                     </div>
                     <div className='myName'>
                         {nickname}
