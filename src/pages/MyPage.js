@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'; 
+import axios from 'axios';
 import '../styles/MyPage.css';
 import { HiPencil } from "react-icons/hi";
 
@@ -11,16 +12,45 @@ import { HiPencil } from "react-icons/hi";
  */
 
 function MyPage() {
+    const [nickname, setNickname] = useState('');
+    const [profileImage, setProfileImage] = useState('');
+    const [rank, setRank] = useState(0);
+    const [storeReportCount, setStoreReportCount] = useState(0);
+
     const logoutUser = () => {
         localStorage.removeItem('token');
         window.location.href = '/';
     }
 
     useEffect(() => {
-        if(!localStorage.getItem('token')) {
+        // 토큰이 없을 때 로그인 페이지로 이동
+        if (!localStorage.getItem('token')) {
             window.location.href = '/';
+        } else {
+            // inquireMyPage 함수 호출
+            inquireMyPage();
         }
-    }, [])
+    }, []);
+
+    const inquireMyPage = () => {
+        axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users/my-page`, { 
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            } 
+        })
+        .then((res) => {
+            console.log(res.data.result);
+            const myInfo = res.data.result;
+            setNickname(myInfo.nickname);
+            setProfileImage(myInfo.profileImage);
+            setRank(myInfo.rank);
+            setStoreReportCount(myInfo.storeReportCount);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
 
     return (
         <div className='myPage'>
@@ -35,8 +65,7 @@ function MyPage() {
                         <img className='profileImage' src='profile.jpeg'/>
                     </div>
                     <div className='myName'>
-                        {/* 닉네임 */}
-                        호빵이는제로칼로리
+                        {nickname}
                     </div>
                     <div className='editButton'><HiPencil/></div>
                 </div>
@@ -44,25 +73,16 @@ function MyPage() {
                 <div className='myActivities'>
                     <div className='activity' style={{marginRight:'20px'}}>
                         <div className='value'>
-                            0
+                            {rank}
                         </div>
                         <div className='valueTitle'>
                             내 랭킹
                         </div>
                     </div>
-                    <div className='activity' style={{marginRight:'20px'}}>
-                        {/* {Number} = 제보한 횟수를 숫자로 표시 */}
-                        <div className='value'>
-                            0
-                        </div>
-                        <div className='valueTitle'>
-                            제보한 횟수
-                        </div>
-                    </div>
                     <div className='activity'>
                         {/* {Number} = 제보한 장소를 숫자로 표시 */} 
                         <div className='value'>
-                            0
+                            {storeReportCount}
                         </div>
                         <div className='valueTitle'>
                             내가 등록한 장소
