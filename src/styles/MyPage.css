@@ -41,8 +41,8 @@
 
 .myImage {
     /* border: 1px #fffafa solid; */
-    width: 70px;
-    height: 70px; 
+    width: 60px;
+    height: 60px; 
     border-radius: 70%;
     overflow: hidden;
     /* height: 50%; */
@@ -55,7 +55,7 @@
 }
 
 .myName {
-    margin: 15px 20px 0 20px;
+    margin: 7px 20px 0 20px;
     text-align: center;
     font-size: 30px;
     font-weight: 600;
@@ -63,7 +63,8 @@
 
 .editButton {
     position: relative;
-    top: 22px;
+    height: 20px;
+    top: 17px;
     font-size: 20px;
     color: #fffafa;
     border-radius: 8px;
