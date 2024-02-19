@@ -102,6 +102,12 @@ function SignUp() {
         setNickname(e.target.value);
     }
 
+    const cancelRegister = () => {
+        var loginPageUrl = "/login";
+
+        window.location.href = loginPageUrl;
+    }
+
     useEffect(() => {
         if(password === passwordCheck) {
             setPasswordMatch(true);
@@ -281,7 +287,7 @@ function SignUp() {
                 </div>
 
                 <button className='joinButton' disabled={isEmpty} onClick={registerUser}>가입하기</button>
-                <button className='cancelButton'>취소</button>
+                <button className='cancelButton' onClick={cancelRegister}>취소</button>
             </div>
         </div>
     )

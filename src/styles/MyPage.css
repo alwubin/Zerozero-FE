@@ -40,12 +40,10 @@
 }
 
 .myImage {
-    /* border: 1px #fffafa solid; */
-    width: 70px;
-    height: 70px; 
+    width: 60px;
+    height: 60px; 
     border-radius: 70%;
     overflow: hidden;
-    /* height: 50%; */
 }
 
 .profileImage {
@@ -55,7 +53,7 @@
 }
 
 .myName {
-    margin: 15px 20px 0 20px;
+    margin: 7px 20px 0 20px;
     text-align: center;
     font-size: 30px;
     font-weight: 600;
@@ -63,7 +61,8 @@
 
 .editButton {
     position: relative;
-    top: 22px;
+    height: 20px;
+    top: 17px;
     font-size: 20px;
     color: #fffafa;
     border-radius: 8px;
@@ -71,21 +70,25 @@
     border: none;
 }
 .editButton:hover {
-    color: #fafad2;
+    color: #cd5c5c;
+}
+
+.editProfileWrap {
+    position: relative;
+    right: 120px;
 }
 
 
 .myActivities {
     display: flex;
     justify-content: center;
-    /* align-items: center; */
     margin-top: 50px;
     width: 100%;
     height: 100px;
 }
 
 .activity {
-    width: 20%;
+    width: 33%;
     height: 85%;
     text-align: center;
     background-color: rgba(205, 92, 92, 0.3);
