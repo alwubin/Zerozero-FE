@@ -40,12 +40,10 @@
 }
 
 .myImage {
-    /* border: 1px #fffafa solid; */
     width: 60px;
     height: 60px; 
     border-radius: 70%;
     overflow: hidden;
-    /* height: 50%; */
 }
 
 .profileImage {
@@ -75,11 +73,15 @@
     color: #fafad2;
 }
 
+.editProfileWrap {
+    position: relative;
+    right: 120px;
+}
+
 
 .myActivities {
     display: flex;
     justify-content: center;
-    /* align-items: center; */
     margin-top: 50px;
     width: 100%;
     height: 100px;
