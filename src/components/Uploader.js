@@ -1,8 +1,9 @@
 import {useEffect, useState} from 'react';
 import axios from 'axios';
+import '../styles/Uploader.css';
 
 
-const Uploader = ({ onClose }) => {
+const Uploader = ({ onClose, profileImage, setProfileImage }) => {
 
     const [image, setImage] = useState({
         image: '',
@@ -23,6 +24,8 @@ const Uploader = ({ onClose }) => {
                     preview: preview
                 }
             ));
+
+            setProfileImage(preview);
         }
     }
 
@@ -81,9 +84,6 @@ const Uploader = ({ onClose }) => {
                 onClick={(e) => e.target.value = null}
                 style={{display: 'none'}}
             />
-            <div className='imageWrapper'>
-                <img src={image.preview} alt='profile' className='profile'/>
-            </div>
             <div className='buttonWrapper'>
                 <button onClick={handleUpload}>업로드</button>
                 <button onClick={deleteImage}>삭제</button>

@@ -1,6 +1,8 @@
+import '../styles/PopUp.css'
+
 const PopUp = ({ content, onClose}) => {
     return (
-        <div className="popupWrapper">
+        <div className="popupWrap">
             <div className="popupContent">
                 <button className="closeButton" onClick={onClose}>X</button>
                 {content}

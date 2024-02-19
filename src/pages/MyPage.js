@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'; 
 import axios from 'axios';
+
+import Uploader from '../components/Uploader';
+import PopUp from '../components/PopUp';
 import '../styles/MyPage.css';
 import { HiPencil } from "react-icons/hi";
 
@@ -16,6 +19,12 @@ function MyPage() {
     const [profileImage, setProfileImage] = useState('');
     const [rank, setRank] = useState(0);
     const [storeReportCount, setStoreReportCount] = useState(0);
+
+    const [showUploader, setShowUploader] = useState(false);
+
+    const toggleUploader = () => {
+        setShowUploader(prevState => !prevState);
+    }
 
     const logoutUser = () => {
         localStorage.removeItem('token');
@@ -58,7 +67,6 @@ function MyPage() {
                 마이 페이지
             </div>
             <div className='myPageContentWrap'>
-                {/* <div className='myBadge'>👑</div> */}
                 <div className='profile'>
                     <div className='myImage'>
                         <img className='profileImage' src={profileImage || 'default.png'} alt='프로필 이미지'/>
@@ -66,7 +74,11 @@ function MyPage() {
                     <div className='myName'>
                         {nickname}
                     </div>
-                    <div className='editButton'><HiPencil/></div>
+                    <div className='editButton' onClick={toggleUploader}><HiPencil/></div>
+                </div>
+                
+                <div className='editProfileWrap'>
+                { showUploader && <PopUp content={<Uploader onClose={toggleUploader} profileImage={profileImage} setProfileImage={setProfileImage} />} onClose={toggleUploader} /> }
                 </div>
 
                 <div className='myActivities'>
@@ -79,7 +91,6 @@ function MyPage() {
                         </div>
                     </div>
                     <div className='activity'>
-                        {/* {Number} = 제보한 장소를 숫자로 표시 */} 
                         <div className='value'>
                             {storeReportCount}
                         </div>
