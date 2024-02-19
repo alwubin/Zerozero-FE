@@ -28,16 +28,6 @@ const Uploader = ({ onClose, profileImage, setProfileImage }) => {
             setProfileImage(preview);
         }
     }
-
-    const deleteImage = (e) => {
-        URL.revokeObjectURL(image.preview);
-        setImage(
-            {
-                image: '',
-                preview: 'default.png'
-            }
-        );
-    }
     
     useEffect(() => {
         return () => {
@@ -69,11 +59,6 @@ const Uploader = ({ onClose, profileImage, setProfileImage }) => {
         }
     }
 
-    const handleUpload = () => {
-        inputRef.click();
-        sendImageToServer();
-    }
-
     return (
         <div className='uploaderWrapper'>
             <input 
@@ -85,8 +70,8 @@ const Uploader = ({ onClose, profileImage, setProfileImage }) => {
                 style={{display: 'none'}}
             />
             <div className='buttonWrapper'>
-                <button onClick={handleUpload}>업로드</button>
-                <button onClick={deleteImage}>삭제</button>
+                <button className='uploaderButton' onClick={() => {inputRef.click();}}>찾아보기</button>
+                <button className='uploaderButton' onClick={sendImageToServer}>저장</button>
             </div>
         </div>
     )
