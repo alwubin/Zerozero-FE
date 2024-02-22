@@ -38,3 +38,28 @@
     cursor: pointer;
     background-color: transparent;
 }
+
+.adminBoundaryButton {
+    /* border: none; */
+    outline: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.valueDropdown {
+    margin-right: 3px;
+    border: none;
+    border-radius: 3px;
+    background-color: white;
+    color: #444444;
+    outline: none;
+    /* font-weight: 400;
+    font-size: 14px;
+    line-height: 21px; */
+    cursor: pointer;
+    /* &:focus {
+    box-shadow: none;
+    }
+     */
+}
