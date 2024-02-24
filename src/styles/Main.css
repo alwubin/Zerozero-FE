@@ -1,9 +1,9 @@
 .contentWrap {
-    z-index: 1000;
+    z-index: 10;
     margin-top: 26px;
     margin-left: 50px;
-    flex: 1;
-    justify-content : center;
+    width: 440px;
+    height: 60px;
 }
 
 .inputWrap {
@@ -37,4 +37,22 @@
     border: none;
     cursor: pointer;
     background-color: transparent;
+}
+
+.adminBoundaryButton {
+    /* border: none; */
+    outline: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.valueDropdown {
+    margin-right: 3px;
+    border: none;
+    border-radius: 3px;
+    background-color: white;
+    color: #444444;
+    outline: none;
+    cursor: pointer;
 }

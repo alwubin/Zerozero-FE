@@ -1,13 +1,14 @@
 import { Container as MapDiv, NaverMap, Marker, useNavermaps, InfoWindow } from 'react-naver-maps'
 import { useState, useEffect } from 'react'
 import axios from 'axios';
+import { seoulAreas } from '../constants';
 
 import { IoIosSearch } from "react-icons/io";
 import '../styles/Main.css';
 
 /** CHECKLIST
  * [ ] 비로그인 상태에서 검색 시 로그인이 필요하다는 alert 후 로그인 페이지로 이동
- * [X] 로그인 시간 만료 후 팝업 보여주고 자동 로그아웃
+ * [ ] 로그인 시간 만료 후 팝업 보여주고 자동 로그아웃
  * [ ] (기본값) 현재 위치 기반 지도 출력되로록 하기
  * [ ] Marker 클릭 시 지역 내로 줌 인 되도록 하기
  * [ ] Marker 클릭 시 해당 장소에 대한 정보 출력
@@ -46,10 +47,61 @@ function Main() {
     const [store, setStore] = useState(''); 
     const [locations, setLocations] = useState([]);
 
+    //서울시 00구 00동 행정구역 
+    const defaultDistrict = Object.keys(seoulAreas)[0];
+    const defaultDong = seoulAreas[defaultDistrict][0];
+
+    const [lat, setLat] = useState(37.5690700); //y
+    const [lng, setLng] = useState(127.0237322); //x
+    const [zoom, setZoom] = useState(11);
+
+    const [selectedCity, setSelectedCity] = useState('서울특별시');
+    const [selectedDistrict, setSelectedDistrict] = useState(defaultDistrict);
+    const [selectedDong, setSelectedDong] = useState(defaultDong);
+
     const handleChange = (e) => {
         const newStore = e.target.value
         setStore(newStore);
     }
+
+    useEffect(() => {
+        navermaps.Service.geocode(
+            {
+                query: `${selectedCity} ${selectedDistrict} ${selectedDong}`,
+            },
+            function (status, response) {
+                if (status === navermaps.Service.Status.ERROR) {
+                    return alert('지오코딩 실패');
+                }
+                const addresses = response.v2.addresses;
+                if (addresses.length > 0) {
+                    const items = addresses[0];
+                    console.log('위도: ', items.y, '경도: ', items.x);
+                    setLng(items.x);
+                    setLat(items.y);
+                    setZoom(13);
+                } else {
+                    // 검색 결과가 없는 경우에 대한 처리
+                    console.log('검색 결과가 없습니다.');
+                }
+            }
+        );
+    }, [selectedCity, selectedDistrict, selectedDong]); // 검색 조건이 변경될 때마다 실행
+
+
+    // const handleCitySelect = (cities) => {
+
+    // }
+
+    const handleDistrictSelect = (e) => {
+        const selected = e.target.value;
+        setSelectedDistrict(selected);
+        setSelectedDong(null); // 동 선택 초기화
+    };
+
+    const handleDongSelect = (e) => {
+        setSelectedDong(e.target.value);
+    };
 
     const logoutUser = () => {
         localStorage.removeItem('token');
@@ -57,24 +109,30 @@ function Main() {
     }
 
     const searchStoreByName = () => {
-        axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores/search?query=${encodeURIComponent(store)}`, { 
-            withCredentials: true,
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            } 
-        })
-        .then((res) => {
-            const items = res.data.result.items;
-            setLocations(items);
-            console.log(res.data.result.items);
-        })
-        .catch((err) => {
-            console.log('해당 판매점을 찾을 수 없습니다.');
-            console.log(err);
-            // alert('시간 만료로 로그아웃됩니다.')
-            // logoutUser();
-        })
-
+        setStore('');
+        if (selectedDistrict && selectedDong) {
+            if (store.trim() !== '') {
+                axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores/search?query=${encodeURIComponent(selectedDistrict)}${encodeURIComponent(selectedDong)}${encodeURIComponent(store)}`, { 
+                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    } 
+                })
+                .then((res) => {
+                    const items = res.data.result.items;
+                    setLocations(items);
+                    console.log(res.data.result.items);
+                })
+                .catch((err) => {
+                    console.log('해당 판매점을 찾을 수 없습니다.');
+                    console.log(err);
+                })
+            } else {
+                alert('검색어를 입력해주세요!');
+            }
+        } else {
+            alert('행정구역을 선택해주세요!');
+        }
     }
 
     useEffect(() => {
@@ -85,10 +143,7 @@ function Main() {
     
     return (
         <MapDiv style={mapStyle}>
-            <NaverMap 
-                center={new navermaps.LatLng(37.5690700, 127.0237322)}
-                zoom={11}
-            >
+            <NaverMap center={{ lat: lat, lng: lng }} zoom={zoom}>
                 {locations.map((location, idx) => {
                     return (
                         <Marker
@@ -99,7 +154,7 @@ function Main() {
                         </Marker>
                     );
                 })}
-                
+
                 <div className="contentWrap">
                     <div className="inputWrap">
                         <input 
@@ -109,8 +164,43 @@ function Main() {
                             onChange={handleChange}/>
                     </div>
 
-                    <button className="searchButton" 
-                        onClick={searchStoreByName}><IoIosSearch/></button>
+                    <button className="searchButton" onClick={searchStoreByName}><IoIosSearch/></button>
+
+                    <select
+                        className='valueDropdown'
+                        name='city'
+                        id='city'
+                        value={selectedCity}>
+                        <option value=''>서울특별시</option>
+                    </select>
+
+                    {selectedCity && (
+                        <select
+                            className='valueDropdown'
+                            name='district'
+                            id='district'
+                            onChange={handleDistrictSelect}
+                            value={selectedDistrict}>
+                            <option disabled value=''>구</option>
+                            {Object.keys(seoulAreas).map((district, index) => (
+                                <option key={index} value={district}>{district}</option>
+                            ))}
+                        </select>
+                    )}
+
+                    {selectedDistrict && (
+                        <select
+                            className='valueDropdown'
+                            name='dong'
+                            id='dong'
+                            onChange={handleDongSelect}
+                            value={selectedDong}>
+                            <option disabled value=''>동</option>
+                            {seoulAreas[selectedDistrict].map((dong, index) => (
+                                <option key={index} value={dong}>{dong}</option>
+                            ))}
+                        </select>
+                    )}    
                 </div>
             </NaverMap>
         </MapDiv>
