@@ -50,6 +50,11 @@ function Main() {
     //서울시 00구 00동 행정구역 
     const defaultDistrict = Object.keys(seoulAreas)[0];
     const defaultDong = seoulAreas[defaultDistrict][0];
+
+    const [lat, setLat] = useState(37.5690700); //y
+    const [lng, setLng] = useState(127.0237322); //x
+    const [zoom, setZoom] = useState(11);
+
     const [selectedCity, setSelectedCity] = useState('서울특별시');
     const [selectedDistrict, setSelectedDistrict] = useState(defaultDistrict);
     const [selectedDong, setSelectedDong] = useState(defaultDong);
@@ -58,6 +63,31 @@ function Main() {
         const newStore = e.target.value
         setStore(newStore);
     }
+
+    useEffect(() => {
+        navermaps.Service.geocode(
+            {
+                query: `${selectedCity} ${selectedDistrict} ${selectedDong}`,
+            },
+            function (status, response) {
+                if (status === navermaps.Service.Status.ERROR) {
+                    return alert('지오코딩 실패');
+                }
+                const addresses = response.v2.addresses;
+                if (addresses.length > 0) {
+                    const items = addresses[0];
+                    console.log('위도: ', items.y, '경도: ', items.x);
+                    setLng(items.x);
+                    setLat(items.y);
+                    setZoom(13);
+                } else {
+                    // 검색 결과가 없는 경우에 대한 처리
+                    console.log('검색 결과가 없습니다.');
+                }
+            }
+        );
+    }, [selectedCity, selectedDistrict, selectedDong]); // 검색 조건이 변경될 때마다 실행
+
 
     // const handleCitySelect = (cities) => {
 
@@ -78,36 +108,11 @@ function Main() {
         window.location.href = '/';
     }
 
-    // const searchStoreByName = () => {
-    //     if (selectedDistrict && selectedDong) {
-    //         axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores/search?query=${encodeURIComponent(store)}`, { 
-    //             withCredentials: true,
-    //             headers: {
-    //                 Authorization: `Bearer ${localStorage.getItem('token')}`
-    //             } 
-    //         })
-    //         .then((res) => {
-    //             const items = res.data.result.items;
-    //             setLocations(items);
-    //             console.log(res.data.result.items);
-    //         })
-    //         .catch((err) => {
-    //             console.log('해당 판매점을 찾을 수 없습니다.');
-    //             console.log(err);
-    //             // alert('시간 만료로 로그아웃됩니다.')
-    //             // logoutUser();
-    //         })
-    //     }
-    //     else {
-    //         alert('행정구역을 선택해주세요!');
-    //     }
-        
-    // }
-
     const searchStoreByName = () => {
+        setStore('');
         if (selectedDistrict && selectedDong) {
             if (store.trim() !== '') {
-                axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores/search?query=${encodeURIComponent(store)}`, { 
+                axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores/search?query=${encodeURIComponent(selectedDistrict)}${encodeURIComponent(selectedDong)}${encodeURIComponent(store)}`, { 
                     withCredentials: true,
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -138,10 +143,7 @@ function Main() {
     
     return (
         <MapDiv style={mapStyle}>
-            <NaverMap 
-                center={new navermaps.LatLng(37.5690700, 127.0237322)}
-                zoom={11}
-            >
+            <NaverMap center={{ lat: lat, lng: lng }} zoom={zoom}>
                 {locations.map((location, idx) => {
                     return (
                         <Marker

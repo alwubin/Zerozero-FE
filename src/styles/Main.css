@@ -1,9 +1,9 @@
 .contentWrap {
-    z-index: 1000;
+    z-index: 10;
     margin-top: 26px;
     margin-left: 50px;
-    flex: 1;
-    justify-content : center;
+    width: 440px;
+    height: 60px;
 }
 
 .inputWrap {
@@ -54,12 +54,5 @@
     background-color: white;
     color: #444444;
     outline: none;
-    /* font-weight: 400;
-    font-size: 14px;
-    line-height: 21px; */
     cursor: pointer;
-    /* &:focus {
-    box-shadow: none;
-    }
-     */
 }
