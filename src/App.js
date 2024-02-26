@@ -10,7 +10,7 @@ import { BiComment } from "react-icons/bi";
 import { GiSodaCan } from "react-icons/gi";
 import { FaMapPin } from "react-icons/fa";
 import { AiOutlineUser } from "react-icons/ai";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 /**
  * CHECKLIST
@@ -23,8 +23,12 @@ import { useState } from 'react';
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [isClicked, setIsClicked] = useState(location.pathname);
+  const [isClicked, setIsClicked] = useState('/');
   const [hoveredService, setHoveredService] = useState(null);
+
+  useEffect(() => {
+    setIsClicked(location.pathname);
+  }, [location.pathname])
 
   const handleMouseOver = (service) => {
     setHoveredService(service);
