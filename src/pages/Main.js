@@ -1,5 +1,6 @@
 import { Container as MapDiv, NaverMap, Marker, useNavermaps, InfoWindow } from 'react-naver-maps'
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import { seoulAreas } from '../constants';
 
@@ -42,6 +43,7 @@ const inputStyle = {
 
 function Main() {
     const navermaps = useNavermaps();
+    const navigate = useNavigate();
     
     //검색 api를 위한 판매점 배열
     const [store, setStore] = useState(''); 
@@ -112,21 +114,27 @@ function Main() {
         setStore('');
         if (selectedDistrict && selectedDong) {
             if (store.trim() !== '') {
-                axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores/search?query=${encodeURIComponent(selectedDistrict)}${encodeURIComponent(selectedDong)}${encodeURIComponent(store)}`, { 
-                    withCredentials: true,
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
-                    } 
-                })
-                .then((res) => {
-                    const items = res.data.result.items;
-                    setLocations(items);
-                    console.log(res.data.result.items);
-                })
-                .catch((err) => {
-                    console.log('해당 판매점을 찾을 수 없습니다.');
-                    console.log(err);
-                })
+                if (localStorage.getItem('token') === null) {
+                    alert('로그인이 필요합니다.');
+                    navigate('/login');
+                }
+                else {
+                    axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores/search?query=${encodeURIComponent(selectedDistrict)}${encodeURIComponent(selectedDong)}${encodeURIComponent(store)}`, { 
+                        withCredentials: true,
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('token')}`
+                        } 
+                    })
+                    .then((res) => {
+                        const items = res.data.result.items;
+                        setLocations(items);
+                        console.log(res.data.result.items);
+                    })
+                    .catch((err) => {
+                        console.log('해당 판매점을 찾을 수 없습니다.');
+                        console.log(err);
+                    })
+                }
             } else {
                 alert('검색어를 입력해주세요!');
             }
