@@ -56,3 +56,12 @@
     outline: none;
     cursor: pointer;
 }
+
+.iw_inner {
+    max-width: 300px;
+    max-height: 500px;
+    padding-left: 10px;
+}
+.addresses {
+    font-size: 13px;
+}
