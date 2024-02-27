@@ -1,9 +1,11 @@
-import { Container as MapDiv, NaverMap, Marker, useNavermaps, InfoWindow } from 'react-naver-maps'
-import { useState, useEffect } from 'react'
+import { Container as MapDiv, NaverMap, Marker, useNavermaps, InfoWindow, Overlay,
+    useListener,
+    Listener,
+    useMap, } from 'react-naver-maps'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import { seoulAreas } from '../constants';
-
 import { IoIosSearch } from "react-icons/io";
 import '../styles/Main.css';
 
@@ -90,11 +92,6 @@ function Main() {
         );
     }, [selectedCity, selectedDistrict, selectedDong]); // 검색 조건이 변경될 때마다 실행
 
-
-    // const handleCitySelect = (cities) => {
-
-    // }
-
     const handleDistrictSelect = (e) => {
         const selected = e.target.value;
         setSelectedDistrict(selected);
@@ -146,7 +143,7 @@ function Main() {
     useEffect(() => {
         locations.map((location) => {
             console.log(location);
-        })
+        });
     }, [locations]);
     
     return (
@@ -157,9 +154,10 @@ function Main() {
                         <Marker
                             key={idx}
                             position={new navermaps.LatLng((location.mapy)*0.0000001, (location.mapx)*0.0000001)}
-                            onClick={() => { console.log(location.title) }}
-                        >
-                        </Marker>
+                            onClick={(e) => {
+                                alert(`이 곳은  ${location.title}입니다.`);
+                            }}
+                        />
                     );
                 })}
 
