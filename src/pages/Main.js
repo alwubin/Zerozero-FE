@@ -1,7 +1,4 @@
-import { Container as MapDiv, NaverMap, Marker, useNavermaps, InfoWindow, Overlay,
-    useListener,
-    Listener,
-    useMap, } from 'react-naver-maps'
+import { Container as MapDiv, NaverMap, Marker, useNavermaps, InfoWindow } from 'react-naver-maps'
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
@@ -47,6 +44,9 @@ function Main() {
     const navermaps = useNavermaps();
     const navigate = useNavigate();
     
+    const [map, setMap] = useState(null);
+    const [infoWindow, setInfoWindow] = useState(null);
+
     //검색 api를 위한 판매점 배열
     const [store, setStore] = useState(''); 
     const [locations, setLocations] = useState([]);
@@ -148,18 +148,50 @@ function Main() {
     
     return (
         <MapDiv style={mapStyle}>
-            <NaverMap center={{ lat: lat, lng: lng }} zoom={zoom}>
+            <NaverMap 
+                center={{ lat: lat, lng: lng }} 
+                zoom={zoom}
+                ref={(ref) => setMap(ref)}
+            >
                 {locations.map((location, idx) => {
                     return (
                         <Marker
                             key={idx}
                             position={new navermaps.LatLng((location.mapy)*0.0000001, (location.mapx)*0.0000001)}
+                            icon={{
+                                content: [
+                                    `<div style="position: absolute; overflow: visible; box-sizing: content-box !important; cursor: inherit; left: 326px; top: 312px;">`,
+                                        `<div style="margin: 0px; display: table; padding: 0.5rem; table-layout: auto; border-radius: 2.3rem; border: 0.2rem solid var(--color--darkgreen); background: white; cursor: pointer; position: relative; z-index: 2;">`,
+                                            `<div style="display: table-cell; display: inline-block; width: 3rem; height: 3rem; background-image: url(Images/markerIcon.png); background-size: cover; background-position: center; background-repeat: no-repeat;"></div>`,
+                                            `<div style="max-width: 18rem; height: 3rem; padding: 0 0.8rem 0 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: table-cell; vertical-align: middle; cursor: pointer; font-size: 1.3rem; letter-spacing: -0.04rem; font-weight: 600; line-height: 3rem;">${location.title}</div>`,
+                                            `<span style="position: absolute; border-style: solid; border-width: 0.9rem 0.7rem 0 0.7rem; border-color: #ffffff transparent; display: block; width: 0; z-index: 1; top: 3.8rem; left: 1.05rem;"></span>`,
+                                        `</div>`,
+                                    `</div>`,
+                                ].join(''),
+                                anchor: new navermaps.Point(25, 50) // 아이콘의 기준점을 설정합니다. 이미지의 가운데 하단 지점을 기준점으로 설정합니다.
+                            }}
                             onClick={(e) => {
-                                alert(`이 곳은  ${location.title}입니다.`);
+                                const content = [
+                                    `<div class="iw_inner">`,
+                                    `   <h4 class="shop_title">${location.title}</h3>`,
+                                    `   <p class="addresses">${location.roadAddress} <br>`,
+                                    `       ${location.address}<br>`,
+                                    `       ${location.category}<br>`,
+                                    `   </p>`,
+                                    `</div>`
+                                ].join('');
+
+                                if (infoWindow.getMap()) {
+                                    infoWindow.close();
+                                } else {
+                                    infoWindow.setContent(content);
+                                    infoWindow.open(map, e.overlay);
+                                }
                             }}
                         />
                     );
                 })}
+                <InfoWindow ref={(ref) => setInfoWindow(ref)} />
 
                 <div className="contentWrap">
                     <div className="inputWrap">
