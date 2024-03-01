@@ -75,7 +75,7 @@ function Login() {
         } else {
             setPasswordValid(false);
         }
-    }, [passwordValid])
+    })
 
     return (
         <div className='loginPage'>
