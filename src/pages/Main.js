@@ -159,12 +159,14 @@ function Main() {
                             key={idx}
                             position={new navermaps.LatLng((location.mapy)*0.0000001, (location.mapx)*0.0000001)}
                             icon={{
-                                content: [
-                                    `<div class="iconWrapper">`,
-                                        `${location.title}`,
-                                    `</div>`,
-                                ].join(''),
-                                anchor: new navermaps.Point(25, 50) // 아이콘의 기준점을 설정합니다. 이미지의 가운데 하단 지점을 기준점으로 설정합니다.
+                                // content: [
+                                //     `<div class="iconWrapper">`,
+                                //         `${location.title}`,
+                                //     `</div>`,
+                                // ].join(''),
+                                url: '/images/clickedMarker.png',
+                                scaledSize: new navermaps.Size(25.5, 40.5),
+                                origin: new navermaps.Point(0, 0),
                             }}
                             onClick={(e) => {
                                 const content = [
