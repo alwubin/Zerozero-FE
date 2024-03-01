@@ -69,7 +69,7 @@ function MyPage() {
             <div className='myPageContentWrap'>
                 <div className='profile'>
                     <div className='myImage'>
-                        <img className='profileImage' src={profileImage || 'default.png'} alt='프로필 이미지'/>
+                        <img className='profileImage' src={profileImage || 'images/default.png'} alt='프로필 이미지'/>
                     </div>
                     <div className='myName'>
                         {nickname}
