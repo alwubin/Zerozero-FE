@@ -63,7 +63,7 @@
 .iconWrapper::after {
     content:""; 
     position: absolute; 
-    right: 100px; 
+    right: 200px; 
     top: 100px; 
     border-left: 20px solid transparent; 
     border-right: 20px solid transparent; 
