@@ -5,12 +5,12 @@ import Login from './pages/Login.js';
 import SignUp from './pages/SignUp.js';
 import MyPage from './pages/MyPage.js';
 
-import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
+import { Routes, Route, useNavigate, Navigate, useLocation } from 'react-router-dom'
 import { BiComment } from "react-icons/bi";
 import { GiSodaCan } from "react-icons/gi";
 import { FaMapPin } from "react-icons/fa";
 import { AiOutlineUser } from "react-icons/ai";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 /**
  * CHECKLIST
@@ -21,9 +21,14 @@ import { useState } from 'react';
 
 
 function App() {
-  const [isClicked, setIsClicked] = useState('/');
+  const location = useLocation();
   const navigate = useNavigate();
+  const [isClicked, setIsClicked] = useState('/');
   const [hoveredService, setHoveredService] = useState(null);
+
+  useEffect(() => {
+    setIsClicked(location.pathname);
+  }, [location.pathname])
 
   const handleMouseOver = (service) => {
     setHoveredService(service);
@@ -45,10 +50,12 @@ function App() {
   }
 
   const handleLoginClick = () => {
-    if (isAuthenticated) {
-      navigateAndSetClicked('/mypage');
+    if (isAuthenticated()) {
+      setIsClicked('/mypage'); // '/mypage'로 클릭된 상태로 설정
+      navigate('/mypage'); // 마이페이지로 이동
     } else {
-      navigateAndSetClicked('/login');
+      setIsClicked('/login'); // '/login'으로 클릭된 상태로 설정
+      navigate('/login'); // 로그인 페이지로 이동
     }
   };
 

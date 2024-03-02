@@ -85,13 +85,6 @@ function SignUp() {
 
     const handlePassword = (e) => {
         setPassword(e.target.value);
-        const regex = 
-        /^.*(?=^.{7,20}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
-        if(regex.test(password)) {
-            setPasswordValid(true);
-        } else {
-            setPasswordValid(false);
-        }
     }
 
     const handlePasswordCheck = (e) => {
@@ -109,25 +102,31 @@ function SignUp() {
     }
 
     useEffect(() => {
+        const regex = /^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&#.~_-])[A-Za-z\d@$!%*?&#.~_-]{8,20}$/;
+        if(regex.test(password)) {
+            setPasswordValid(true);
+        } else {
+            setPasswordValid(false);
+        }
+    }, [password]);
+
+    useEffect(() => {
         if(password === passwordCheck) {
             setPasswordMatch(true);
         } else {
             setPasswordMatch(false);
         }
-    })
+    }, [password, passwordCheck]);
 
     useEffect(() => {
-        const regex = 
-        /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-        
+        const regex = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
         if (regex.test(email + '@' + emailOpt)) {
             setEmailNotAllow(false);
         } else {
             setEmailNotAllow(true);
         }
-    })
+    }, [email, emailOpt]);
 
-    //공백 없는 숫자 한글 문자
     useEffect(() => {
         const regex = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]{2,10}$/;
         if (regex.test(nickname)) {
@@ -135,7 +134,7 @@ function SignUp() {
         } else {
             setNicknameNotAllow(true);
         }
-    })
+    }, [nickname]);
 
     useEffect(() => {
         if (
@@ -149,7 +148,7 @@ function SignUp() {
         } else {
             setIsEmpty(false);
         }
-    })
+    }, [email, emailOpt, password, passwordCheck, nickname]);
 
     return (
         <div className="signUpPage">

@@ -1,8 +1,8 @@
 import { Container as MapDiv, NaverMap, Marker, useNavermaps, InfoWindow } from 'react-naver-maps'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import { seoulAreas } from '../constants';
-
 import { IoIosSearch } from "react-icons/io";
 import '../styles/Main.css';
 
@@ -42,7 +42,11 @@ const inputStyle = {
 
 function Main() {
     const navermaps = useNavermaps();
+    const navigate = useNavigate();
     
+    const [map, setMap] = useState(null);
+    const [infoWindow, setInfoWindow] = useState(null);
+
     //검색 api를 위한 판매점 배열
     const [store, setStore] = useState(''); 
     const [locations, setLocations] = useState([]);
@@ -88,11 +92,6 @@ function Main() {
         );
     }, [selectedCity, selectedDistrict, selectedDong]); // 검색 조건이 변경될 때마다 실행
 
-
-    // const handleCitySelect = (cities) => {
-
-    // }
-
     const handleDistrictSelect = (e) => {
         const selected = e.target.value;
         setSelectedDistrict(selected);
@@ -112,21 +111,27 @@ function Main() {
         setStore('');
         if (selectedDistrict && selectedDong) {
             if (store.trim() !== '') {
-                axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores/search?query=${encodeURIComponent(selectedDistrict)}${encodeURIComponent(selectedDong)}${encodeURIComponent(store)}`, { 
-                    withCredentials: true,
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
-                    } 
-                })
-                .then((res) => {
-                    const items = res.data.result.items;
-                    setLocations(items);
-                    console.log(res.data.result.items);
-                })
-                .catch((err) => {
-                    console.log('해당 판매점을 찾을 수 없습니다.');
-                    console.log(err);
-                })
+                if (localStorage.getItem('token') === null) {
+                    alert('로그인이 필요합니다.');
+                    navigate('/login');
+                }
+                else {
+                    axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores/search?query=${encodeURIComponent(selectedDistrict)}${encodeURIComponent(selectedDong)}${encodeURIComponent(store)}`, { 
+                        withCredentials: true,
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('token')}`
+                        } 
+                    })
+                    .then((res) => {
+                        const items = res.data.result.items;
+                        setLocations(items);
+                        console.log(res.data.result.items);
+                    })
+                    .catch((err) => {
+                        console.log('해당 판매점을 찾을 수 없습니다.');
+                        console.log(err);
+                    })
+                }
             } else {
                 alert('검색어를 입력해주세요!');
             }
@@ -138,22 +143,48 @@ function Main() {
     useEffect(() => {
         locations.map((location) => {
             console.log(location);
-        })
+        });
     }, [locations]);
     
     return (
         <MapDiv style={mapStyle}>
-            <NaverMap center={{ lat: lat, lng: lng }} zoom={zoom}>
+            <NaverMap 
+                center={{ lat: lat, lng: lng }} 
+                zoom={zoom}
+                ref={(ref) => setMap(ref)}
+            >
                 {locations.map((location, idx) => {
                     return (
                         <Marker
                             key={idx}
                             position={new navermaps.LatLng((location.mapy)*0.0000001, (location.mapx)*0.0000001)}
-                            onClick={() => { console.log(location.title) }}
-                        >
-                        </Marker>
+                            icon={{
+                                url: '/images/noZeroMarker.png',
+                                scaledSize: new navermaps.Size(35, 47.5),
+                                origin: new navermaps.Point(0, 0),
+                            }}
+                            onClick={(e) => {
+                                const content = [
+                                    `<div class="iw_inner">`,
+                                    `   <h4 class="shop_title">${location.title}</h3>`,
+                                    `   <p class="addresses">${location.roadAddress} <br>`,
+                                    `       ${location.address}<br>`,
+                                    `       ${location.category}<br>`,
+                                    `   </p>`,
+                                    `</div>`
+                                ].join('');
+
+                                if (infoWindow.getMap()) {
+                                    infoWindow.close();
+                                } else {
+                                    infoWindow.setContent(content);
+                                    infoWindow.open(map, e.overlay);
+                                }
+                            }}
+                        />
                     );
                 })}
+                <InfoWindow ref={(ref) => setInfoWindow(ref)} />
 
                 <div className="contentWrap">
                     <div className="inputWrap">

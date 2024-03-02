@@ -56,3 +56,26 @@
     outline: none;
     cursor: pointer;
 }
+
+.iconWrapper {
+    background-color: skyblue;
+}
+.iconWrapper::after {
+    content:""; 
+    position: absolute; 
+    right: 200px; 
+    top: 100px; 
+    border-left: 20px solid transparent; 
+    border-right: 20px solid transparent; 
+    border-top: 30px solid skyblue;
+}
+
+
+.iw_inner {
+    max-width: 300px;
+    max-height: 500px;
+    padding-left: 10px;
+}
+.addresses {
+    font-size: 13px;
+}

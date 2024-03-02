@@ -51,13 +51,6 @@ function Login() {
 
     const handlePassword = (e) => {
         setPassword(e.target.value);
-        const regex = 
-            /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
-        if(regex.test(password)) {
-            setPasswordValid(true);
-        } else {
-            setPasswordValid(false);
-        }
     }
 
     const onClickSignUpButton = () => {
@@ -73,6 +66,16 @@ function Login() {
         }
         setNotAllow(true);
     },[emailValid, passwordValid])
+
+    useEffect(() => {
+        const regex = 
+        /^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&#.~_-])[A-Za-z\d@$!%*?&#.~_-]{8,20}$/
+        if(regex.test(password)) {
+            setPasswordValid(true);
+        } else {
+            setPasswordValid(false);
+        }
+    })
 
     return (
         <div className='loginPage'>
