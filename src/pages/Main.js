@@ -159,13 +159,8 @@ function Main() {
                             key={idx}
                             position={new navermaps.LatLng((location.mapy)*0.0000001, (location.mapx)*0.0000001)}
                             icon={{
-                                // content: [
-                                //     `<div class="iconWrapper">`,
-                                //         `${location.title}`,
-                                //     `</div>`,
-                                // ].join(''),
-                                url: '/images/clickedMarker.png',
-                                scaledSize: new navermaps.Size(25.5, 40.5),
+                                url: '/images/noZeroMarker.png',
+                                scaledSize: new navermaps.Size(35, 47.5),
                                 origin: new navermaps.Point(0, 0),
                             }}
                             onClick={(e) => {
