@@ -6,6 +6,17 @@
     height: 60px;
 }
 
+.alertMsgWrap {
+    width: 90%;
+    padding: 16px;
+    margin-top: 8px;
+    background-color: #161719;
+    opacity: 80%;
+    border: 1px solid #929292;
+    font-size: smaller;
+    color: #FFFFFF;
+}
+
 .inputWrap {
     width: 90%;
     /* display: flex; */

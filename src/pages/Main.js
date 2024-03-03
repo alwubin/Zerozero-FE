@@ -2,6 +2,8 @@ import { Container as MapDiv, NaverMap, Marker, useNavermaps, InfoWindow } from 
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
+
+import CustomAlertNotice from '../components/CustomAlertNotice'
 import { seoulAreas } from '../constants';
 import { IoIosSearch } from "react-icons/io";
 import '../styles/Main.css';
@@ -63,6 +65,10 @@ function Main() {
     const [selectedDistrict, setSelectedDistrict] = useState(defaultDistrict);
     const [selectedDong, setSelectedDong] = useState(defaultDong);
 
+    //alert 모달 
+    const [alertMessage, setAlertMessage] = useState('');
+    const [showAlert, setShowAlert] = useState(false);
+
     const handleChange = (e) => {
         const newStore = e.target.value
         setStore(newStore);
@@ -112,7 +118,8 @@ function Main() {
         if (selectedDistrict && selectedDong) {
             if (store.trim() !== '') {
                 if (localStorage.getItem('token') === null) {
-                    alert('로그인이 필요합니다.');
+                    setAlertMessage('로그인이 필요합니다.');
+                    setShowAlert(true);
                     navigate('/login');
                 }
                 else {
@@ -128,17 +135,33 @@ function Main() {
                         console.log(res.data.result.items);
                     })
                     .catch((err) => {
-                        console.log('해당 판매점을 찾을 수 없습니다.');
+                        setAlertMessage('해당 판매점을 찾을 수 없습니다.');
+                        setShowAlert(true);
                         console.log(err);
                     })
                 }
             } else {
-                alert('검색어를 입력해주세요!');
+                setAlertMessage('검색어를 입력해주세요!');
+                setShowAlert(true);
             }
         } else {
-            alert('행정구역을 선택해주세요!');
+            setAlertMessage('행정구역을 선택해주세요!');
+            setShowAlert(true);
         }
     }
+
+    useEffect(() => {
+        setAlertMessage('');
+        setShowAlert(false);
+    }, []);
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setShowAlert(false);
+            setAlertMessage('');
+        }, 2000);
+        return () => clearTimeout(timeout);
+    }, [showAlert]);
 
     useEffect(() => {
         locations.map((location) => {
@@ -187,6 +210,14 @@ function Main() {
                 <InfoWindow ref={(ref) => setInfoWindow(ref)} />
 
                 <div className="contentWrap">
+                    <div className='alertMsgWrap'>
+                        {
+                            showAlert && (
+                                <CustomAlertNotice 
+                                message={alertMessage}/>
+                            )
+                        }
+                    </div>
                     <div className="inputWrap">
                         <input 
                             style={inputStyle}
