@@ -1,10 +1,10 @@
 import React from 'react';
 
-const CustomAlertNotice = ({ alertMessage }) => {
+const CustomAlertNotice = ({ message }) => {
     return (
         <div className="custom-alert-notice" role="alert">
             <div className="custom-alert-notice-content">
-                <div>{alertMessage}</div>
+                {message}
             </div>
         </div>
     )
