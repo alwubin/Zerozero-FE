@@ -2,8 +2,25 @@
     z-index: 10;
     margin-top: 26px;
     margin-left: 50px;
-    width: 440px;
-    height: 60px;
+    /* width: 440px;
+    height: 60px; */
+}
+
+.alertMsgWrap {
+    /* width: 95%;
+    height: 30%;
+    padding: 2px 0 2px 8px;
+    margin-top: 8px;
+    background-color: #161719;
+    opacity: 80%;
+    border: 1px solid #929292;
+    border-radius: 3px;
+    font-size: smaller;
+    color: #FFFFFF; */
+    margin-top: 8px;
+    color: #ef0000;
+    font-size: 12px;
+
 }
 
 .inputWrap {
@@ -11,7 +28,7 @@
     /* display: flex; */
     border-radius: 8px;
     padding: 16px;
-    margin-top: 8px;
+    /* margin-top: 8px; */
     background-color: white;
     border: 1px solid #e2e0e0;
 }

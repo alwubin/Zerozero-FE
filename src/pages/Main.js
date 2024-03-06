@@ -2,17 +2,21 @@ import { Container as MapDiv, NaverMap, Marker, useNavermaps, InfoWindow } from 
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
+
+import CustomAlert from '../components/CustomAlert';
+import CustomModal from '../components/CustomModal';
+import LocationList from '../components/LocationList';
 import { seoulAreas } from '../constants';
 import { IoIosSearch } from "react-icons/io";
 import '../styles/Main.css';
 
 /** CHECKLIST
- * [ ] 비로그인 상태에서 검색 시 로그인이 필요하다는 alert 후 로그인 페이지로 이동
+ * [X] CustomAlertNotice 창 비로그인 상태 출력 오류 및 메인 페이지에 기본 렌더링 시 빈칸으로 최상단 출력되는 오류 수정 필요
  * [ ] 로그인 시간 만료 후 팝업 보여주고 자동 로그아웃
- * [ ] (기본값) 현재 위치 기반 지도 출력되로록 하기
+ * [X] (기본값) 현재 위치 기반 지도 출력되로록 하기
  * [ ] Marker 클릭 시 지역 내로 줌 인 되도록 하기
- * [ ] Marker 클릭 시 해당 장소에 대한 정보 출력
- * [ ] 장소 검색 시 OO구 OO동 필수 선택 후 검색 
+ * [ ] Marker 클릭 시 해당 장소에 대한 정보 출력 스타일 변경
+ * [X] 장소 검색 시 OO구 OO동 필수 선택 후 검색 
  */
 
 
@@ -22,7 +26,7 @@ const mapStyle = {
     bottom: '0',
     width: '100%',
     maxWidth: '500px',
-    padding: '0 20px',
+    // padding: '0 20px',
     left: '50%',
     transform: 'translate(-50%, 0)',
     overflow: 'hidden',
@@ -45,11 +49,12 @@ function Main() {
     const navigate = useNavigate();
     
     const [map, setMap] = useState(null);
-    const [infoWindow, setInfoWindow] = useState(null);
+    // const [infoWindow, setInfoWindow] = useState(null);
 
     //검색 api를 위한 판매점 배열
     const [store, setStore] = useState(''); 
     const [locations, setLocations] = useState([]);
+    const [showLocationList, setShowLocationList] = useState(false);
 
     //서울시 00구 00동 행정구역 
     const defaultDistrict = Object.keys(seoulAreas)[0];
@@ -58,14 +63,51 @@ function Main() {
     const [lat, setLat] = useState(37.5690700); //y
     const [lng, setLng] = useState(127.0237322); //x
     const [zoom, setZoom] = useState(11);
+    const [markers, setMarkers] = useState(locations.map((location, idx) => ({
+        position: new navermaps.LatLng((location.mapy)*0.0000001, (location.mapx)*0.0000001),
+        icon: '/images/noZeroMarker.png',
+        scaledSize: new navermaps.Size(35, 47.5),
+        origin: new navermaps.Point(0, 0),
+    })));
 
+    const [selectedMarkerIdx, setSelectedMarkerIdx] = useState(null);
+    const [title, setTitle] = useState('');
+    const [mapx, setMapx] = useState('');
+    const [mapy, setMapy] = useState('');
     const [selectedCity, setSelectedCity] = useState('서울특별시');
     const [selectedDistrict, setSelectedDistrict] = useState(defaultDistrict);
     const [selectedDong, setSelectedDong] = useState(defaultDong);
 
+    //alert 모달 
+    const [alertMessage, setAlertMessage] = useState('');
+    const [showAlert, setShowAlert] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
+    const [showModal, setShowModal] = useState(false);
+
     const handleChange = (e) => {
         const newStore = e.target.value
         setStore(newStore);
+    }
+
+    const handleMarkerClick = (idx) => {
+        setSelectedMarkerIdx(idx);
+
+        //클릭된 판매점 정보
+        const clickedLocationInfo = locations[idx];
+        const { title, mapx, mapy } = clickedLocationInfo;
+        setTitle(title);
+        setMapx(mapx);
+        setMapy(mapy);
+        
+        const locationList = document.querySelector('.locationCarousel');
+        const locationWrapper = locationList.querySelector('.locationWrapper');
+        const locationWrapperWidth = locationWrapper.offsetWidth;
+        const scrollAmount = locationWrapperWidth * (idx - 1); // 선택된 마커의 인덱스로부터 앞의 마커들의 너비만큼 이동
+    
+        locationList.scrollTo({
+            left: scrollAmount,
+            behavior: 'smooth' 
+        });
     }
 
     useEffect(() => {
@@ -102,9 +144,44 @@ function Main() {
         setSelectedDong(e.target.value);
     };
 
-    const logoutUser = () => {
-        localStorage.removeItem('token');
-        window.location.href = '/';
+    // const logoutUser = () => {
+    //     localStorage.removeItem('token');
+    //     window.location.href = '/';
+    // }
+
+    const handleModal =() => {
+        setShowModal(false);
+        if (modalMessage === '로그인이 필요한 서비스입니다.') {
+            navigate('/login');
+        }        
+        setModalMessage('');
+    }
+
+    const registerLocation = () => {
+        axios.post(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores`, 
+            { 
+                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                } 
+            },
+            {
+                "request": {
+                  "title": title,
+                  "mapx": mapx,
+                  "mapy": mapy
+                },
+                "images": [
+                  "string"
+                ]
+            }
+        )
+        .then((res) => {
+            
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     const searchStoreByName = () => {
@@ -112,8 +189,8 @@ function Main() {
         if (selectedDistrict && selectedDong) {
             if (store.trim() !== '') {
                 if (localStorage.getItem('token') === null) {
-                    alert('로그인이 필요합니다.');
-                    navigate('/login');
+                    setModalMessage('로그인이 필요한 서비스입니다.');
+                    setShowModal(true);
                 }
                 else {
                     axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores/search?query=${encodeURIComponent(selectedDistrict)}${encodeURIComponent(selectedDong)}${encodeURIComponent(store)}`, { 
@@ -124,26 +201,39 @@ function Main() {
                     })
                     .then((res) => {
                         const items = res.data.result.items;
-                        setLocations(items);
-                        console.log(res.data.result.items);
+                        if (items.length === 0) {
+                            setModalMessage('해당 판매점을 찾을 수 없습니다.');
+                            setShowModal(true);
+                            setShowLocationList(false);
+                        } else {
+                            setLocations(items);
+                            setShowLocationList(true);
+                            console.log(res.data.result.items);
+                        }
                     })
                     .catch((err) => {
-                        console.log('해당 판매점을 찾을 수 없습니다.');
+                        setModalMessage('해당 판매점을 찾을 수 없습니다.');
+                        setShowModal(true);
                         console.log(err);
                     })
                 }
             } else {
-                alert('검색어를 입력해주세요!');
+                setAlertMessage('검색어를 입력해주세요!');
+                setShowAlert(true);
             }
         } else {
-            alert('행정구역을 선택해주세요!');
+            setAlertMessage('행정구역을 선택해주세요!');
+            setShowAlert(true);
         }
     }
 
     useEffect(() => {
-        locations.map((location) => {
-            console.log(location);
-        });
+        setMarkers(locations.map((location, idx) => ({
+            position: new navermaps.LatLng((location.mapy)*0.0000001, (location.mapx)*0.0000001),
+            icon: '/images/noZeroMarker.png',
+            scaledSize: new navermaps.Size(35, 47.5),
+            origin: new navermaps.Point(0, 0),
+        })));
     }, [locations]);
     
     return (
@@ -153,47 +243,46 @@ function Main() {
                 zoom={zoom}
                 ref={(ref) => setMap(ref)}
             >
-                {locations.map((location, idx) => {
-                    return (
+                
+                {
+                    markers.map((marker, idx) => (
                         <Marker
                             key={idx}
-                            position={new navermaps.LatLng((location.mapy)*0.0000001, (location.mapx)*0.0000001)}
+                            position={marker.position}
                             icon={{
-                                url: '/images/noZeroMarker.png',
-                                scaledSize: new navermaps.Size(35, 47.5),
-                                origin: new navermaps.Point(0, 0),
+                                url: selectedMarkerIdx === idx ? '/images/clickedNoZeroMarker.png' : '/images/noZeroMarker.png',
+                                scaledSize: marker.scaledSize,
+                                origin: marker.origin,
                             }}
-                            onClick={(e) => {
-                                const content = [
-                                    `<div class="iw_inner">`,
-                                    `   <h4 class="shop_title">${location.title}</h3>`,
-                                    `   <p class="addresses">${location.roadAddress} <br>`,
-                                    `       ${location.address}<br>`,
-                                    `       ${location.category}<br>`,
-                                    `   </p>`,
-                                    `</div>`
-                                ].join('');
-
-                                if (infoWindow.getMap()) {
-                                    infoWindow.close();
-                                } else {
-                                    infoWindow.setContent(content);
-                                    infoWindow.open(map, e.overlay);
-                                }
-                            }}
+                            onClick={() => handleMarkerClick(idx)}
                         />
-                    );
-                })}
-                <InfoWindow ref={(ref) => setInfoWindow(ref)} />
-
+                    ))
+                }
                 <div className="contentWrap">
-                    <div className="inputWrap">
-                        <input 
-                            style={inputStyle}
-                            placeholder="판매점을 검색해 보세요" 
-                            value={store} 
-                            onChange={handleChange}/>
+                    <div>
+                        {
+                            showAlert && (
+                                <div className='alertMsgWrap'>
+                                    <CustomAlert 
+                                    message={alertMessage}/>
+                                </div>
+                            )
+                        }
+                        <div className="inputWrap">
+                            <input 
+                                style={inputStyle}
+                                placeholder="판매점을 검색해 보세요" 
+                                value={store} 
+                                onChange={handleChange}/>
+                        </div>
                     </div>
+                    {
+                        showModal && (
+                            <CustomModal 
+                            message={modalMessage}
+                            clickHandler={handleModal}/>
+                        )
+                    }
 
                     <button className="searchButton" onClick={searchStoreByName}><IoIosSearch/></button>
 
@@ -233,6 +322,14 @@ function Main() {
                         </select>
                     )}    
                 </div>
+                {
+                    showLocationList && 
+                    <LocationList 
+                        locations={locations} 
+                        selectedMarkerIdx={selectedMarkerIdx}
+                        // registerLocation={registerLocation}
+                    />
+                }
             </NaverMap>
         </MapDiv>
     )
