@@ -165,13 +165,13 @@ function Main() {
     //     setShowAlert(false);
     // }, []);
 
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setShowAlert(false);
-            setAlertMessage('');
-        }, 2000);
-        return () => clearTimeout(timeout);
-    }, [showAlert]);
+    // useEffect(() => {
+    //     const timeout = setTimeout(() => {
+    //         setShowAlert(false);
+    //         setAlertMessage('');
+    //     }, 2000);
+    //     return () => clearTimeout(timeout);
+    // }, [showAlert]);
 
     useEffect(() => {
         locations.map((location) => {
@@ -220,22 +220,23 @@ function Main() {
                 <InfoWindow ref={(ref) => setInfoWindow(ref)} />
 
                 <div className="contentWrap">
-                    {
-                        showAlert && (
-                            <div className='alertMsgWrap'>
-                                <CustomAlert 
-                                message={alertMessage}/>
-                            </div>
-                        )
-                    }
-                    <div className="inputWrap">
-                        <input 
-                            style={inputStyle}
-                            placeholder="판매점을 검색해 보세요" 
-                            value={store} 
-                            onChange={handleChange}/>
+                    <div>
+                        {
+                            showAlert && (
+                                <div className='alertMsgWrap'>
+                                    <CustomAlert 
+                                    message={alertMessage}/>
+                                </div>
+                            )
+                        }
+                        <div className="inputWrap">
+                            <input 
+                                style={inputStyle}
+                                placeholder="판매점을 검색해 보세요" 
+                                value={store} 
+                                onChange={handleChange}/>
+                        </div>
                     </div>
-
                     {
                         showModal && (
                             <CustomModal 
