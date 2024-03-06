@@ -3,7 +3,8 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 
-import CustomAlertNotice from '../components/CustomAlertNotice'
+import  CustomAlert from '../components/CustomAlert';
+import CustomModal from '../components/CustomModal';
 import { seoulAreas } from '../constants';
 import { IoIosSearch } from "react-icons/io";
 import '../styles/Main.css';
@@ -68,6 +69,8 @@ function Main() {
     //alert 모달 
     const [alertMessage, setAlertMessage] = useState('');
     const [showAlert, setShowAlert] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
+    const [showModal, setShowModal] = useState(false);
 
     const handleChange = (e) => {
         const newStore = e.target.value
@@ -108,9 +111,17 @@ function Main() {
         setSelectedDong(e.target.value);
     };
 
-    const logoutUser = () => {
-        localStorage.removeItem('token');
-        window.location.href = '/';
+    // const logoutUser = () => {
+    //     localStorage.removeItem('token');
+    //     window.location.href = '/';
+    // }
+
+    const handleModal =() => {
+        setShowModal(false);
+        if (modalMessage === '로그인이 필요한 서비스입니다.') {
+            navigate('/login');
+        }        
+        setModalMessage('');
     }
 
     const searchStoreByName = () => {
@@ -118,9 +129,8 @@ function Main() {
         if (selectedDistrict && selectedDong) {
             if (store.trim() !== '') {
                 if (localStorage.getItem('token') === null) {
-                    setAlertMessage('로그인이 필요합니다.');
-                    setShowAlert(true);
-                    navigate('/login');
+                    setModalMessage('로그인이 필요한 서비스입니다.');
+                    setShowModal(true);
                 }
                 else {
                     axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores/search?query=${encodeURIComponent(selectedDistrict)}${encodeURIComponent(selectedDong)}${encodeURIComponent(store)}`, { 
@@ -135,8 +145,8 @@ function Main() {
                         console.log(res.data.result.items);
                     })
                     .catch((err) => {
-                        setAlertMessage('해당 판매점을 찾을 수 없습니다.');
-                        setShowAlert(true);
+                        setModalMessage('해당 판매점을 찾을 수 없습니다.');
+                        setShowModal(true);
                         console.log(err);
                     })
                 }
@@ -150,10 +160,10 @@ function Main() {
         }
     }
 
-    useEffect(() => {
-        setAlertMessage('');
-        setShowAlert(false);
-    }, []);
+    // useEffect(() => {
+    //     setAlertMessage('');
+    //     setShowAlert(false);
+    // }, []);
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -210,14 +220,14 @@ function Main() {
                 <InfoWindow ref={(ref) => setInfoWindow(ref)} />
 
                 <div className="contentWrap">
-                    <div className='alertMsgWrap'>
-                        {
-                            showAlert && (
-                                <CustomAlertNotice 
+                    {
+                        showAlert && (
+                            <div className='alertMsgWrap'>
+                                <CustomAlert 
                                 message={alertMessage}/>
-                            )
-                        }
-                    </div>
+                            </div>
+                        )
+                    }
                     <div className="inputWrap">
                         <input 
                             style={inputStyle}
@@ -225,6 +235,14 @@ function Main() {
                             value={store} 
                             onChange={handleChange}/>
                     </div>
+
+                    {
+                        showModal && (
+                            <CustomModal 
+                            message={modalMessage}
+                            clickHandler={handleModal}/>
+                        )
+                    }
 
                     <button className="searchButton" onClick={searchStoreByName}><IoIosSearch/></button>
 
