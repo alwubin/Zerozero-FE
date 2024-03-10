@@ -88,24 +88,33 @@
 }
 
 .activity {
+    position: relative; /* 부모로부터 상대적인 위치 지정 */
     width: 33%;
     height: 85%;
+    margin-right: 10px;
     text-align: center;
     background-color: rgba(205, 92, 92, 0.3);
     color: #fffafa;
     border-radius: 15px;
 }
 
+.valueTitle {
+    position: absolute; /* 절대 위치 지정 */
+    bottom: 10px; /* 아래로부터의 거리 조정 */
+    left: 0; /* 왼쪽 정렬 */
+    right: 0; /* 오른쪽 정렬 */
+    margin: auto; /* 가운데 정렬 */
+    font-size: 13px;
+}
+
 .value {
     margin-top: 5px;
     font-size: 40px;
     font-weight: 700;
+    color: #EAE8E5;
 }
 
-.valueTitle {
-    margin-top: 10px;
-    font-size: 10px;
-}
+
 
 .logoutButton {
     width: 69%;
