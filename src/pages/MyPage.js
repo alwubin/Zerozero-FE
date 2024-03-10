@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'; 
 import axios from 'axios';
 
-import Uploader from '../components/Uploader';
+import ProfileUploader from '../components/ProfileUploader';
 import PopUp from '../components/PopUp';
 import '../styles/MyPage.css';
 import { HiPencil } from "react-icons/hi";
@@ -82,7 +82,7 @@ function MyPage() {
                 </div>
                 
                 <div className='editProfileWrap'>
-                { showUploader && <PopUp content={<Uploader onClose={toggleUploader} profileImage={profileImage} setProfileImage={setProfileImage} />} onClose={toggleUploader} /> }
+                { showUploader && <PopUp content={<ProfileUploader onClose={toggleUploader} profileImage={profileImage} setProfileImage={setProfileImage} />} onClose={toggleUploader} /> }
                 </div>
 
                 <div className='myActivities'>

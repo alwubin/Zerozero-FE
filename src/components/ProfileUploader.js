@@ -1,9 +1,9 @@
 import {useEffect, useState} from 'react';
 import axios from 'axios';
-import '../styles/Uploader.css';
+import '../styles/ProfileUploader.css';
 
 
-const Uploader = ({ onClose, profileImage, setProfileImage }) => {
+const ProfileUploader = ({ onClose, setProfileImage }) => {
 
     const [image, setImage] = useState({
         image: '',
@@ -77,4 +77,4 @@ const Uploader = ({ onClose, profileImage, setProfileImage }) => {
     )
 }
 
-export default Uploader;
+export default ProfileUploader;
