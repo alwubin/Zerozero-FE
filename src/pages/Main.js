@@ -6,6 +6,7 @@ import axios from 'axios';
 import CustomAlert from '../components/CustomAlert';
 import CustomModal from '../components/CustomModal';
 import LocationList from '../components/LocationList';
+import RegisterStoreModal from '../components/RegisterStoreModal';
 import { seoulAreas } from '../constants';
 import { IoIosSearch } from "react-icons/io";
 import '../styles/Main.css';
@@ -71,18 +72,22 @@ function Main() {
     })));
 
     const [selectedMarkerIdx, setSelectedMarkerIdx] = useState(null);
-    const [title, setTitle] = useState('');
-    const [mapx, setMapx] = useState('');
-    const [mapy, setMapy] = useState('');
+    const [selectedLocation, setSelectedLocation] = useState(null);
     const [selectedCity, setSelectedCity] = useState('서울특별시');
     const [selectedDistrict, setSelectedDistrict] = useState(defaultDistrict);
     const [selectedDong, setSelectedDong] = useState(defaultDong);
+    const [selectedStoreInfo, setSelectedStoreInfo] = useState({
+        title: '',
+        mapx: '',
+        mapy: ''
+    });
 
     //alert 모달 
     const [alertMessage, setAlertMessage] = useState('');
     const [showAlert, setShowAlert] = useState(false);
     const [modalMessage, setModalMessage] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [showRegisterStoreModal, setShowRegisterStoreModal] = useState(false);
 
     const handleChange = (e) => {
         const newStore = e.target.value
@@ -94,11 +99,20 @@ function Main() {
 
         //클릭된 판매점 정보
         const clickedLocationInfo = locations[idx];
+        console.log(clickedLocationInfo);
         const { title, mapx, mapy } = clickedLocationInfo;
-        setTitle(title);
-        setMapx(mapx);
-        setMapy(mapy);
+
+        setSelectedStoreInfo({
+            title: title,
+            mapx: mapx,
+            mapy: mapy
+        })
         
+        //선택된 마커로 줌 
+        setZoom(20);
+        setLat(mapy);
+        setLng(mapx);
+
         const locationList = document.querySelector('.locationCarousel');
         const locationWrapper = locationList.querySelector('.locationWrapper');
         const locationWrapperWidth = locationWrapper.offsetWidth;
@@ -157,32 +171,10 @@ function Main() {
         setModalMessage('');
     }
 
-    const registerLocation = () => {
-        axios.post(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores`, 
-            { 
-                withCredentials: true,
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                } 
-            },
-            {
-                "request": {
-                  "title": title,
-                  "mapx": mapx,
-                  "mapy": mapy
-                },
-                "images": [
-                  "string"
-                ]
-            }
-        )
-        .then((res) => {
-            
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-    }
+    const registerLocation = (location) => {
+        setSelectedLocation(location);
+        setShowRegisterStoreModal(prevState => !prevState); 
+    };
 
     const searchStoreByName = () => {
         setStore('');
@@ -276,6 +268,7 @@ function Main() {
                                 onChange={handleChange}/>
                         </div>
                     </div>
+
                     {
                         showModal && (
                             <CustomModal 
@@ -321,13 +314,25 @@ function Main() {
                             ))}
                         </select>
                     )}    
+
+
+                    <div className='registerModal'>
+                        {
+                            showRegisterStoreModal && selectedLocation && (
+                                <RegisterStoreModal
+                                    request={selectedStoreInfo}
+                                />
+                            )
+                        }
+                    </div>
                 </div>
+
                 {
                     showLocationList && 
                     <LocationList 
                         locations={locations} 
                         selectedMarkerIdx={selectedMarkerIdx}
-                        // registerLocation={registerLocation}
+                        registerLocation={registerLocation}
                     />
                 }
             </NaverMap>
