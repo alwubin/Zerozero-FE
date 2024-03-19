@@ -100,18 +100,21 @@ function Main() {
         //클릭된 판매점 정보
         const clickedLocationInfo = locations[idx];
         console.log(clickedLocationInfo);
-        const { title, mapx, mapy } = clickedLocationInfo;
+        const { title, mapx, mapy, roadAddress } = clickedLocationInfo;
 
         setSelectedStoreInfo({
             title: title,
             mapx: mapx,
-            mapy: mapy
+            mapy: mapy, 
+            address: roadAddress,
+
         })
+        console.log(selectedStoreInfo);
         
         //선택된 마커로 줌 
-        setZoom(20);
-        setLat(mapy);
-        setLng(mapx);
+        // setZoom(20);
+        // setLat(mapy);
+        // setLng(mapx);
 
         const locationList = document.querySelector('.locationCarousel');
         const locationWrapper = locationList.querySelector('.locationWrapper');
@@ -316,7 +319,7 @@ function Main() {
                     )}    
 
 
-                    <div className='registerModal'>
+                    <div>
                         {
                             showRegisterStoreModal && selectedLocation && (
                                 <RegisterStoreModal
