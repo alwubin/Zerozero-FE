@@ -26,7 +26,7 @@ const mapStyle = {
     top: '0',
     bottom: '0',
     width: '100%',
-    maxWidth: '500px',
+    maxWidth: '540px',
     // padding: '0 20px',
     left: '50%',
     transform: 'translate(-50%, 0)',
@@ -66,7 +66,7 @@ function Main() {
     const [zoom, setZoom] = useState(11);
     const [markers, setMarkers] = useState(locations.map((location, idx) => ({
         position: new navermaps.LatLng((location.mapy)*0.0000001, (location.mapx)*0.0000001),
-        icon: '/images/noZeroMarker.png',
+        icon: location.selling ? '/images/yesZeroMarker.png' : '/images/noZeroMarker.png',
         scaledSize: new navermaps.Size(35, 47.5),
         origin: new navermaps.Point(0, 0),
     })));
@@ -88,6 +88,7 @@ function Main() {
     const [modalMessage, setModalMessage] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [showRegisterStoreModal, setShowRegisterStoreModal] = useState(false);
+    const [isSelling, setIsSelling] = useState(false);
 
     const handleChange = (e) => {
         const newStore = e.target.value
@@ -100,16 +101,17 @@ function Main() {
         //클릭된 판매점 정보
         const clickedLocationInfo = locations[idx];
         console.log(clickedLocationInfo);
-        const { title, mapx, mapy, roadAddress } = clickedLocationInfo;
+        const { title, mapx, mapy, roadAddress, selling } = clickedLocationInfo;
 
         setSelectedStoreInfo({
             title: title,
             mapx: mapx,
             mapy: mapy, 
             address: roadAddress,
-
         })
+        setIsSelling(selling);
         console.log(selectedStoreInfo);
+        console.log(isSelling);
         
         //선택된 마커로 줌 
         // setZoom(20);
@@ -245,7 +247,7 @@ function Main() {
                             key={idx}
                             position={marker.position}
                             icon={{
-                                url: selectedMarkerIdx === idx ? '/images/clickedNoZeroMarker.png' : '/images/noZeroMarker.png',
+                                url: selectedMarkerIdx === idx ? (marker.icon === '/images/yesZeroMarker.png' ? '/images/clickedYesZeroMarker.png' : '/images/clickedNoZeroMarker.png') : marker.icon,
                                 scaledSize: marker.scaledSize,
                                 origin: marker.origin,
                             }}
@@ -336,6 +338,7 @@ function Main() {
                         locations={locations} 
                         selectedMarkerIdx={selectedMarkerIdx}
                         registerLocation={registerLocation}
+                        isSelling={isSelling}
                     />
                 }
             </NaverMap>
