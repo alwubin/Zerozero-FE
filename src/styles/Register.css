@@ -1,0 +1,101 @@
+/* .registerModal {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 500px;
+    padding: 0 20px;
+  
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: white;
+
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.registerContentWrap {
+    margin-top: 16px;
+    flex: 1;
+}
+
+.infoTitle {
+    margin:10px 10px 10px 0;
+    font-size: 12px;
+    font-weight: 700;
+    color: #212121;
+}
+
+.infoContent {
+    width: 80%;
+    height: 25px;
+    text-align: center;
+    background-color: #EAE8E5;
+    border: none;
+    color: #554647;
+    border-radius: 8px;
+    padding: 8px 10px; 
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.infoTitle a {
+    font-size: 10px;
+    font-weight: 200;
+    padding-left: 10px;
+    color: #757575;
+}
+
+.imageContainer {
+    width: 80%;
+    height: 25px;
+    padding: 8px 10px; 
+    background-color: #EAE8E5;
+    border: none;
+    border-radius: 8px;
+}
+
+.imageInput {
+    width: 100%;
+    color: #554647;
+    outline: none;
+    border: none;
+    height: 25px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.imagePreviewContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 10px; 
+    padding: 20px; 
+    overflow-x: hidden; 
+}
+
+.imagePreview {
+    width: 100%; 
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.3s ease; 
+}
+
+.imagePreview:hover {
+    transform: scale(1.05); 
+}
+
+.registerStoreButton {
+    height: 28px;
+    border: none;
+    background-color: #cd5c5c;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.registerStoreButton:disabled {
+    background-color: #dadada;
+    color: white;
+} */
