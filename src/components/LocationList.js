@@ -3,7 +3,7 @@ import '../styles/LocationList.css';
 
 
 
-const LocationList = ({ locations, selectedMarkerIdx, registerLocation}) => {
+const LocationList = ({ locations, selectedMarkerIdx, registerLocation }) => {
     return (
         <div className='listContainer'>
             <div className='locationCarousel'>
@@ -19,7 +19,10 @@ const LocationList = ({ locations, selectedMarkerIdx, registerLocation}) => {
                         <p style={{color:'gray', marginTop:'5px', fontSize:'12px'}}>{location.category}</p>
                         <p style={{color: selectedMarkerIdx === idx ? '#EAE8E5' : 'black',
                                 marginTop:'8px', fontSize:'15px' }}>{location.address}</p>
-                        <button onClick={registerLocation}>등록하기</button>
+                        
+                        <button onClick={registerLocation} disabled={location.selling}>
+                            {location.selling ? '판매중' : '등록하기'}
+                        </button>
                     </div>
                 ))}
             </div>

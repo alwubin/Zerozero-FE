@@ -4,6 +4,7 @@ import Chat from './pages/Chat.js';
 import Login from './pages/Login.js';
 import SignUp from './pages/SignUp.js';
 import MyPage from './pages/MyPage.js';
+import Register from './pages/Register.js';
 
 import { Routes, Route, useNavigate, Navigate, useLocation } from 'react-router-dom'
 import { BiComment } from "react-icons/bi";
@@ -83,6 +84,7 @@ function App() {
             path="/mypage" 
             element={ isAuthenticated() ? <MyPage/> : <Navigate to="/login" /> } 
         />
+        <Route path="/register" element={<Register/>} /> 
         <Route path="*" element={<div>잘못된 접근입니다.</div>} /> 
       </Routes>
 

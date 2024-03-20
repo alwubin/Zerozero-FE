@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'; 
 import axios from 'axios';
 
-import Uploader from '../components/Uploader';
+import ProfileUploader from '../components/ProfileUploader';
 import PopUp from '../components/PopUp';
 import '../styles/MyPage.css';
 import { HiPencil } from "react-icons/hi";
@@ -17,7 +17,7 @@ import { HiPencil } from "react-icons/hi";
 function MyPage() {
     const [nickname, setNickname] = useState('');
     const [profileImage, setProfileImage] = useState('');
-    const [rank, setRank] = useState(0);
+    const [rank, setRank] = useState('');
     const [storeReportCount, setStoreReportCount] = useState(0);
 
     const [showUploader, setShowUploader] = useState(false);
@@ -53,7 +53,11 @@ function MyPage() {
             const myInfo = res.data.result;
             setNickname(myInfo.nickname);
             setProfileImage(myInfo.profileImage);
-            setRank(myInfo.rank);
+            if (myInfo.rank === -1) {
+                setRank('Unranked');
+            } else {
+                setRank(`${myInfo.rank}`);
+            }
             setStoreReportCount(myInfo.storeReportCount);
         })
         .catch((err) => {
@@ -78,19 +82,22 @@ function MyPage() {
                 </div>
                 
                 <div className='editProfileWrap'>
-                { showUploader && <PopUp content={<Uploader onClose={toggleUploader} profileImage={profileImage} setProfileImage={setProfileImage} />} onClose={toggleUploader} /> }
+                { showUploader && <PopUp content={<ProfileUploader onClose={toggleUploader} profileImage={profileImage} setProfileImage={setProfileImage} />} onClose={toggleUploader} /> }
                 </div>
 
                 <div className='myActivities'>
-                    <div className='activity' style={{marginRight:'20px'}}>
-                        <div className='value'>
+                    <div className='activity' >
+                        <div className='value' 
+                            style={rank === 'Unranked' ? 
+                            { fontSize: '17px',  marginTop: '28px',  color: '#515163' } : 
+                            { marginTop: '5px', fontSize: '40px', fontWeight: '700',  color: '#EAE8E5'}}>
                             {rank}
                         </div>
                         <div className='valueTitle'>
                             내 랭킹
                         </div>
                     </div>
-                    <div className='activity'>
+                    <div className='activity' >
                         <div className='value'>
                             {storeReportCount}
                         </div>

@@ -6,6 +6,7 @@ import axios from 'axios';
 import CustomAlert from '../components/CustomAlert';
 import CustomModal from '../components/CustomModal';
 import LocationList from '../components/LocationList';
+import RegisterStoreModal from '../components/RegisterStoreModal';
 import { seoulAreas } from '../constants';
 import { IoIosSearch } from "react-icons/io";
 import '../styles/Main.css';
@@ -25,7 +26,7 @@ const mapStyle = {
     top: '0',
     bottom: '0',
     width: '100%',
-    maxWidth: '500px',
+    maxWidth: '540px',
     // padding: '0 20px',
     left: '50%',
     transform: 'translate(-50%, 0)',
@@ -65,24 +66,29 @@ function Main() {
     const [zoom, setZoom] = useState(11);
     const [markers, setMarkers] = useState(locations.map((location, idx) => ({
         position: new navermaps.LatLng((location.mapy)*0.0000001, (location.mapx)*0.0000001),
-        icon: '/images/noZeroMarker.png',
+        icon: location.selling ? '/images/yesZeroMarker.png' : '/images/noZeroMarker.png',
         scaledSize: new navermaps.Size(35, 47.5),
         origin: new navermaps.Point(0, 0),
     })));
 
     const [selectedMarkerIdx, setSelectedMarkerIdx] = useState(null);
-    const [title, setTitle] = useState('');
-    const [mapx, setMapx] = useState('');
-    const [mapy, setMapy] = useState('');
+    const [selectedLocation, setSelectedLocation] = useState(null);
     const [selectedCity, setSelectedCity] = useState('서울특별시');
     const [selectedDistrict, setSelectedDistrict] = useState(defaultDistrict);
     const [selectedDong, setSelectedDong] = useState(defaultDong);
+    const [selectedStoreInfo, setSelectedStoreInfo] = useState({
+        title: '',
+        mapx: '',
+        mapy: ''
+    });
 
     //alert 모달 
     const [alertMessage, setAlertMessage] = useState('');
     const [showAlert, setShowAlert] = useState(false);
     const [modalMessage, setModalMessage] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [showRegisterStoreModal, setShowRegisterStoreModal] = useState(false);
+    const [isSelling, setIsSelling] = useState(false);
 
     const handleChange = (e) => {
         const newStore = e.target.value
@@ -94,11 +100,24 @@ function Main() {
 
         //클릭된 판매점 정보
         const clickedLocationInfo = locations[idx];
-        const { title, mapx, mapy } = clickedLocationInfo;
-        setTitle(title);
-        setMapx(mapx);
-        setMapy(mapy);
+        console.log(clickedLocationInfo);
+        const { title, mapx, mapy, roadAddress, selling } = clickedLocationInfo;
+
+        setSelectedStoreInfo({
+            title: title,
+            mapx: mapx,
+            mapy: mapy, 
+            address: roadAddress,
+        })
+        setIsSelling(selling);
+        console.log(selectedStoreInfo);
+        console.log(isSelling);
         
+        //선택된 마커로 줌 
+        // setZoom(20);
+        // setLat(mapy);
+        // setLng(mapx);
+
         const locationList = document.querySelector('.locationCarousel');
         const locationWrapper = locationList.querySelector('.locationWrapper');
         const locationWrapperWidth = locationWrapper.offsetWidth;
@@ -157,32 +176,10 @@ function Main() {
         setModalMessage('');
     }
 
-    const registerLocation = () => {
-        axios.post(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores`, 
-            { 
-                withCredentials: true,
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                } 
-            },
-            {
-                "request": {
-                  "title": title,
-                  "mapx": mapx,
-                  "mapy": mapy
-                },
-                "images": [
-                  "string"
-                ]
-            }
-        )
-        .then((res) => {
-            
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-    }
+    const registerLocation = (location) => {
+        setSelectedLocation(location);
+        setShowRegisterStoreModal(prevState => !prevState); 
+    };
 
     const searchStoreByName = () => {
         setStore('');
@@ -250,7 +247,7 @@ function Main() {
                             key={idx}
                             position={marker.position}
                             icon={{
-                                url: selectedMarkerIdx === idx ? '/images/clickedNoZeroMarker.png' : '/images/noZeroMarker.png',
+                                url: selectedMarkerIdx === idx ? (marker.icon === '/images/yesZeroMarker.png' ? '/images/clickedYesZeroMarker.png' : '/images/clickedNoZeroMarker.png') : marker.icon,
                                 scaledSize: marker.scaledSize,
                                 origin: marker.origin,
                             }}
@@ -276,6 +273,7 @@ function Main() {
                                 onChange={handleChange}/>
                         </div>
                     </div>
+
                     {
                         showModal && (
                             <CustomModal 
@@ -321,13 +319,26 @@ function Main() {
                             ))}
                         </select>
                     )}    
+
+
+                    <div>
+                        {
+                            showRegisterStoreModal && selectedLocation && (
+                                <RegisterStoreModal
+                                    request={selectedStoreInfo}
+                                />
+                            )
+                        }
+                    </div>
                 </div>
+
                 {
                     showLocationList && 
                     <LocationList 
                         locations={locations} 
                         selectedMarkerIdx={selectedMarkerIdx}
-                        // registerLocation={registerLocation}
+                        registerLocation={registerLocation}
+                        isSelling={isSelling}
                     />
                 }
             </NaverMap>
