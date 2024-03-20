@@ -14,21 +14,25 @@ const RegisterStoreModal = ({ request }) => {
 
     const registerLocation = () => {
         const formData = new FormData();
-        images.forEach((image, index) => {
-            formData.append(`image${index + 1}`, image);
-        });
 
         const requestData = {
             title: request.title,
             mapx: request.mapx,
-            mapy: request.mapy,
-            address: request.address
+            mapy: request.mapy
         };
-
-        formData.append('requestData', JSON.stringify(requestData));
-
+        formData.append('request', JSON.stringify(requestData));
+    
+        images.forEach((image, index) => {
+            formData.append(`images`, image);
+        });
+        
+        // formData에 추가된 데이터 확인
+        for (const pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]); 
+        }
+    
         axios.post(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores`, 
-        formData,
+            formData,
             { 
                 withCredentials: true,
                 headers: {
@@ -43,7 +47,7 @@ const RegisterStoreModal = ({ request }) => {
         .catch((err) => {
             console.log(err);
         })
-    }
+    } 
 
     const handleRegisterButtonClick = () => {
         registerLocation();
@@ -62,7 +66,7 @@ const RegisterStoreModal = ({ request }) => {
                 <div className='infoTitle'>
                     가게 주소 :
                 </div>
-                <div className='infoContent'>
+                <div className='infoAddress'>
                     {request.address}
                 </div>
 
