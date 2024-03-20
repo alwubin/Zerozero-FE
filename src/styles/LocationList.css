@@ -44,3 +44,7 @@
 .locationWrapper button:hover {
     color: #554647;
 }
+.locationWrapper button:disabled {
+    background-color: #CD5C5C;
+    color: #EBDBAC;
+}
