@@ -1,6 +1,6 @@
 import './App.css';
 import Main from './pages/Main.js';
-import Chat from './pages/Chat.js';
+import Register from './pages/Register.js';
 import Login from './pages/Login.js';
 import SignUp from './pages/SignUp.js';
 import MyPage from './pages/MyPage.js';
@@ -73,7 +73,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<Main/>} />
-        <Route path="/chat" element={<Chat/>} />
+        <Route path="/register" element={<Register/>} />
         <Route 
             path="/login" 
             element={ isAuthenticated() ? <Navigate to="/mypage" /> : <Login/> } 
@@ -88,10 +88,10 @@ function App() {
 
       {/* Footer: 하단 바 */}
       <div className='servicesBox'>
-        <div className='chatService' 
-          onClick={() => {navigateAndSetClicked('/chat')}}
+        <div className='registerService' 
+          onClick={() => {navigateAndSetClicked('/register')}}
           style={{
-            ...(isClicked === '/chat' || hoveredService === 'chat' ? clicked : unClicked),
+            ...(isClicked === '/register' || hoveredService === 'register' ? clicked : unClicked),
           }}
           onMouseOver={() => handleMouseOver('chat')}
           onMouseOut={handleMouseOut}
