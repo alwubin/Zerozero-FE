@@ -11,7 +11,7 @@ import StoreListModal from '../components/StoreListModal';
 import '../styles/Register.css';
 
 
-function Chat(request) {
+function Register(request) {
     const navigate = useNavigate();
 
     const [images, setImages] = useState([]);
@@ -63,10 +63,13 @@ function Chat(request) {
         setModalMessage('');
     }
 
-    const handleStoreListModal = () => {
+    const handleStoreListModal = (location) => {
         setShowStoreList(false);
-        setTitle('');
-    }
+        setTitle(location.title); 
+        setAddress(location.address); 
+        setMapx(location.mapx); 
+        setMapy(location.mapy); 
+    };
 
     const handleImageUpload = (e) => {
         const uploadImages = Array.from(e.target.files);
@@ -119,12 +122,21 @@ function Chat(request) {
 
     const registerLocation = () => {
         const formData = new FormData();
+        let requestData;
 
-        const requestData = {
-            title: request.title,
-            mapx: request.mapx,
-            mapy: request.mapy
-        };
+        if (request) {
+            requestData = {
+                title: request.title,
+                mapx: request.mapx,
+                mapy: request.mapy
+            };
+        } else {
+            requestData = {
+                title: title,
+                mapx: mapx,
+                mapy: mapy
+            };
+        }
         formData.append('request', JSON.stringify(requestData));
     
         images.forEach((image, index) => {
@@ -155,7 +167,8 @@ function Chat(request) {
     }
 
     useEffect(() => {
-        if (Object.keys(request).length !== 0 && images.length !== 0) {
+        if ((Object.keys(request).length !== 0 && images.length !== 0) 
+        || (title.length !== 0 && address.length !== 0 && mapx !== 0 && mapy !== 0 && images.length !== 0)) {
             setNotAllow(false);
             return;
         }
@@ -248,7 +261,9 @@ function Chat(request) {
                     가게 주소
                 </div>
                 <div className='infoAddress'>
-                    {request.address}
+                    {
+                        Object.keys(request).length !== 0 ? request.address : address
+                    }
                 </div>
 
                 
@@ -267,4 +282,4 @@ function Chat(request) {
 }
 
 
-export default Chat;
+export default Register;
