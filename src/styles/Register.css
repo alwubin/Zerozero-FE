@@ -1,4 +1,4 @@
-/* .registerModal {
+.chatPage {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -8,7 +8,7 @@
   
     left: 50%;
     transform: translate(-50%, 0);
-    background-color: white;
+    background-color: #212121;
 
     overflow: hidden;
 
@@ -16,43 +16,96 @@
     flex-direction: column;
 }
 
+.titleWrap {
+    margin: 87px 0 0 0;
+    font-size: 26px;
+    font-weight: 700;
+    color: #fffafa;
+}
+
 .registerContentWrap {
-    margin-top: 16px;
+    margin-top: 10px;
     flex: 1;
 }
 
 .infoTitle {
-    margin:10px 10px 10px 0;
-    font-size: 12px;
+    margin:26px 10px 10px 0;
+    font-size: 13px;
     font-weight: 700;
-    color: #212121;
+    color: #fffafa;;
 }
 
+.inputStyle {
+    width: 100%;
+    height: 35px;
+    outline: none;
+    border: none;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.alertMsgWarpForRegister {
+    margin:27px 10px 10px 0;
+    color: #ef0000;
+    font-size: 11px;
+}
+
+.searchButtonForRegister {
+    position: relative;
+    left: 5px;
+    bottom: 35px;
+    display: flex;
+    border: none;
+    outline: none;
+    width: 10%;
+    font-size: larger;
+    float: right;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+
 .infoContent {
-    width: 80%;
-    height: 25px;
+    width: 96%;
+    height: 35px;
     text-align: center;
-    background-color: #EAE8E5;
+    background-color: #fffafa;
     border: none;
     color: #554647;
     border-radius: 8px;
     padding: 8px 10px; 
+    line-height: 25px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.infoAddress {
+    width: 96%;
+    height: 35px;
+    background-color: #fffafa;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 10px; 
     font-size: 14px;
     font-weight: 600;
+    display : flex;
+    justify-content : center;
+    align-items : center;
 }
 
 .infoTitle a {
     font-size: 10px;
     font-weight: 200;
     padding-left: 10px;
-    color: #757575;
+    color: #A9A9A9;
 }
 
 .imageContainer {
-    width: 80%;
-    height: 25px;
+    width: 96%;
+    height: 35px;
     padding: 8px 10px; 
-    background-color: #EAE8E5;
+    background-color: #fffafa;
     border: none;
     border-radius: 8px;
 }
@@ -61,34 +114,19 @@
     width: 100%;
     color: #554647;
     outline: none;
+    padding-top: 7px;
     border: none;
     height: 25px;
     font-size: 14px;
     font-weight: 400;
 }
 
-.imagePreviewContainer {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 10px; 
-    padding: 20px; 
-    overflow-x: hidden; 
-}
-
-.imagePreview {
-    width: 100%; 
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-    transition: transform 0.3s ease; 
-}
-
-.imagePreview:hover {
-    transform: scale(1.05); 
-}
-
 .registerStoreButton {
-    height: 28px;
+    width: 48%;
+    height: 48px;
+    margin-top: 26px;
     border: none;
+    font-weight: 700;
     background-color: #cd5c5c;
     color: white;
     border-radius: 8px;
@@ -98,4 +136,5 @@
 .registerStoreButton:disabled {
     background-color: #dadada;
     color: white;
-} */
+}
+    

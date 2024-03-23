@@ -1,10 +1,9 @@
 import './App.css';
 import Main from './pages/Main.js';
-import Chat from './pages/Chat.js';
+import Register from './pages/Register.js';
 import Login from './pages/Login.js';
 import SignUp from './pages/SignUp.js';
 import MyPage from './pages/MyPage.js';
-import Register from './pages/Register.js';
 
 import { Routes, Route, useNavigate, Navigate, useLocation } from 'react-router-dom'
 import { BiComment } from "react-icons/bi";
@@ -74,7 +73,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<Main/>} />
-        <Route path="/chat" element={<Chat/>} />
+        <Route path="/register" element={<Register/>} />
         <Route 
             path="/login" 
             element={ isAuthenticated() ? <Navigate to="/mypage" /> : <Login/> } 
@@ -84,16 +83,15 @@ function App() {
             path="/mypage" 
             element={ isAuthenticated() ? <MyPage/> : <Navigate to="/login" /> } 
         />
-        <Route path="/register" element={<Register/>} /> 
         <Route path="*" element={<div>잘못된 접근입니다.</div>} /> 
       </Routes>
 
       {/* Footer: 하단 바 */}
       <div className='servicesBox'>
-        <div className='chatService' 
-          onClick={() => {navigateAndSetClicked('/chat')}}
+        <div className='registerService' 
+          onClick={() => {navigateAndSetClicked('/register')}}
           style={{
-            ...(isClicked === '/chat' || hoveredService === 'chat' ? clicked : unClicked),
+            ...(isClicked === '/register' || hoveredService === 'register' ? clicked : unClicked),
           }}
           onMouseOver={() => handleMouseOver('chat')}
           onMouseOut={handleMouseOut}
@@ -102,7 +100,7 @@ function App() {
             <BiComment style={{fontSize:'27px'}}/>
             <GiSodaCan style={{zIndex:'1001', fontSize:'12px', position:'absolute', bottom:'33px', left:'104px'}}/>
           </div>
-          채팅방 
+          제보하기
         </div>
 
         <div className='mapService' 
