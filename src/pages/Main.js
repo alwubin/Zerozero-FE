@@ -71,7 +71,6 @@ function Main() {
     })));
 
     const [selectedMarkerIdx, setSelectedMarkerIdx] = useState(null);
-    const [selectedLocation, setSelectedLocation] = useState(null);
     const [selectedCity, setSelectedCity] = useState('서울특별시');
     const [selectedDistrict, setSelectedDistrict] = useState(defaultDistrict);
     const [selectedDong, setSelectedDong] = useState(defaultDong);
@@ -128,6 +127,10 @@ function Main() {
     }
 
     useEffect(() => {
+        console.log(selectedStoreInfo); // 변경된 selectedStoreInfo 확인
+    }, [selectedStoreInfo]);
+
+    useEffect(() => {
         navermaps.Service.geocode(
             {
                 query: `${selectedCity} ${selectedDistrict} ${selectedDong}`,
@@ -161,17 +164,17 @@ function Main() {
         setSelectedDong(e.target.value);
     };
 
-    // const logoutUser = () => {
-    //     localStorage.removeItem('token');
-    //     window.location.href = '/';
-    // }
 
-    const handleModal =() => {
+    const handleModal = () => {
         setShowModal(false);
         if (modalMessage === '로그인이 필요한 서비스입니다.') {
             navigate('/login');
         }        
         setModalMessage('');
+    }
+
+    const handleRegisterLocation = () => {
+        navigate('/register', { state: { selectedStoreInfo } });
     }
 
 
@@ -323,6 +326,7 @@ function Main() {
                         locations={locations} 
                         selectedMarkerIdx={selectedMarkerIdx}
                         isSelling={isSelling}
+                        registerLocation={handleRegisterLocation}
                     />
                 }
             </NaverMap>
