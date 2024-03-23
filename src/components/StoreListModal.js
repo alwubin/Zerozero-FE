@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/StoreListModal.css';
 
-const StoreListModal = ({ locations }) => {
+const StoreListModal = ({ locations, clickHandler }) => {
     const [hoveredIndex, setHoveredIndex] = useState(null);
 
     const handleMouseEnter = (index) => {
@@ -10,6 +10,10 @@ const StoreListModal = ({ locations }) => {
 
     const handleMouseLeave = () => {
         setHoveredIndex(null);
+    };
+
+    const handleClick = (location) => {
+        clickHandler(location);
     };
 
     return (
@@ -21,7 +25,7 @@ const StoreListModal = ({ locations }) => {
                             className={`storeSimpleInfo ${hoveredIndex === idx ? 'hovered' : ''}`}
                             onMouseEnter={() => handleMouseEnter(idx)}
                             onMouseLeave={handleMouseLeave}
-                            onClick={() => console.log(`판매점명: ${location.title}`)}
+                            onClick={() => handleClick(location)} // 클릭 이벤트 핸들러 수정
                         >
                             <div className='storeTitle'>
                                 {location.title}
