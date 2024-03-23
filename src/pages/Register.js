@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import axios from 'axios';
 
 import { seoulAreas } from '../constants';
@@ -11,8 +11,11 @@ import StoreListModal from '../components/StoreListModal';
 import '../styles/Register.css';
 
 
-function Register(request) {
+function Register() {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const request = location.state?.selectedStoreInfo || {};
 
     const [images, setImages] = useState([]);
     const [notAllow, setNotAllow] = useState(true);
@@ -122,21 +125,13 @@ function Register(request) {
 
     const registerLocation = () => {
         const formData = new FormData();
-        let requestData;
 
-        if (request) {
-            requestData = {
-                title: request.title,
-                mapx: request.mapx,
-                mapy: request.mapy
-            };
-        } else {
-            requestData = {
-                title: title,
-                mapx: mapx,
-                mapy: mapy
-            };
-        }
+        const requestData = {
+            title: title || request.title,
+            mapx: mapx || request.mapx,
+            mapy: mapy || request.mapy
+        };
+
         formData.append('request', JSON.stringify(requestData));
     
         images.forEach((image, index) => {
@@ -156,9 +151,12 @@ function Register(request) {
         )
         .then((res) => {
             console.log('성공적으로 등록되었습니다!')
+            alert('성공적으로 등록되었습니다!');
+            navigate('/');
         })
         .catch((err) => {
             console.log(err);
+            console.log(`title: ${title} `);
         })
     } 
 
