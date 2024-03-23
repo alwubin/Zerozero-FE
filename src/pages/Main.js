@@ -6,7 +6,6 @@ import axios from 'axios';
 import CustomAlert from '../components/CustomAlert';
 import CustomModal from '../components/CustomModal';
 import LocationList from '../components/LocationList';
-import RegisterStoreModal from '../components/RegisterStoreModal';
 import { seoulAreas } from '../constants';
 import { IoIosSearch } from "react-icons/io";
 import '../styles/Main.css';
@@ -87,7 +86,6 @@ function Main() {
     const [showAlert, setShowAlert] = useState(false);
     const [modalMessage, setModalMessage] = useState('');
     const [showModal, setShowModal] = useState(false);
-    const [showRegisterStoreModal, setShowRegisterStoreModal] = useState(false);
     const [isSelling, setIsSelling] = useState(false);
 
     const handleChange = (e) => {
@@ -176,10 +174,6 @@ function Main() {
         setModalMessage('');
     }
 
-    const registerLocation = (location) => {
-        setSelectedLocation(location);
-        setShowRegisterStoreModal(prevState => !prevState); 
-    };
 
     const searchStoreByName = () => {
         setStore('');
@@ -321,15 +315,6 @@ function Main() {
                     )}    
 
 
-                    <div>
-                        {
-                            showRegisterStoreModal && selectedLocation && (
-                                <RegisterStoreModal
-                                    request={selectedStoreInfo}
-                                />
-                            )
-                        }
-                    </div>
                 </div>
 
                 {
@@ -337,7 +322,6 @@ function Main() {
                     <LocationList 
                         locations={locations} 
                         selectedMarkerIdx={selectedMarkerIdx}
-                        registerLocation={registerLocation}
                         isSelling={isSelling}
                     />
                 }
