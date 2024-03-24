@@ -19,6 +19,7 @@ function MyPage() {
     const [profileImage, setProfileImage] = useState('');
     const [rank, setRank] = useState('');
     const [storeReportCount, setStoreReportCount] = useState(0);
+    const [registeredStoreList, setRegisteredStoreList] = useState([]);
 
     const [showUploader, setShowUploader] = useState(false);
 
@@ -41,6 +42,10 @@ function MyPage() {
         }
     }, []);
 
+    useEffect(() => {
+
+    })
+
     const inquireMyPage = () => {
         axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users/my-page`, { 
             withCredentials: true,
@@ -59,6 +64,21 @@ function MyPage() {
                 setRank(`${myInfo.rank}`);
             }
             setStoreReportCount(myInfo.storeReportCount);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+
+    const inquireRegisteredPlaces = () => {
+        axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users/storeList`, {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            } 
+        })
+        .then((res) => {
+            setRegisteredStoreList(res.data.result);
         })
         .catch((err) => {
             console.log(err);
@@ -97,8 +117,10 @@ function MyPage() {
                             내 랭킹
                         </div>
                     </div>
-                    <div className='activity' >
-                        <div className='value'>
+                    <div className='activity'
+                        style={{ cursor: 'pointer'}} 
+                        onClick={inquireRegisteredPlaces}>
+                        <div className='reportValue'>
                             {storeReportCount}
                         </div>
                         <div className='valueTitle'>

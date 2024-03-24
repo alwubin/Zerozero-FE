@@ -114,7 +114,16 @@
     color: #EAE8E5;
 }
 
-
+.reportValue {
+    margin-top: 5px;
+    font-size: 40px;
+    font-weight: 700;
+    color: #EAE8E5;
+}
+.reportValue:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}
 
 .logoutButton {
     width: 69%;
