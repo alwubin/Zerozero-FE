@@ -91,7 +91,7 @@
     position: relative; /* 부모로부터 상대적인 위치 지정 */
     width: 33%;
     height: 85%;
-    margin-right: 10px;
+    margin-right: 8px;
     text-align: center;
     background-color: rgba(205, 92, 92, 0.3);
     color: #fffafa;
@@ -126,8 +126,9 @@
 }
 
 .logoutButton {
-    width: 69%;
+    width: 68%;
     height: 48px;
+    /* margin-top: 230px; */
     margin-top: 66px;
     border: none;
     font-weight: 700;
