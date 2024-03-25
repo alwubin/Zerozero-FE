@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import ProfileUploader from '../components/ProfileUploader';
+import RegisteredStoreListModal from '../components/RegisteredStoreListModal';
 import PopUp from '../components/PopUp';
 import '../styles/MyPage.css';
 import { HiPencil } from "react-icons/hi";
@@ -19,11 +20,17 @@ function MyPage() {
     const [profileImage, setProfileImage] = useState('');
     const [rank, setRank] = useState('');
     const [storeReportCount, setStoreReportCount] = useState(0);
+    const [registeredStoreList, setRegisteredStoreList] = useState([]);
 
     const [showUploader, setShowUploader] = useState(false);
+    const [showList, setShowList] = useState(false);
 
     const toggleUploader = () => {
         setShowUploader(prevState => !prevState);
+    }
+
+    const clickHandler = () => {
+        setShowList(prevState => !prevState);
     }
 
     const logoutUser = () => {
@@ -40,6 +47,7 @@ function MyPage() {
             inquireMyPage();
         }
     }, []);
+
 
     const inquireMyPage = () => {
         axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users/my-page`, { 
@@ -59,6 +67,23 @@ function MyPage() {
                 setRank(`${myInfo.rank}`);
             }
             setStoreReportCount(myInfo.storeReportCount);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+
+    const inquireRegisteredPlaces = () => {
+        axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users/storeList`, {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            } 
+        })
+        .then((res) => {
+            setRegisteredStoreList(res.data.result);
+            console.log(res.data.result);
+            setShowList(true);
         })
         .catch((err) => {
             console.log(err);
@@ -85,6 +110,13 @@ function MyPage() {
                 { showUploader && <PopUp content={<ProfileUploader onClose={toggleUploader} profileImage={profileImage} setProfileImage={setProfileImage} />} onClose={toggleUploader} /> }
                 </div>
 
+                {
+                    showList && 
+                    <RegisteredStoreListModal 
+                        registeredStoreList={registeredStoreList}
+                        clickHandler={clickHandler} />
+                }
+
                 <div className='myActivities'>
                     <div className='activity' >
                         <div className='value' 
@@ -97,8 +129,10 @@ function MyPage() {
                             내 랭킹
                         </div>
                     </div>
-                    <div className='activity' >
-                        <div className='value'>
+                    <div className='activity'
+                        style={{ cursor: 'pointer'}} 
+                        onClick={inquireRegisteredPlaces}>
+                        <div className='reportValue'>
                             {storeReportCount}
                         </div>
                         <div className='valueTitle'>

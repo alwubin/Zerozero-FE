@@ -91,7 +91,7 @@
     position: relative; /* 부모로부터 상대적인 위치 지정 */
     width: 33%;
     height: 85%;
-    margin-right: 10px;
+    margin-right: 8px;
     text-align: center;
     background-color: rgba(205, 92, 92, 0.3);
     color: #fffafa;
@@ -114,11 +114,21 @@
     color: #EAE8E5;
 }
 
-
+.reportValue {
+    margin-top: 5px;
+    font-size: 40px;
+    font-weight: 700;
+    color: #EAE8E5;
+}
+.reportValue:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}
 
 .logoutButton {
-    width: 69%;
+    width: 68%;
     height: 48px;
+    /* margin-top: 230px; */
     margin-top: 66px;
     border: none;
     font-weight: 700;
