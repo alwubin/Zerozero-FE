@@ -1,10 +1,45 @@
-.registeredStoreListWrap {
+.registeredStoreListContainer{
     z-index: 99999999;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     border-radius: 8px;
     width: 100%;
-    max-width: 400px;
-    height: 400px;
+    max-width: 348px;
+    height: 100%;
+    max-height: 200px;
+    overflow-y: auto;
     background-color: white;
+    /* padding-right: 20px; */
+}
+
+.modalCloseButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 5px 10px ; 
+    border-radius: 8px;
+    width: 11px;
+    height: 11px;
+    background-color: #cd5c5c;
+    font-size: 9px;
+    text-align: center;
+    cursor: pointer; 
+}
+
+.registeredStoreInfo {
+    padding: 8px 0 0 15px;
+}
+
+.registeredStoreInfo:first-child {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.registeredStoreInfo:last-child {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 
 .registeredStoreListContent {
@@ -13,21 +48,29 @@
     color: black;
 }
 
-/* .storeId {
-    flex: 0 0 auto; 
-    margin-left: 15px;
-    margin-right: 10px;
-} */
-  
-.storeName {
-    font-size: 12px;
-    flex: 1 1 auto;
-    margin-right: 10px;
+.registerStoreTitle {
+    color: black;
+    font-size: 13px;
+    font-weight: 900;
+    padding-bottom: 3px;
 }
   
-.storeAddress {
+.registerStoreAddress {
+    color: black;
     flex: 0 1 auto;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    font-size: 12px;
+    padding-bottom: 8px;
+}
+
+.registerStoreCategory {
+    font-size: 10px;
+    color: #A9A9A9;
+    padding-bottom: 3px;
+}
+
+hr {
+    margin: 0;
 }
