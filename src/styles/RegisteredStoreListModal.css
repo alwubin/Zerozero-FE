@@ -1,8 +1,8 @@
 .registeredStoreListContainer{
     z-index: 99999999;
     position: absolute;
-    top: 55%;
-    left: 50%;
+    top: 62%;
+    left: 49%;
     transform: translate(-50%, -50%);
     border-radius: 8px;
     width: 100%;
