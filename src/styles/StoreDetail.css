@@ -5,7 +5,7 @@
     width: 100%;
     max-width: 500px;
     padding: 0 20px;
-  
+    height: 800px;
     left: 50%;
     transform: translate(-50%, 0);
     background-color: #212121;
@@ -16,14 +16,14 @@
     flex-direction: column;
 }
 
-.registeredStoreImage {
-    color: white;
-    text-align: center;
+.scrollInfo {
+    overflow-y: scroll;
 }
 
 .storeDetailTitleWrap {
-    z-index: 99; /* storeDetailTitleWrap 요소를 위로 올리기 */
-    margin: 87px 0 0 50px;
+    position: relative; /* .storeDetailTitleWrap의 position을 변경 */
+    z-index: 999; /* .storeDetailTitleWrap을 위로 올리기 */
+    margin: 60px 0 0 50px;
     font-size: 29px;
     font-weight: 600;
     width: 100%;
@@ -34,17 +34,30 @@
     background-color: white;
     color: #212121;
     text-align: center;
-    border: 0.8px solid black;
+    border: 0.8px solid #EAE7E7;
     box-shadow: 0 4px 4px -4px black;
 }
 
+.storeDetailImage {
+    position: absolute; 
+    top: 0; 
+    left: 0;
+    z-index: 998; 
+    width: 100%;
+    max-width: 540px;
+    height: 250px;
+    object-fit: fill;
+}
+
+
 .storeDetailContainer {
-    z-index: 9; /* storeDetailContainer 요소를 아래로 내리기 */
+    position: relative; /* 각 요소의 position을 relative로 설정 */
+    z-index: 999;
     color: black;
     background-color: white;
     height: 100%;
     max-height: 130px;
-    padding: 20px 0 0 20px; 
+    padding: 20px 0 10px 20px; 
     font-size: 16px;
     font-weight: 700;
 }
@@ -67,13 +80,204 @@
 }
 
 .reviewInputBox {
-    margin-top: 30px;
+    overflow-y: scroll;
+    color: black;
+    padding: 20px; 
+    font-size: 16px;
+    font-weight: 700;
+    position: relative; 
+    z-index: 999;
+    margin-top: 10px;
     background-color: white;
-    height: 200px;
+    height: 300px;
+}
+
+.reviewForm {
+    padding: 10px 0 0 0;
+    height: 250px;
+}
+
+.reviewQuestion {
+    font-size: 13px;
+    font-weight: 400;
+    padding: 40px 0 0 100px;
+    margin-bottom: 20px;
+    color: black;
+}
+
+.reviewInput {
+    margin-top: 20px;
+    height: 90px;
+    width: 100%;
+    max-width: 450px;
+    border: 1px solid #EAE7E7;
+}
+
+.reviewInput::placeholder {
+    font-size: 10px;
+    font-weight: 200;
+    padding-left: 10px;
+}
+
+.radioButtonWrap {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.radioButton {
+    width: 18%;
+    flex: 0 0 19%; 
+    height: 20px;
+    border: 1px solid #EAE7E7;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    box-sizing: border-box; 
+}
+
+.radioButton input[type=checkbox] {
+    display: none;
+}
+
+.radioButton label {
+    display: block;
+    font-weight: 200;
+    border-radius: 10px;
+    margin: 0 auto;
+    text-align: center;
+    height: -webkit-fill-available;
+    line-height: 20px;
+    font-size: 8px;
+}
+
+.radioButton input[type=checkbox]:checked + label {
+    background: #cd5c5c;
+    color: #fff;
+}
+
+.radioButton label:hover {
+    background-color: #cd5c5c;
+    color: #fff;
 }
 
 .reviewList {
-    margin-top: 10px;
+    color: black;
+    /* padding: 20px 0 0 20px;  */
+    position: relative;
+    z-index: 999;
+    margin: 10px 0 20px 0;
     background-color: white;
-    height: 200px;
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.reviewListTitle {
+    padding: 20px 0 0 20px; 
+    font-size: 16px;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+a {
+    font-size: 10px;
+    font-weight: 100;
+    padding-left: 10px;
+    color: #A9A9A9;
+}
+
+
+.zeroDrinkRankWrap {
+    display: flex;
+    justify-content: center; 
+    margin-bottom: 10px;
+}
+
+.zeroDrinkRank {
+    display: flex;
+    align-items: flex-end;
+}
+
+.rankWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rankIconWrap {
+    font-size: 10px;
+    margin-bottom: 5px;
+    font-weight: 200x;
+}
+
+.rank1, .rank2, .rank3 {
+    background-color: #EBDBAC;
+    color: white;
+    font-weight: bold;
+    margin: 0; 
+}
+
+.rank1 {
+    font-size: 63px;
+    padding: 15px 20px 0 20px;
+}
+
+.rank2 {
+    font-size: 40px;
+    padding: 10px 20px 5px 20px;
+}
+
+.rank3 {
+    font-size: 30px;
+    padding: 8px 20px 5px 20px;
+}
+
+.rankIcon {
+    width: 20px;
+    height: 37px;
+}
+
+.review {
+    width: 100%;
+    max-width: 480px;
+    margin: 10px 20px 0 10px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.review-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.nickname {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.zero-drink-icons {
+    display: flex;
+    align-items: center;
+}
+
+.zero-drink-icon {
+    margin-right: 5px;
+}
+
+.zero-drink-icon img {
+    width: 10px;
+    height: 20px;
+}
+
+.review-content {
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+hr {
+    margin: 0;
 }
