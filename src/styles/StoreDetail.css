@@ -8,7 +8,7 @@
     height: 800px;
     left: 50%;
     transform: translate(-50%, 0);
-    background-color: #212121;
+    background-color: #f3f3f3;
 
     overflow: hidden;
 
@@ -23,7 +23,7 @@
 .storeDetailTitleWrap {
     position: relative; /* .storeDetailTitleWrap의 position을 변경 */
     z-index: 999; /* .storeDetailTitleWrap을 위로 올리기 */
-    margin: 60px 0 0 50px;
+    margin: 60px 0 20px 50px;
     font-size: 29px;
     font-weight: 600;
     width: 100%;
@@ -34,7 +34,8 @@
     background-color: white;
     color: #212121;
     text-align: center;
-    border: 0.8px solid #EAE7E7;
+    border-radius: 13px;
+    /* border: 0.8px solid #EAE7E7; */
     box-shadow: 0 4px 4px -4px black;
 }
 
@@ -51,6 +52,7 @@
 
 
 .storeDetailContainer {
+    border-radius: 13px;
     position: relative; /* 각 요소의 position을 relative로 설정 */
     z-index: 999;
     color: black;
@@ -58,28 +60,28 @@
     height: 100%;
     max-height: 130px;
     padding: 20px 0 10px 20px; 
+}
+
+.storeDetailInfoTitle {
     font-size: 16px;
     font-weight: 700;
 }
 
-.storeDetailAddress {
+.storeDetailInfoWrap {
+    display: flex;
+    align-items: center;
     padding-top: 20px;
-    font-size: 14px;
-    font-weight: 500;
-}
-.storeDetailContent {
-    padding-top: 10px;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 12px;
+    font-weight: 300;
 }
 
-.storeDetailCategory {
-    padding-top: 10px;
-    font-size: 14px;
-    font-weight: 500;
+.storeDetailInfoWrap svg {
+    font-size: 15px;
+    margin-right: 5px;
 }
 
-.reviewInputBox {
+.reviewInputContainer {
+    border-radius: 13px;
     overflow-y: scroll;
     color: black;
     padding: 20px; 
@@ -89,7 +91,7 @@
     z-index: 999;
     margin-top: 10px;
     background-color: white;
-    height: 300px;
+    height: 335px;
 }
 
 .reviewForm {
@@ -98,12 +100,37 @@
 }
 
 .reviewQuestion {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 400;
     padding: 40px 0 0 100px;
     margin-bottom: 20px;
-    color: black;
+    margin-left: 15%;
+    color: white;
+    position: relative;
+    width: 250px;
+    background: #554647;
+    border-radius: 10px;
+    white-space: nowrap;
 }
+
+.reviewQuestion:after {
+    border-top: 15px solid #554647;
+    border-left: 15px solid transparent;
+    border-right: 0px solid transparent;
+    border-bottom: 0px solid transparent;
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: -15px;
+}
+
+.reviewQuestion span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 
 .reviewInput {
     margin-top: 20px;
@@ -161,7 +188,29 @@
     color: #fff;
 }
 
-.reviewList {
+.reviewSubmitButton {
+    width: 10%;
+    height: 23px;
+    margin: 13px 0 15px 0;
+    border: none;
+    font-weight: 400;
+    font-size: 12px;
+    color: #554647;
+    border: 1px solid #EAE7E7;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-block;
+    background-color: transparent;
+    /* background-color: #554647; */
+}
+
+.reviewSubmitButton:hover {
+    background-color: #554647;
+    color: #fff;
+}
+
+.reviewListContainer {
+    border-radius: 13px;
     color: black;
     /* padding: 20px 0 0 20px;  */
     position: relative;
@@ -186,7 +235,13 @@ a {
     color: #A9A9A9;
 }
 
-
+.noReivewWrap {
+    left: 50%;
+    transform: translate(0, 200%);
+    text-align: center;
+    color: #A9A9A9;
+    font-size: 13px;
+}
 .zeroDrinkRankWrap {
     display: flex;
     justify-content: center; 

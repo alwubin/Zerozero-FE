@@ -61,12 +61,12 @@ function App() {
   };
 
   const clicked = {
-    backgroundColor:'#fffafa',
+    backgroundColor:'#f3f3f3',
     color: '#CD5C5C',
   }
 
   const unClicked = {
-    backgroundColor:'#fffafa',
+    backgroundColor:'#f3f3f3',
     color: '#262626',
   }
 
