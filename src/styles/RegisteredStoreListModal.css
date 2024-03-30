@@ -31,6 +31,7 @@
 
 .registeredStoreInfo {
     padding: 8px 0 0 15px;
+    cursor: pointer;
 }
 
 .registeredStoreInfo:first-child {
@@ -52,7 +53,7 @@
 .registerStoreTitle {
     color: black;
     font-size: 13px;
-    font-weight: 900;
+    font-weight: 700;
     padding-bottom: 3px;
 }
   
