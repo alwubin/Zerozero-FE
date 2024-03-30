@@ -21,8 +21,8 @@
 }
 
 .storeDetailTitleWrap {
-    position: relative; /* .storeDetailTitleWrap의 position을 변경 */
-    z-index: 999; /* .storeDetailTitleWrap을 위로 올리기 */
+    position: relative;
+    z-index: 999;
     margin: 60px 0 20px 50px;
     font-size: 29px;
     font-weight: 600;
@@ -35,7 +35,6 @@
     color: #212121;
     text-align: center;
     border-radius: 13px;
-    /* border: 0.8px solid #EAE7E7; */
     box-shadow: 0 4px 4px -4px black;
 }
 
@@ -78,6 +77,38 @@
 .storeDetailInfoWrap svg {
     font-size: 15px;
     margin-right: 5px;
+}
+
+.imageInputContainer {
+    border-radius: 13px;
+    border: none;
+    color: black;
+    padding: 20px; 
+    font-size: 16px;
+    font-weight: 700;
+    position: relative; 
+    z-index: 999;
+    margin-top: 10px;
+    background-color: white;
+    height: 300px; 
+}
+
+.imageInputContainer a {
+    font-size: 10px;
+    font-weight: 100;
+    padding-left: 10px;
+    color: #A9A9A9;
+}
+
+.imageContainer {
+    background-color: #554647;
+    margin-top: 10px;
+}
+
+.imageInput {
+    width: 100%;
+    max-width: 450px;
+    color: white;
 }
 
 .reviewInputContainer {
