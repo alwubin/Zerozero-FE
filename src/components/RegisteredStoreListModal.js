@@ -4,18 +4,21 @@ import '../styles/RegisteredStoreListModal.css';
 
 const RegisteredStoreListModal = ({ registeredStoreList, clickHandler }) => {
     const [storeId, setStoreId] = useState(0);
+    const [selling, setSelling] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         setStoreId(storeId);
-
+        setSelling(selling);
     }, )
 
     
     const moveToStoreDetail = (store) => {
         const storeId = store.storeId;
+        const selling = store.selling;
         setStoreId(storeId);
-        navigate('/storedetail', { state: { storeId } });
+        setSelling(selling);
+        navigate('/storedetail', { state: { storeId, selling } });
     }
 
     return (
