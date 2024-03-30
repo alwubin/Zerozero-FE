@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'; 
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/StoreDetail.css';
 import { zeroDrinks } from '../constants';
@@ -9,35 +10,96 @@ import { CiHashtag } from "react-icons/ci";
 
 
 function StoreDetail() {
+    const location = useLocation();
+    const storeId = location.state.storeId;
+
+    //storeInfo
+    const [name, setName] = useState('');
+    const [roadAddress, setRoadAddress] = useState('');
+    const [openningHours, setOpenningHours] = useState('10:30 - 22:00');
+    const [category, setCategory] = useState('');
+    const [image, setImage] = useState('');
+
+    //reviews
+    const [reviews, setReviews] = useState([]);
+    
+    //top3
+    const [top3ZeroDrinks, setTop3ZeroDrinks] = useState([]);
+
+    const inquireStoreDetail = () => {
+        axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores/${storeId}?sort=LATEST`, { 
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            } 
+        })
+        .then((res) => {
+            console.log(res.data.result);
+
+            const storeInfo = res.data.result.storeInfo;
+            setName(storeInfo.name);
+            setRoadAddress(storeInfo.roadAddress);
+            setCategory(storeInfo.category);
+
+            const images = storeInfo.images;
+            if (images && images.length > 0) {
+              setImage(images[0]); 
+            } else {
+              setImage(''); 
+            }
+
+            const reviews = res.data.result.reviews;
+            setReviews(reviews);
+
+            const top3 = res.data.result.top3ZeroDrinks;
+            setTop3ZeroDrinks(top3);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+
+    useEffect(() => {
+        inquireStoreDetail();
+    })
 
     return (
         <div className='storeDetail'>
             <div className='scrollInfo'>
                 <div className='basicInfoTop'>
                     <div className='storeDetailImageWrap'>
-                        <img src={'images/default_store.jpeg'} className='storeDetailImage' />
+                    {image ? (
+                        <img src={image} alt="Store Image" className='storeDetailImage' />
+                    ) : (
+                        <img src={'images/default_store.jpeg'} alt="Default Store Image" className='storeDetailImage' />
+                    )}
                     </div>
                     <div className='storeDetailTitleWrap'>
-                        스타벅스 구성트레이더스점
+                        {name}
                     </div>
                     <div className='storeDetailContainer'>
-                        상세정보
-                        <div className='storeDetailAddress'>
-                            <CiLocationOn/>
+                        <div className='storeDetailInfoTitle'>
+                            상세정보
                         </div>
-                        <div className='storeDetailContent'>
+                        <div className='storeDetailInfoWrap'>
+                            <CiLocationOn />
+                            {roadAddress}
+                        </div>
+                        <div className='storeDetailInfoWrap'>
                             <CiClock2/>
+                            {openningHours}
                         </div>
-                        <div className='storeDetailCategory'>
+                        <div className='storeDetailInfoWrap'>
                             <CiHashtag/>
+                            {category}
                         </div>
                     </div>
                 </div>
-                <div className='reviewInputBox'>
+                <div className='reviewInputContainer'>
                     리뷰 작성
                     <a>리뷰를 남겨보세요!</a>
                     <form className='reviewForm'>
-                        <a className='reviewQuestion'>판매중인 제로 음료수 종류를 모두 선택해주세요!</a>
+                    <div className='reviewQuestion'><span>판매중인 제로 음료수 종류를 모두 선택해주세요!</span></div>
                         <div className='radioButtonWrap'>
                         {Object.entries(zeroDrinks).map(([key, value], index) => (
                             <div key={index} className="radioButton">
@@ -47,9 +109,10 @@ function StoreDetail() {
                         ))}
                         </div>
                         <input className='reviewInput' type='text' placeholder='이 장소의 후기를 남겨주세요.'/>
+                        <button className='reviewSubmitButton'>올리기</button>
                     </form>
                 </div>
-                <div className='reviewList'>
+                <div className='reviewListContainer'>
                     <div className='reviewListTitle'>
                         리뷰 목록
                         <a>남겨진 리뷰를 확인하세요!</a>
@@ -59,37 +122,62 @@ function StoreDetail() {
                             <div className="zeroDrinkRank">
                                 <div className='rankWrapper'>
                                     <div className='rankIconWrap'>
-                                        <img className="rankIcon" src="images/zeroDrinks/COCA_COLA_ZERO.png" alt="코카콜라 제로" />
+                                        {
+                                            top3ZeroDrinks[1] 
+                                            ? <img className="rankIcon" src={`images/zeroDrinks/${top3ZeroDrinks[1]}.png`} alt="2등" />
+                                            : <div>?</div>
+                                        }
                                     </div>
                                     <div className='rank2'>2</div>
                                 </div>
                                 <div className='rankWrapper'>
                                     <div className='rankIconWrap'>
-                                        <img className="rankIcon" src="images/zeroDrinks/COCA_COLA_ZERO.png" alt="코카콜라 제로" />
+                                        {
+                                            top3ZeroDrinks[0] 
+                                            ? <img className="rankIcon" src={`images/zeroDrinks/${top3ZeroDrinks[0]}.png`} alt="2등" />
+                                            : <div>?</div>
+                                        }
                                     </div>
                                     <div className='rank1'>1</div>
                                 </div>
                                 <div className='rankWrapper'>
                                     <div className='rankIconWrap'>
-                                        <img className="rankIcon" src="images/zeroDrinks/COCA_COLA_ZERO.png" alt="코카콜라 제로" />
+                                        {
+                                            top3ZeroDrinks[2] 
+                                            ? <img className="rankIcon" src={`images/zeroDrinks/${top3ZeroDrinks[2]}.png`} alt="2등" />
+                                            : <div>?</div>
+                                        }
                                     </div>
                                     <div className='rank3'>3</div>
                                 </div>
                             </div>
                         </div>
                         <div className='reviewListContent'>
-                            <div class="review">
-                                <div class="review-header">
-                                    <span class="nickname">나서호빵</span>
-                                    <div class="zero-drink-icons">
-                                        <span class="zero-drink-icon">
-                                            <img src="images/zeroDrinks/COCA_COLA_ZERO.png" alt="코카콜라 제로" />
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="review-content">맛있어요</div>
-                                <hr />
-                            </div>
+                            {reviews.length === 0 ? (
+                                <div className='noReivewWrap'>등록된 리뷰가 없습니다.</div>
+                            ) : (
+                                reviews.map((review, idx) => (
+                                    <React.Fragment key={idx}>
+                                        <div className="review">
+                                            <div className="review-header">
+                                                <span className="nickname">{review.nickname}</span>
+                                                <div className="zero-drink-icons">
+                                                    {review.zeroDrinks.map((drink, index) => (
+                                                        <span key={index} className="zero-drink-icon">
+                                                            <img
+                                                                src={`images/zeroDrinks/${drink}.png`}
+                                                                alt={drink}
+                                                            />
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                            <div className="review-content">{review.content}</div>
+                                        </div>
+                                        {idx !== reviews.length - 1 && <hr />}
+                                    </React.Fragment>
+                                ))
+                            )}
                         </div>
                     </div>
                 </div>
