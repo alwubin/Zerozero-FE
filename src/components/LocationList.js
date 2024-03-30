@@ -1,9 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/LocationList.css';
 
 
 
-const LocationList = ({ locations, selectedMarkerIdx, registerLocation }) => {
+const LocationList = ({ locations, selectedMarkerIdx }) => {
+    const navigate = useNavigate();
+    
+    const inquiryStoreDetail = (location) => {
+        const storeId = location.storeId;
+        const selling = location.selling;
+        const name = location.title;
+        const category = location.category;
+        const roadAddress = location.roadAddress;
+
+        navigate('/storedetail', { state: { storeId, selling , name, category, roadAddress } });
+    }
+
     return (
         <div className='listContainer'>
             <div className='locationCarousel'>
@@ -20,8 +33,8 @@ const LocationList = ({ locations, selectedMarkerIdx, registerLocation }) => {
                         <p style={{color: selectedMarkerIdx === idx ? '#EAE8E5' : 'black',
                                 marginTop:'8px', fontSize:'15px' }}>{location.address}</p>
                         
-                        <button onClick={registerLocation} disabled={location.selling}>
-                            {location.selling ? '판매중' : '등록하기'}
+                        <button onClick={() => {inquiryStoreDetail(location)}} >
+                            더보기
                         </button>
                     </div>
                 ))}
