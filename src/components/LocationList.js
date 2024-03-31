@@ -9,12 +9,12 @@ const LocationList = ({ locations, selectedMarkerIdx }) => {
     
     const inquiryStoreDetail = (location) => {
         const storeId = location.storeId;
-        const selling = location.selling;
         const name = location.title;
         const category = location.category;
         const roadAddress = location.roadAddress;
+        console.log(`storeId : ${storeId}`);
 
-        navigate('/storedetail', { state: { storeId, selling , name, category, roadAddress } });
+        navigate('/storedetail', { state: { storeId, name, category, roadAddress } });
     }
 
     return (
