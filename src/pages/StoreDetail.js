@@ -12,6 +12,10 @@ import { CiHashtag } from "react-icons/ci";
 function StoreDetail() {
     const location = useLocation();
     const storeId = location.state.storeId;
+    // const selling = location.state.selling;
+    // const name = location.state.name;
+    // const category = location.state.category;
+    // const roadAddress = location.state.roadAddress;
     
     const inquireStoreDetail = () => {
         axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores/${storeId}?sort=LATEST`, { 
@@ -66,20 +70,16 @@ function StoreDetail() {
     //top3
     const [top3ZeroDrinks, setTop3ZeroDrinks] = useState([]);
 
-    useEffect(() => {
-        inquireStoreDetail();
-    });
-
     return (
         <div className='storeDetail'>
             <div className='scrollInfo'>
                 <div className='basicInfoTop'>
                     <div className='storeDetailImageWrap'>
-                    {image ? (
-                        <img src={image} alt="Store Image" className='storeDetailImage' />
-                    ) : (
-                        <img src={'images/default_store.jpeg'} alt="Default Store Image" className='storeDetailImage' />
-                    )}
+                        {image ? (
+                            <img src={image} alt="Store Image" className='storeDetailImage' />
+                        ) : (
+                            <div className='storeDetailImageDefault'></div>
+                        )}
                     </div>
                     <div className='storeDetailTitleWrap'>
                         {name}
@@ -102,6 +102,7 @@ function StoreDetail() {
                         </div>
                     </div>
                 </div>
+
                     <div>
                         <div className='reviewInputContainer'>
                             리뷰 작성
@@ -190,15 +191,13 @@ function StoreDetail() {
                             </div>
                         </div>
                     </div>
-                {/* : (
-                    <div className='imageInputContainer'>
+                    {/* <div className='imageInputContainer'>
                         가게 사진
                         <a>사진을 제보해주세요!</a>
                         <div className='imageContainer'>
                             <input className='imageInput' type="file" accept="image/*" multiple onChange={() => {console.log(1)}} />
                         </div>
-                    </div>
-                ) */}
+                    </div> */}
             </div>
         </div>
     )

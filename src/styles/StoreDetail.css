@@ -5,12 +5,12 @@
     width: 100%;
     max-width: 500px;
     padding: 0 20px;
-    height: 800px;
+    height: 1000px;
     left: 50%;
     transform: translate(-50%, 0);
     background-color: #f3f3f3;
 
-    overflow: hidden;
+    overflow: scroll;
 
     display: flex;
     flex-direction: column;
@@ -19,6 +19,10 @@
 .scrollInfo {
     overflow-y: scroll;
 }
+
+/* .basicInfoTop {
+    height: 390px;
+}  */
 
 .storeDetailTitleWrap {
     position: relative;
@@ -30,7 +34,7 @@
     max-width: 400px;
     height: 100%;
     line-height: 85px;
-    max-height: 85px;
+    max-height: 200px;
     background-color: white;
     color: #212121;
     text-align: center;
@@ -49,10 +53,14 @@
     object-fit: fill;
 }
 
+.storeDetailImageDefault {
+    background-color: #A9A9A9;
+}
+
 
 .storeDetailContainer {
     border-radius: 13px;
-    position: relative; /* 각 요소의 position을 relative로 설정 */
+    position: relative;
     z-index: 999;
     color: black;
     background-color: white;
