@@ -5,12 +5,12 @@
     width: 100%;
     max-width: 500px;
     padding: 0 20px;
-    height: 800px;
+    height: 1000px;
     left: 50%;
     transform: translate(-50%, 0);
     background-color: #f3f3f3;
 
-    overflow: hidden;
+    overflow: scroll;
 
     display: flex;
     flex-direction: column;
@@ -21,8 +21,8 @@
 }
 
 .storeDetailTitleWrap {
-    position: relative; /* .storeDetailTitleWrap의 position을 변경 */
-    z-index: 999; /* .storeDetailTitleWrap을 위로 올리기 */
+    position: relative;
+    z-index: 999;
     margin: 60px 0 20px 50px;
     font-size: 29px;
     font-weight: 600;
@@ -30,12 +30,11 @@
     max-width: 400px;
     height: 100%;
     line-height: 85px;
-    max-height: 85px;
+    max-height: 200px;
     background-color: white;
     color: #212121;
     text-align: center;
     border-radius: 13px;
-    /* border: 0.8px solid #EAE7E7; */
     box-shadow: 0 4px 4px -4px black;
 }
 
@@ -50,10 +49,14 @@
     object-fit: fill;
 }
 
+.storeDetailImageDefault {
+    background-color: #A9A9A9;
+}
+
 
 .storeDetailContainer {
     border-radius: 13px;
-    position: relative; /* 각 요소의 position을 relative로 설정 */
+    position: relative;
     z-index: 999;
     color: black;
     background-color: white;
@@ -78,6 +81,47 @@
 .storeDetailInfoWrap svg {
     font-size: 15px;
     margin-right: 5px;
+}
+
+.imageInputContainer {
+    border-radius: 13px;
+    border: none;
+    color: black;
+    padding: 20px; 
+    font-size: 16px;
+    font-weight: 700;
+    position: relative; 
+    z-index: 999;
+    margin-top: 10px;
+    background-color: white;
+    height: 300px; 
+}
+
+.imageInputContainer a {
+    font-size: 10px;
+    font-weight: 100;
+    padding-left: 10px;
+    color: #A9A9A9;
+}
+
+.imageContainer {
+    background-color: #554647;
+    margin-top: 10px;
+}
+
+.imageInput {
+    width: 100%;
+    max-width: 450px;
+    color: white;
+}
+
+.registerStoreDetailButton {
+    border: none;
+    outline: none;
+    background-color: #EBDBAC;
+    color: black;
+    width: 20%;
+    height: 20%;
 }
 
 .reviewInputContainer {

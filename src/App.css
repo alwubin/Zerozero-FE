@@ -6,7 +6,7 @@
 .servicesBox {
   text-align: center;
   z-index: 1000;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   max-width: 540px;
