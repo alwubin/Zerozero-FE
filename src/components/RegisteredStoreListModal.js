@@ -18,7 +18,7 @@ const RegisteredStoreListModal = ({ registeredStoreList, clickHandler }) => {
         const selling = store.selling;
         setStoreId(storeId);
         setSelling(selling);
-        navigate('/storedetail', { state: { storeId, selling } });
+        navigate('/storedetail', { state: { storeId } });
     }
 
     return (

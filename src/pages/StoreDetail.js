@@ -12,49 +12,57 @@ import { CiHashtag } from "react-icons/ci";
 function StoreDetail() {
     const location = useLocation();
     const storeId = location.state.storeId;
-    // const selling = location.state.selling;
-    // const name = location.state.name;
-    // const category = location.state.category;
-    // const roadAddress = location.state.roadAddress;
+    const storeName = location.state.name;
+    const storeCategory = location.state.category;
+    const storeRoadAddress = location.state.roadAddress;
     
     const inquireStoreDetail = () => {
-        axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores/${storeId}?sort=LATEST`, { 
+        if (storeId > 0) {
+            axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores/${storeId}?sort=LATEST`, { 
             withCredentials: true,
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
-            } 
-        })
-        .then((res) => {
-            console.log(res.data.result);
+            }})
+            .then((res) => {
+                console.log(res.data.result);
 
-            const storeInfo = res.data.result.storeInfo;
-            setName(storeInfo.name);
-            setRoadAddress(storeInfo.roadAddress);
-            setCategory(storeInfo.category);
+                const storeInfo = res.data.result.storeInfo;
+                setName(storeInfo.name);
+                setRoadAddress(storeInfo.roadAddress);
+                setCategory(storeInfo.category);
 
-            const images = storeInfo.images;
-            if (images && images.length > 0) {
-                setImage(images[0]); 
-            } else {
-                setImage(''); 
-            }
+                const images = storeInfo.images;
+                if (images && images.length > 0) {
+                    setImage(images[0]); 
+                } else {
+                    setImage(''); 
+                }
 
-            const reviews = res.data.result.reviews;
-            setReviews(reviews);
+                const reviews = res.data.result.reviews;
+                setReviews(reviews);
 
-            const top3 = res.data.result.top3ZeroDrinks;
-            setTop3ZeroDrinks(top3);
-        })
-        .catch((err) => {
-            console.log(err);
+                const top3 = res.data.result.top3ZeroDrinks;
+                setTop3ZeroDrinks(top3);
+            })
+            .catch((err) => {
+                console.log(err);
 
-        })
+            })
+        } 
+        else {
+            setName(storeName);
+            setCategory(storeCategory);
+            setRoadAddress(storeRoadAddress);
+        }
     }
 
     useEffect(() => {
         inquireStoreDetail();
     }, [storeId]);
 
+    const handleRegisterStore = () => {
+        alert('등록되었습니다!');
+    };
 
     //storeInfo
     const [name, setName] = useState('');
@@ -103,6 +111,27 @@ function StoreDetail() {
                     </div>
                 </div>
 
+                {storeId === 0 ? (
+                    <div>
+                        <div className='imageInputContainer'>
+                            가게 사진
+                            <a>사진을 제보해주세요!</a>
+                            <div className='imageContainer'>
+                            <input
+                                className='imageInput'
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                onChange={() => {
+                                console.log(1);
+                                }}
+                            />
+                            </div>
+                        </div>
+                        <button className='registerStoreDetailButton' onClick={handleRegisterStore}> 등록하기</button>
+                        <button className='cancelRegisterButton'>취소</button>
+                    </div>
+                    ) : (
                     <div>
                         <div className='reviewInputContainer'>
                             리뷰 작성
@@ -190,14 +219,8 @@ function StoreDetail() {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    {/* <div className='imageInputContainer'>
-                        가게 사진
-                        <a>사진을 제보해주세요!</a>
-                        <div className='imageContainer'>
-                            <input className='imageInput' type="file" accept="image/*" multiple onChange={() => {console.log(1)}} />
-                        </div>
-                    </div> */}
+                    </div>)
+                    }                   
             </div>
         </div>
     )
