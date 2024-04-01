@@ -94,7 +94,7 @@
     z-index: 999;
     margin-top: 10px;
     background-color: white;
-    height: 300px; 
+    height: 250px; 
 }
 
 .imageInputContainer a {
@@ -116,12 +116,34 @@
 }
 
 .registerStoreDetailButton {
+    margin-top : 20px;
     border: none;
+    border-radius: 10px;
     outline: none;
     background-color: #EBDBAC;
-    color: black;
-    width: 20%;
-    height: 20%;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    width: 48%;
+    height: 50px;
+    max-width: 500px;
+    cursor: pointer;
+}
+
+.cancelRegisterButton {
+    margin-top: 20px;
+    float: right;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    background-color: #EBDBAC;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    width: 48%;
+    height: 50px;
+    max-width: 500px;
+    cursor: pointer;
 }
 
 .reviewInputContainer {
