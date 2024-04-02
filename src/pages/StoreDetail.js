@@ -15,6 +15,23 @@ function StoreDetail() {
     const storeName = location.state.name;
     const storeCategory = location.state.category;
     const storeRoadAddress = location.state.roadAddress;
+
+    //storeInfo
+    const [Id, setId] = useState(0);
+    const [name, setName] = useState('');
+    const [roadAddress, setRoadAddress] = useState('');
+    const [openningHours, setOpenningHours] = useState('10:30 - 22:00');
+    const [category, setCategory] = useState('');
+    const [image, setImage] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
+
+    //reviews
+    const [content, setContent] = useState('');
+    const [selectedZeroDrinks, setSelectedZeroDrinks] = useState([]);
+    const [reviews, setReviews] = useState([]);
+    
+    //top3
+    const [top3ZeroDrinks, setTop3ZeroDrinks] = useState([]);
     
     const inquireStoreDetail = () => {
         if (storeId > 0) {
@@ -24,28 +41,29 @@ function StoreDetail() {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }})
             .then((res) => {
-                console.log(res.data.result);
-
                 const storeInfo = res.data.result.storeInfo;
+                setId(storeId);
                 setName(storeInfo.name);
                 setRoadAddress(storeInfo.roadAddress);
                 setCategory(storeInfo.category);
-
+                console.log(`Id: ${Id}`)
+                console.log(`storeId: ${storeId}`)
                 const images = storeInfo.images;
                 if (images && images.length > 0) {
                     setImage(images[0]); 
                 } else {
                     setImage(''); 
                 }
-
                 const reviews = res.data.result.reviews;
                 setReviews(reviews);
 
                 const top3 = res.data.result.top3ZeroDrinks;
                 setTop3ZeroDrinks(top3);
+                setIsLoading(false);
             })
             .catch((err) => {
                 console.log(err);
+                setIsLoading(false);
 
             })
         } 
@@ -53,30 +71,60 @@ function StoreDetail() {
             setName(storeName);
             setCategory(storeCategory);
             setRoadAddress(storeRoadAddress);
+            setIsLoading(false);
         }
     }
 
+    const postReview = () => {
+        if (Id > 0) { // Id가 0보다 큰 경우에만 실행
+            const formData = {
+                zeroDrinks: selectedZeroDrinks,
+                content: content
+            };
+    
+            axios.post(`http://ec2-3-35-98-32.ap-northeast-2.storescompute.amazonaws.com:8080/api/v1/reviews/${Id}`,
+            formData,
+            { 
+                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                } 
+            })
+            .then((res) => {
+                console.log(res);
+                alert('성공적으로 등록되었습니다!');
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        } else {
+            console.error('Id가 유효하지 않습니다.');
+        }
+    }
+    
+
     useEffect(() => {
         inquireStoreDetail();
-    }, [storeId]);
+    }, [storeId, Id]);
+
 
     const handleRegisterStore = () => {
         alert('등록되었습니다!');
     };
 
-    //storeInfo
-    const [name, setName] = useState('');
-    const [roadAddress, setRoadAddress] = useState('');
-    const [openningHours, setOpenningHours] = useState('10:30 - 22:00');
-    const [category, setCategory] = useState('');
-    const [image, setImage] = useState('');
-    const [selling, setSelling] = useState(true);
 
-    //reviews
-    const [reviews, setReviews] = useState([]);
-    
-    //top3
-    const [top3ZeroDrinks, setTop3ZeroDrinks] = useState([]);
+    const handleCheckboxChange = (e) => {
+        const value = e.target.value;
+        if (e.target.checked) {
+            setSelectedZeroDrinks([...selectedZeroDrinks, value]);
+        } else {
+            setSelectedZeroDrinks(selectedZeroDrinks.filter((drink) => drink !== value));
+        }
+    };
+
+    const handleInputChange = (e) => {
+        setContent(e.target.value);
+    };
 
     return (
         <div className='storeDetail'>
@@ -141,13 +189,24 @@ function StoreDetail() {
                                 <div className='radioButtonWrap'>
                                 {Object.entries(zeroDrinks).map(([key, value], index) => (
                                     <div key={index} className="radioButton">
-                                        <input type="checkbox" id={`drink-${index}`} value={key} />
-                                        <label htmlFor={`drink-${index}`}>{value}</label>
+                                    <input
+                                        type="checkbox"
+                                        id={`drink-${index}`}
+                                        value={value}
+                                        onChange={handleCheckboxChange}
+                                    />
+                                    <label htmlFor={`drink-${index}`}>{key}</label>
                                     </div>
                                 ))}
                                 </div>
-                                <input className='reviewInput' type='text' placeholder='이 장소의 후기를 남겨주세요.'/>
-                                <button className='reviewSubmitButton'>올리기</button>
+                                <input
+                                    className='reviewInput'
+                                    type='text'
+                                    placeholder='이 장소의 후기를 남겨주세요.'
+                                    value={content}
+                                    onChange={handleInputChange}
+                                />
+                                <button className='reviewSubmitButton' onClick={postReview}>올리기</button>
                             </form>
                         </div>
                         <div className='reviewListContainer'>

@@ -27,21 +27,21 @@ export const seoulAreas = {
 }
 
 export const zeroDrinks = {
-    COCA_COLA_ZERO: "코카콜라 제로",
-    PEPSI_ZERO: "펩시 제로",
-    SPRITE_ZERO: "스프라이트 제로",
-    CHILSUNG_CIDER_ZERO: "칠성사이다 제로",
-    DR_PEPPER_ZERO: "닥터페퍼 제로",
-    MILKIS_ZERO: "밀키스 제로",
-    TAMS_ZERO_LEMON: "탐스 제로 레몬",
-    TAMS_ZERO_ORANGE: "탐스 제로 오렌지",
-    TAMS_ZERO_APPLE_KIWI: "탐스 제로 사과키위",
-    TAMS_ZERO_PINEAPPLE: "탐스 제로 파인애플",
-    TAMS_ZERO_GRAPE: "탐스 제로 복숭아",
-    TAMS_ZERO_PEACH: "탐스 제로 청포도",
-    WELCHS_ZERO_GRAPE: "웰치스 제로 포도",
-    WELCHS_ZERO_ORANGE: "웰치스 제로 오렌지",
-    WELCHS_ZERO_SHINE_MUSCAT: "웰치스 제로 샤인 머스켓",
-    FANTA_ZERO_GRAPE: "환타 제로 포도",
-    FANTA_ZERO_PINEAPPLE: "환타 제로 파인애플"
+    "코카콜라 제로": "COCA_COLA_ZERO",
+    "펩시 제로": "PEPSI_ZERO",
+    "스프라이트 제로": "SPRITE_ZERO",
+    "칠성사이다 제로": "CHILSUNG_CIDER_ZERO",
+    "닥터페퍼 제로": "DR_PEPPER_ZERO",
+    "밀키스 제로": "MILKIS_ZERO",
+    "탐스 제로 레몬": "TAMS_ZERO_LEMON",
+    "탐스 제로 오렌지": "TAMS_ZERO_ORANGE",
+    "탐스 제로 사과키위": "TAMS_ZERO_APPLE_KIWI",
+    "탐스 제로 파인애플": "TAMS_ZERO_PINEAPPLE",
+    "탐스 제로 복숭아": "TAMS_ZERO_GRAPE",
+    "탐스 제로 청포도": "TAMS_ZERO_PEACH",
+    "웰치스 제로 포도": "WELCHS_ZERO_GRAPE",
+    "웰치스 제로 오렌지": "WELCHS_ZERO_ORANGE",
+    "웰치스 제로 샤인 머스켓": "WELCHS_ZERO_SHINE_MUSCAT",
+    "환타 제로 포도": "FANTA_ZERO_GRAPE",
+    "환타 제로 파인애플": "FANTA_ZERO_PINEAPPLE"
   };
