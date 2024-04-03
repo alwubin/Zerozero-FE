@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'; 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/StoreDetail.css';
 import { zeroDrinks } from '../constants';
@@ -11,10 +11,14 @@ import { CiHashtag } from "react-icons/ci";
 
 function StoreDetail() {
     const location = useLocation();
+    const navigate = useNavigate();
+
     const storeId = location.state.storeId;
     const storeName = location.state.name;
     const storeCategory = location.state.category;
     const storeRoadAddress = location.state.roadAddress;
+    const storeMapx = location.state.mapx;
+    const storeMapy = location.state.mapy;
 
     //storeInfo
     const [Id, setId] = useState(0);
@@ -25,6 +29,10 @@ function StoreDetail() {
     const [image, setImage] = useState('');
     const [isLoading, setIsLoading] = useState(true);
 
+    const [images, setImages] = useState([]);
+    const [mapx, setMapx] = useState(0);
+    const [mapy, setMapy] = useState(0);
+    
     //reviews
     const [content, setContent] = useState('');
     const [selectedZeroDrinks, setSelectedZeroDrinks] = useState([]);
@@ -32,6 +40,26 @@ function StoreDetail() {
     
     //top3
     const [top3ZeroDrinks, setTop3ZeroDrinks] = useState([]);
+
+
+    const handleCheckboxChange = (e) => {
+        const value = e.target.value;
+        if (e.target.checked) {
+            setSelectedZeroDrinks([...selectedZeroDrinks, value]);
+        } else {
+            setSelectedZeroDrinks(selectedZeroDrinks.filter((drink) => drink !== value));
+        }
+    };
+
+    const handleInputChange = (e) => {
+        setContent(e.target.value);
+    };
+
+    const handleImageUpload = (event) => {
+        const files = Array.from(event.target.files);
+        setImages(files);
+    };
+
     
     const inquireStoreDetail = () => {
         if (storeId > 0) {
@@ -42,12 +70,11 @@ function StoreDetail() {
             }})
             .then((res) => {
                 const storeInfo = res.data.result.storeInfo;
-                setId(storeId);
+                setId(storeInfo.storeId);
                 setName(storeInfo.name);
                 setRoadAddress(storeInfo.roadAddress);
                 setCategory(storeInfo.category);
-                console.log(`Id: ${Id}`)
-                console.log(`storeId: ${storeId}`)
+
                 const images = storeInfo.images;
                 if (images && images.length > 0) {
                     setImage(images[0]); 
@@ -71,6 +98,8 @@ function StoreDetail() {
             setName(storeName);
             setCategory(storeCategory);
             setRoadAddress(storeRoadAddress);
+            setMapx(storeMapx);
+            setMapy(storeMapy);
             setIsLoading(false);
         }
     }
@@ -101,29 +130,48 @@ function StoreDetail() {
             console.error('Id가 유효하지 않습니다.');
         }
     }
-    
+
+    const registerLocation = () => {
+        const formData = new FormData();
+
+        const requestData = {
+            title: name,
+            mapx: mapx,
+            mapy: mapy
+        };
+
+        formData.append('request', JSON.stringify(requestData));
+
+        images.forEach((image, index) => {
+            formData.append(`images`, image);
+        });
+
+        axios.post(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores`, 
+            formData,
+            { 
+                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'multipart/form-data'
+                } 
+            }
+        )
+        .then((res) => {
+            console.log(res);
+            alert('성공적으로 등록되었습니다!');
+            navigate('/');
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
 
     useEffect(() => {
         inquireStoreDetail();
     }, [storeId, Id]);
 
-
     const handleRegisterStore = () => {
-        alert('등록되었습니다!');
-    };
-
-
-    const handleCheckboxChange = (e) => {
-        const value = e.target.value;
-        if (e.target.checked) {
-            setSelectedZeroDrinks([...selectedZeroDrinks, value]);
-        } else {
-            setSelectedZeroDrinks(selectedZeroDrinks.filter((drink) => drink !== value));
-        }
-    };
-
-    const handleInputChange = (e) => {
-        setContent(e.target.value);
+        registerLocation();
     };
 
     return (
@@ -161,23 +209,23 @@ function StoreDetail() {
 
                 {storeId === 0 ? (
                     <div>
-                        <div className='imageInputContainer'>
-                            가게 사진
-                            <a>사진을 제보해주세요!</a>
-                            <div className='imageContainer'>
-                            <input
-                                className='imageInput'
-                                type="file"
-                                accept="image/*"
-                                multiple
-                                onChange={() => {
-                                console.log(1);
-                                }}
-                            />
+                        <div>
+                            <div className='imageInputContainer'>
+                                가게 사진
+                                <a>사진을 제보해주세요!</a>
+                                <div className='imageContainer'>
+                                    <input
+                                        className='imageInput'
+                                        type="file"
+                                        accept="image/*"
+                                        multiple
+                                        onChange={handleImageUpload}
+                                    />
+                                </div>
                             </div>
+                            <button className='registerStoreDetailButton' onClick={handleRegisterStore}>등록하기</button>
+                            <button className='cancelRegisterButton' onClick={() => {navigate('/')}}>취소</button>
                         </div>
-                        <button className='registerStoreDetailButton' onClick={handleRegisterStore}> 등록하기</button>
-                        <button className='cancelRegisterButton'>취소</button>
                     </div>
                     ) : (
                     <div>
