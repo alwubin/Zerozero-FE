@@ -65,7 +65,7 @@ function Main() {
     const [zoom, setZoom] = useState(11);
     const [markers, setMarkers] = useState(locations.map((location, idx) => ({
         position: new navermaps.LatLng((location.mapy)*0.0000001, (location.mapx)*0.0000001),
-        icon: location.selling ? '/images/yesZeroMarker.png' : '/images/noZeroMarker.png',
+        icon: '/images/yesZeroMarker.png',
         scaledSize: new navermaps.Size(35, 47.5),
         origin: new navermaps.Point(0, 0),
     })));
@@ -105,6 +105,7 @@ function Main() {
             mapx: mapx,
             mapy: mapy, 
             address: roadAddress,
+            selling: selling,
         })
         setIsSelling(selling);
         console.log(selectedStoreInfo);
@@ -224,7 +225,7 @@ function Main() {
     useEffect(() => {
         setMarkers(locations.map((location, idx) => ({
             position: new navermaps.LatLng((location.mapy)*0.0000001, (location.mapx)*0.0000001),
-            icon: '/images/noZeroMarker.png',
+            icon: (location.selling ? '/images/yesZeroMarker.png' : '/images/noZeroMarker.png'),
             scaledSize: new navermaps.Size(35, 47.5),
             origin: new navermaps.Point(0, 0),
         })));
@@ -236,7 +237,7 @@ function Main() {
                 center={{ lat: lat, lng: lng }} 
                 zoom={zoom}
                 ref={(ref) => setMap(ref)}
-            >
+                >
                 
                 {
                     markers.map((marker, idx) => (
