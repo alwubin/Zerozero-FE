@@ -13,14 +13,25 @@ function StoreDetail() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const storeId = location.state.storeId;
-    const storeName = location.state.name;
-    const storeCategory = location.state.category;
-    const storeRoadAddress = location.state.roadAddress;
-    const storeMapx = location.state.mapx;
-    const storeMapy = location.state.mapy;
+    function getAndStoreStoreId() {
+        const storeId = location.state ? location.state.storeId : 0;
+        localStorage.setItem('storeId', storeId);
+        return storeId;
+    }
+      
+    function getStoredStoreId() {
+        return localStorage.getItem('storeId');
+    }
+    const storeId = location.state ? getAndStoreStoreId() : getStoredStoreId();
 
-    //storeInfo
+    // const storeId = location.state ? location.state.storeId : 0;
+    const storeName = location.state ? location.state.name : '';
+    const storeCategory = location.state ? location.state.category : '';
+    const storeRoadAddress = location.state ? location.state.roadAddress : '';
+    const storeMapx = location.state ? location.state.mapx : 0;
+    const storeMapy = location.state ? location.state.mapy : 0;
+
+    // Store Info State
     const [Id, setId] = useState(0);
     const [name, setName] = useState('');
     const [roadAddress, setRoadAddress] = useState('');
@@ -33,14 +44,13 @@ function StoreDetail() {
     const [mapx, setMapx] = useState(0);
     const [mapy, setMapy] = useState(0);
     
-    //reviews
+    //리뷰 정보
     const [content, setContent] = useState('');
     const [selectedZeroDrinks, setSelectedZeroDrinks] = useState([]);
     const [reviews, setReviews] = useState([]);
     
-    //top3
-    const [top3ZeroDrinks, setTop3ZeroDrinks] = useState([]);
 
+    const [top3ZeroDrinks, setTop3ZeroDrinks] = useState([]);
 
     const handleCheckboxChange = (e) => {
         const value = e.target.value;
@@ -60,16 +70,17 @@ function StoreDetail() {
         setImages(files);
     };
 
-    
     const inquireStoreDetail = () => {
         if (storeId > 0) {
             axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores/${storeId}?sort=LATEST`, { 
-            withCredentials: true,
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            }})
+                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
             .then((res) => {
                 const storeInfo = res.data.result.storeInfo;
+                console.log(res.data.result);
                 setId(storeInfo.storeId);
                 setName(storeInfo.name);
                 setRoadAddress(storeInfo.roadAddress);
@@ -91,10 +102,8 @@ function StoreDetail() {
             .catch((err) => {
                 console.log(err);
                 setIsLoading(false);
-
-            })
-        } 
-        else {
+            });
+        } else {
             setName(storeName);
             setCategory(storeCategory);
             setRoadAddress(storeRoadAddress);
@@ -105,31 +114,29 @@ function StoreDetail() {
     }
 
     const postReview = () => {
-        if (Id > 0) { // Id가 0보다 큰 경우에만 실행
-            const formData = {
-                zeroDrinks: selectedZeroDrinks,
-                content: content
-            };
-    
-            axios.post(`http://ec2-3-35-98-32.ap-northeast-2.storescompute.amazonaws.com:8080/api/v1/reviews/${Id}`,
+        const formData = {
+            zeroDrinks: selectedZeroDrinks,
+            content: content
+        };
+
+        axios.post(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/reviews/${storeId}`,
             formData,
             { 
                 withCredentials: true,
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 } 
-            })
-            .then((res) => {
-                console.log(res);
-                alert('성공적으로 등록되었습니다!');
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-        } else {
-            console.error('Id가 유효하지 않습니다.');
-        }
+            }
+        )
+        .then((res) => {
+            console.log(res);
+            alert('성공적으로 등록되었습니다!');
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     }
+
 
     const registerLocation = () => {
         const formData = new FormData();
@@ -163,12 +170,13 @@ function StoreDetail() {
         })
         .catch((err) => {
             console.log(err);
-        })
+            navigate('/');
+        });
     }
 
     useEffect(() => {
         inquireStoreDetail();
-    }, [storeId, Id]);
+    }, []);
 
     const handleRegisterStore = () => {
         registerLocation();
@@ -333,4 +341,4 @@ function StoreDetail() {
     )
 }
 
-export default StoreDetail;
+export default StoreDetail; 
