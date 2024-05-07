@@ -72,7 +72,7 @@ function StoreDetail() {
 
     const inquireStoreDetail = () => {
         if (storeId > 0) {
-            axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores/${storeId}?sort=LATEST`, { 
+            axios.get(`http://3.37.245.108:8080/api/v1/stores/${storeId}?sort=LATEST`, { 
                 withCredentials: true,
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -153,7 +153,7 @@ function StoreDetail() {
             formData.append(`images`, image);
         });
 
-        axios.post(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores`, 
+        axios.post(`http://3.37.245.108:8080/api/v1/stores`, 
             formData,
             { 
                 withCredentials: true,
