@@ -188,7 +188,7 @@ function Main() {
                     setShowModal(true);
                 }
                 else {
-                    axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores/search?query=${encodeURIComponent(selectedDistrict)}${encodeURIComponent(selectedDong)}${encodeURIComponent(store)}`, { 
+                    axios.get(`http://3.37.245.108:8080/api/v1/stores/search?query=${encodeURIComponent(selectedDistrict)}${encodeURIComponent(selectedDong)}${encodeURIComponent(store)}`, { 
                         withCredentials: true,
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('token')}`
