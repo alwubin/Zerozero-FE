@@ -50,7 +50,7 @@ function MyPage() {
 
 
     const inquireMyPage = () => {
-        axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users/my-page`, { 
+        axios.get(`http://3.37.245.108:8080/api/v1/users/my-page`, { 
             withCredentials: true,
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -74,7 +74,7 @@ function MyPage() {
     }
 
     const inquireRegisteredPlaces = () => {
-        axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users/storeList`, {
+        axios.get(`http://3.37.245.108:8080/api/v1/users/storeList`, {
             withCredentials: true,
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
