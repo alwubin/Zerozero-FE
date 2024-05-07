@@ -30,7 +30,7 @@ function SignUp() {
     const [nicknameNotAllow, setNicknameNotAllow] = useState(true);
    
     const registerUser = () => {
-        axios.post('http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/auth/register', 
+        axios.post('http://3.37.245.108:8080/api/v1/auth/register', 
             {
                 'nickname': nickname,
                 'email': `${email}@${emailOpt}`,
@@ -50,7 +50,7 @@ function SignUp() {
     }
 
     const checkEmailDuplication = () => {
-        axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/auth/check-email/${encodeURIComponent(email+'@'+emailOpt)}`, { withCredentials: true })
+        axios.get(`http://3.37.245.108:8080/api/v1/auth/check-email/${encodeURIComponent(email+'@'+emailOpt)}`, { withCredentials: true })
         .then((res) => {
             console.log(res);
         })
@@ -63,7 +63,7 @@ function SignUp() {
     }
 
     const checkNicknameDuplication = () => {
-        axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/auth/check-nickname/${encodeURIComponent(nickname)}`, { withCredentials: true })
+        axios.get(`http://3.37.245.108:8080/api/v1/auth/check-nickname/${encodeURIComponent(nickname)}`, { withCredentials: true })
         .then((res) => {
             console.log(res);
         })
