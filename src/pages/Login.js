@@ -18,6 +18,25 @@ function Login() {
      * [ ] 로그인 api에서 refreshToken & accessToken 저장소 다르게 저장 필요
      */
 
+    const refreshAccessToken = () => {
+        axios.post('http://3.37.245.108:8080/api/v1/auth/refresh-token',
+            {
+                "refreshToken" : localStorage.getItem('refreshToken')
+            }
+        )
+        .then((res) => {
+            if (res.data.success) {
+                localStorage.setItem('accessToken', res.data.result.accessToken);
+                localStorage.setItem('refreshToken', res.data.result.refreshToken);
+            } else {
+                //logout
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
+                window.location.href = '/';
+            }
+        })
+    }
+
     const loginUser = () => {
         axios.post('http://3.37.245.108:8080/api/v1/auth/authenticate', 
             {
