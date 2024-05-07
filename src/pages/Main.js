@@ -183,7 +183,7 @@ function Main() {
         setStore('');
         if (selectedDistrict && selectedDong) {
             if (store.trim() !== '') {
-                if (localStorage.getItem('token') === null) {
+                if (localStorage.getItem('accessToken') === null) {
                     setModalMessage('로그인이 필요한 서비스입니다.');
                     setShowModal(true);
                 }
@@ -191,7 +191,7 @@ function Main() {
                     axios.get(`http://3.37.245.108:8080/api/v1/stores/search?query=${encodeURIComponent(selectedDistrict)}${encodeURIComponent(selectedDong)}${encodeURIComponent(store)}`, { 
                         withCredentials: true,
                         headers: {
-                            Authorization: `Bearer ${localStorage.getItem('token')}`
+                            Authorization: `Bearer ${localStorage.getItem('accessToken')}`
                         } 
                     })
                     .then((res) => {

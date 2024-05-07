@@ -34,13 +34,13 @@ function MyPage() {
     }
 
     const logoutUser = () => {
-        localStorage.removeItem('token');
+        localStorage.removeItem('accessToken');
         window.location.href = '/';
     }
 
     useEffect(() => {
         // 토큰이 없을 때 로그인 페이지로 이동
-        if (!localStorage.getItem('token')) {
+        if (!localStorage.getItem('accessToken')) {
             window.location.href = '/';
         } else {
             // inquireMyPage 함수 호출
@@ -53,7 +53,7 @@ function MyPage() {
         axios.get(`http://3.37.245.108:8080/api/v1/users/my-page`, { 
             withCredentials: true,
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
             } 
         })
         .then((res) => {
@@ -77,7 +77,7 @@ function MyPage() {
         axios.get(`http://3.37.245.108:8080/api/v1/users/storeList`, {
             withCredentials: true,
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
             } 
         })
         .then((res) => {

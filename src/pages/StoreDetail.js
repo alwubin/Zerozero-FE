@@ -75,7 +75,7 @@ function StoreDetail() {
             axios.get(`http://3.37.245.108:8080/api/v1/stores/${storeId}?sort=LATEST`, { 
                 withCredentials: true,
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`
                 }
             })
             .then((res) => {
@@ -124,7 +124,7 @@ function StoreDetail() {
             { 
                 withCredentials: true,
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
                 } 
             }
         )
@@ -158,7 +158,7 @@ function StoreDetail() {
             { 
                 withCredentials: true,
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
                     'Content-Type': 'multipart/form-data'
                 } 
             }
