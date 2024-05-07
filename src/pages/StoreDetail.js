@@ -119,7 +119,7 @@ function StoreDetail() {
             content: content
         };
 
-        axios.post(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/reviews/${storeId}`,
+        axios.post(`http://3.37.245.108:8080/api/v1/reviews/${storeId}`,
             formData,
             { 
                 withCredentials: true,
