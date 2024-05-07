@@ -31,7 +31,8 @@ function Login() {
             alert('로그인 성공');
             console.log(res.data.result.token);
             //refreshToken & accessToken 저장소 다르게 저장 필요
-            localStorage.setItem('token', res.data.result.token);
+            localStorage.setItem('accessToken', res.data.result.accessToken);
+            localStorage.setItem('refreshToken', res.data.result.refreshToken);
             window.location.href = '/';
         })
         .catch((err) => {
