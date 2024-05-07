@@ -34,13 +34,13 @@ function MyPage() {
     }
 
     const logoutUser = () => {
-        localStorage.removeItem('token');
+        localStorage.removeItem('accessToken');
         window.location.href = '/';
     }
 
     useEffect(() => {
         // 토큰이 없을 때 로그인 페이지로 이동
-        if (!localStorage.getItem('token')) {
+        if (!localStorage.getItem('accessToken')) {
             window.location.href = '/';
         } else {
             // inquireMyPage 함수 호출
@@ -50,10 +50,10 @@ function MyPage() {
 
 
     const inquireMyPage = () => {
-        axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users/my-page`, { 
+        axios.get(`http://3.37.245.108:8080/api/v1/users/my-page`, { 
             withCredentials: true,
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
             } 
         })
         .then((res) => {
@@ -74,10 +74,10 @@ function MyPage() {
     }
 
     const inquireRegisteredPlaces = () => {
-        axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users/storeList`, {
+        axios.get(`http://3.37.245.108:8080/api/v1/users/storeList`, {
             withCredentials: true,
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
             } 
         })
         .then((res) => {

@@ -15,10 +15,11 @@ function Login() {
     /**
      * CHECKLIST
      * [X] session storage에 로그인 성공 시 받아온 토큰 저장
+     * [ ] 로그인 api에서 refreshToken & accessToken 저장소 다르게 저장 필요
      */
 
     const loginUser = () => {
-        axios.post('http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/auth/authenticate', 
+        axios.post('http://3.37.245.108:8080/api/v1/auth/authenticate', 
             {
                 'email' : email,
                 'password' : password
@@ -29,7 +30,8 @@ function Login() {
             console.log(res);
             alert('로그인 성공');
             console.log(res.data.result.token);
-            localStorage.setItem('token', res.data.result.token);
+            localStorage.setItem('accessToken', res.data.result.accessToken);
+            localStorage.setItem('refreshToken', res.data.result.refreshToken);
             window.location.href = '/';
         })
         .catch((err) => {

@@ -84,15 +84,15 @@ function Register() {
         setTitle('');
         if (selectedDistrict && selectedDong) {
             if (title.trim() !== '') {
-                if (localStorage.getItem('token') === null) {
+                if (localStorage.getItem('accessToken') === null) {
                     setModalMessage('로그인이 필요한 서비스입니다.');
                     setShowModal(true);
                 }
                 else {
-                    axios.get(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores/search?query=${encodeURIComponent(selectedDistrict)}${encodeURIComponent(selectedDong)}${encodeURIComponent(title)}`, { 
+                    axios.get(`http://3.37.245.108:8080/api/v1/stores/search?query=${encodeURIComponent(selectedDistrict)}${encodeURIComponent(selectedDong)}${encodeURIComponent(title)}`, { 
                         withCredentials: true,
                         headers: {
-                            Authorization: `Bearer ${localStorage.getItem('token')}`
+                            Authorization: `Bearer ${localStorage.getItem('accessToken')}`
                         } 
                     })
                     .then((res) => {
@@ -139,12 +139,12 @@ function Register() {
         });
         
     
-        axios.post(`http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/stores`, 
+        axios.post(`http://3.37.245.108:8080/api/v1/stores`, 
             formData,
             { 
                 withCredentials: true,
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
                     'Content-Type': 'multipart/form-data'
                 } 
             }
