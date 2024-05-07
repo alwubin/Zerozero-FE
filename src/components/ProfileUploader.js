@@ -39,7 +39,7 @@ const ProfileUploader = ({ onClose, setProfileImage }) => {
         if (image.image) {
             const formData = new FormData();
             formData.append('profileImage', image.image);
-            await axios.post('http://ec2-3-35-98-32.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users/upload-profile', 
+            await axios.post('http://3.37.245.108:8080/api/v1/users/upload-profile', 
                 formData,
                 { 
                     withCredentials: true,
