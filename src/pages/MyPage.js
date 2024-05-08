@@ -57,7 +57,6 @@ function MyPage() {
             } 
         })
         .then((res) => {
-            console.log(res.data.result);
             const myInfo = res.data.result;
             setNickname(myInfo.nickname);
             setProfileImage(myInfo.profileImage);
@@ -69,8 +68,15 @@ function MyPage() {
             setStoreReportCount(myInfo.storeReportCount);
         })
         .catch((err) => {
-            console.log(err);
-        })
+            if (err.response.status === 401) {
+                refreshAccessToken()
+                    .then(() => {
+                        inquireMyPage();
+                    })
+            } else {
+                console.log('마이페이지 조회 실패: ', err);
+            }
+        });
     }
 
     const inquireRegisteredPlaces = () => {
@@ -86,8 +92,15 @@ function MyPage() {
             setShowList(true);
         })
         .catch((err) => {
-            console.log(err);
-        })
+            if (err.response.status === 401) {
+                refreshAccessToken()
+                    .then(() => {
+                        inquireRegisteredPlaces();
+                    })
+            } else {
+                console.log('등록된 장소 리스트 조회 실패: ', err);
+            }
+        });
     }
 
     return (
