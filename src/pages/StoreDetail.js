@@ -100,8 +100,14 @@ function StoreDetail() {
                 setIsLoading(false);
             })
             .catch((err) => {
-                console.log(err);
-                setIsLoading(false);
+                if (err.response.status === 401) {
+                    refreshAccessToken()
+                        .then(() => {
+                            inquireStoreDetail();
+                        })
+                } else {
+                    console.log('장소 조회 실패: ', err);
+                }
             });
         } else {
             setName(storeName);
@@ -133,7 +139,14 @@ function StoreDetail() {
             alert('성공적으로 등록되었습니다!');
         })
         .catch((err) => {
-            console.log(err);
+            if (err.response.status === 401) {
+                refreshAccessToken()
+                    .then(() => {
+                        postReview();
+                    })
+            } else {
+                console.log('리뷰 등록 실패: ', err);
+            }
         });
     }
 
@@ -169,8 +182,14 @@ function StoreDetail() {
             navigate('/');
         })
         .catch((err) => {
-            console.log(err);
-            navigate('/');
+            if (err.response.status === 401) {
+                refreshAccessToken()
+                    .then(() => {
+                        registerLocation();
+                    })
+            } else {
+                console.log('장소 등록 실패: ', err);
+            }
         });
     }
 

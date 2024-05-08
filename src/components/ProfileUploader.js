@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import axios from 'axios';
+import { refreshAccessToken } from './utils/authUtils';
 import '../styles/ProfileUploader.css';
 
 
@@ -35,29 +36,42 @@ const ProfileUploader = ({ onClose, setProfileImage }) => {
         }
     }, []);
 
-    const sendImageToServer = async() => {
+    const sendImageToServer = async () => {
         if (image.image) {
             const formData = new FormData();
             formData.append('profileImage', image.image);
-            await axios.post('http://3.37.245.108:8080/api/v1/users/upload-profile', 
-                formData,
-                { 
-                    withCredentials: true,
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
-                    } 
+    
+            try {
+                await axios.post(
+                    'http://3.37.245.108:8080/api/v1/users/upload-profile',
+                    formData,
+                    {
+                        withCredentials: true,
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                        }
+                    }
+                );
+                alert('업로드 성공!');
+                setImage({
+                    image: '',
+                    preview: 'default.png'
                 });
-            alert('업로드 성공!');
-            setImage({
-                image: '',
-                preview: 'default.png'
-            });
-            onClose();
+                onClose();
+            } catch (err) {
+                if (err.response.status === 401) {
+                    refreshAccessToken()
+                        .then(() => {
+                            sendImageToServer();
+                        })
+                } else {
+                    console.error('이미지 업로드 실패:', err);
+                }
+            }
+        } else {
+            alert('사진을 등록하세요.');
         }
-        else {
-            alert('사진을 등록하세요.')
-        }
-    }
+    };
 
     return (
         <div className='uploaderWrapper'>

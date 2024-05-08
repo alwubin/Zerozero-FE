@@ -81,37 +81,49 @@ function Register() {
     }
 
     const searchStoreByName = () => {
-        setTitle('');
+        setStore('');
         if (selectedDistrict && selectedDong) {
-            if (title.trim() !== '') {
-                if (localStorage.getItem('accessToken') === null) {
+            if (store.trim() !== '') {
+                if (localStorage.getItem('token') === null) {
                     setModalMessage('로그인이 필요한 서비스입니다.');
                     setShowModal(true);
-                }
-                else {
-                    axios.get(`http://3.37.245.108:8080/api/v1/stores/search?query=${encodeURIComponent(selectedDistrict)}${encodeURIComponent(selectedDong)}${encodeURIComponent(title)}`, { 
-                        withCredentials: true,
-                        headers: {
-                            Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                        } 
-                    })
-                    .then((res) => {
-                        const items = res.data.result.items;
-                        if (items.length === 0) {
-                            setModalMessage('해당 판매점을 찾을 수 없습니다.');
-                            setShowModal(true);
-                            setShowStoreList(false);
-                        } else {
-                            setLocations(items);
-                            setShowStoreList(true);
-                            console.log(res.data.result.items);
-                        }
-                    })
-                    .catch((err) => {
-                        setModalMessage('해당 판매점을 찾을 수 없습니다.');
-                        setShowModal(true);
-                        console.log(err);
-                    })
+                } else {
+                    axios
+                        .get(
+                            `http://3.37.245.108:8080/api/v1/stores/search?query=${encodeURIComponent(
+                                selectedDistrict
+                            )}${encodeURIComponent(selectedDong)}${encodeURIComponent(store)}`,
+                            {
+                                withCredentials: true,
+                                headers: {
+                                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                                }
+                            }
+                        )
+                        .then((res) => {
+                            const items = res.data.result.items;
+                            if (items.length === 0) {
+                                setModalMessage('해당 판매점을 찾을 수 없습니다.');
+                                setShowModal(true);
+                                setShowLocationList(false);
+                            } else {
+                                setLocations(items);
+                                setShowLocationList(true);
+                                console.log(res.data.result.items);
+                            }
+                        })
+                        .catch((err) => {
+                            if (err.response.status === 401) {
+                                refreshAccessToken()
+                                    .then(() => {
+                                        searchStoreByName();
+                                    })
+                            } else {
+                                setModalMessage('해당 판매점을 찾을 수 없습니다.');
+                                setShowModal(true);
+                                console.log(err);
+                            }
+                        });
                 }
             } else {
                 setAlertMessage('검색어를 입력해주세요!');
@@ -121,7 +133,8 @@ function Register() {
             setAlertMessage('행정구역을 선택해주세요!');
             setShowAlert(true);
         }
-    }
+    };
+
 
     const registerLocation = () => {
         const formData = new FormData();
@@ -155,9 +168,15 @@ function Register() {
             navigate('/');
         })
         .catch((err) => {
-            console.log(err);
-            console.log(`title: ${title} `);
-        })
+            if (err.response.status === 401) {
+                refreshAccessToken()
+                    .then(() => {
+                        registerLocation();
+                    })
+            } else {
+                console.log('장소 등록 실패: ', err);
+            }
+        });
     } 
 
     const handleRegisterButtonClick = () => {
