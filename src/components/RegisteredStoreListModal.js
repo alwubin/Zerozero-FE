@@ -20,7 +20,7 @@ const RegisteredStoreListModal = ({ registeredStoreList, clickHandler }) => {
     return (
         <div className="registeredStoreListContainer">
             <div className='registerStoreList'>
-                <div className="modalCloseButton">
+                <div className="modalCloseButton" onClick={clickHandler}>
                     X
                 </div>
                 { registeredStoreList.map((store, idx) => (
