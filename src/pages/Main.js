@@ -2,7 +2,7 @@ import { Container as MapDiv, NaverMap, Marker, useNavermaps, InfoWindow } from 
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
-import { refreshAccessToken } from './utils/authUtils';
+import { refreshAccessToken } from '../authUtils';
 
 import CustomAlert from '../components/CustomAlert';
 import CustomModal from '../components/CustomModal';

@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import axios from 'axios';
+import { refreshAccessToken } from '../authUtils';
 
 import { seoulAreas } from '../constants';
 import { IoIosSearch } from "react-icons/io";
