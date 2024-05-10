@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import axios from 'axios';
-import { refreshAccessToken } from './utils/authUtils';
+import { refreshAccessToken } from '../authUtils';
 import '../styles/ProfileUploader.css';
 
 

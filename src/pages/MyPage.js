@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'; 
 import axios from 'axios';
+import { refreshAccessToken } from '../authUtils';
 
 import ProfileUploader from '../components/ProfileUploader';
 import RegisteredStoreListModal from '../components/RegisteredStoreListModal';
