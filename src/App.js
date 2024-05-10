@@ -45,7 +45,7 @@ function App() {
   };
 
   const isAuthenticated = () => {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('token');
   
     return !!token; // 있으면 true, 없으면 false 반환
   }

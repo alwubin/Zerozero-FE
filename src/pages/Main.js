@@ -2,7 +2,7 @@ import { Container as MapDiv, NaverMap, Marker, useNavermaps, InfoWindow } from 
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
-import { refreshAccessToken } from '../authUtils';
+import { refreshAccessToken } from './utils/authUtils';
 
 import CustomAlert from '../components/CustomAlert';
 import CustomModal from '../components/CustomModal';
@@ -183,7 +183,7 @@ function Main() {
         setStore('');
         if (selectedDistrict && selectedDong) {
             if (store.trim() !== '') {
-                if (localStorage.getItem('accessToken') === null) {
+                if (localStorage.getItem('token') === null) {
                     setModalMessage('로그인이 필요한 서비스입니다.');
                     setShowModal(true);
                 } else {
