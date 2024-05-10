@@ -183,7 +183,7 @@ function Main() {
         setStore('');
         if (selectedDistrict && selectedDong) {
             if (store.trim() !== '') {
-                if (localStorage.getItem('token') === null) {
+                if (localStorage.getItem('accessToken') === null) {
                     setModalMessage('로그인이 필요한 서비스입니다.');
                     setShowModal(true);
                 } else {
