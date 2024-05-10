@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'; 
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { refreshAccessToken } from '../authUtils';
 import '../styles/StoreDetail.css';
 import { zeroDrinks } from '../constants';
 
