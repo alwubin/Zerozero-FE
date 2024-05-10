@@ -11,7 +11,6 @@ import CustomModal from '../components/CustomModal';
 import StoreListModal from '../components/StoreListModal';
 import '../styles/Register.css';
 
-
 function Register() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -24,7 +23,6 @@ function Register() {
     //검색 api를 위한 판매점 배열
     const [locations, setLocations] = useState([]);
     const [showStoreList, setShowStoreList] = useState(false);
-    const [showLocationList, setShowLocationList] = useState(false);
 
     //모달 
     const [alertMessage, setAlertMessage] = useState('');
@@ -44,7 +42,6 @@ function Register() {
     const [address, setAddress] = useState('');
     const [mapx, setMapx] = useState(0); //x
     const [mapy, setMapy] = useState(0); //y
-    const [store, setStore] = useState('');
 
     const handleDistrictSelect = (e) => {
         const selected = e.target.value;
@@ -84,18 +81,16 @@ function Register() {
     }
 
     const searchStoreByName = () => {
-        setStore('');
+        setTitle('');
         if (selectedDistrict && selectedDong) {
-            if (store.trim() !== '') {
+            if (title.trim() !== '') {
                 if (localStorage.getItem('accessToken') === null) {
                     setModalMessage('로그인이 필요한 서비스입니다.');
                     setShowModal(true);
                 } else {
                     axios
                         .get(
-                            `http://3.37.245.108:8080/api/v1/stores/search?query=${encodeURIComponent(
-                                selectedDistrict
-                            )}${encodeURIComponent(selectedDong)}${encodeURIComponent(store)}`,
+                            `http://3.37.245.108:8080/api/v1/stores/search?query=${encodeURIComponent(selectedDistrict)}${encodeURIComponent(selectedDong)}${encodeURIComponent(title)}`,
                             {
                                 withCredentials: true,
                                 headers: {
@@ -103,30 +98,30 @@ function Register() {
                                 }
                             }
                         )
-                        .then((res) => {
-                            const items = res.data.result.items;
-                            if (items.length === 0) {
-                                setModalMessage('해당 판매점을 찾을 수 없습니다.');
-                                setShowModal(true);
-                                setShowLocationList(false);
-                            } else {
-                                setLocations(items);
-                                setShowLocationList(true);
-                                console.log(res.data.result.items);
-                            }
-                        })
-                        .catch((err) => {
-                            if (err.response.status === 401) {
-                                refreshAccessToken()
-                                    .then(() => {
-                                        searchStoreByName();
-                                    })
-                            } else {
-                                setModalMessage('해당 판매점을 찾을 수 없습니다.');
-                                setShowModal(true);
-                                console.log(err);
-                            }
-                        });
+                    .then((res) => {
+                        const items = res.data.result.items;
+                        if (items.length === 0) {
+                            setModalMessage('해당 판매점을 찾을 수 없습니다.');
+                            setShowModal(true);
+                            setShowStoreList(false);
+                        } else {
+                            setLocations(items);
+                            setShowStoreList(true);
+                            console.log(res.data.result.items);
+                        }
+                    })
+                    .catch((err) => {
+                        if (err.response.status === 401) {
+                            refreshAccessToken()
+                                .then(() => {
+                                    searchStoreByName();
+                                })
+                        } else {
+                            setModalMessage('해당 판매점을 찾을 수 없습니다.');
+                            setShowModal(true);
+                            console.log(err);
+                        }
+                    })
                 }
             } else {
                 setAlertMessage('검색어를 입력해주세요!');
@@ -136,8 +131,7 @@ function Register() {
             setAlertMessage('행정구역을 선택해주세요!');
             setShowAlert(true);
         }
-    };
-
+    }
 
     const registerLocation = () => {
         const formData = new FormData();
