@@ -1,7 +1,7 @@
 .registeredStoreListContainer{
     z-index: 99999999;
     position: absolute;
-    top: 56%;
+    top: 63%;
     left: 49.5%;
     transform: translate(-50%, -50%);
     border-radius: 8px;
@@ -32,6 +32,10 @@
 .registeredStoreInfo {
     padding: 8px 0 0 15px;
     cursor: pointer;
+}
+
+.registeredStoreInfo:hover {
+    background-color: #ccc;
 }
 
 .registeredStoreInfo:first-child {
