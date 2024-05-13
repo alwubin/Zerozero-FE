@@ -4,7 +4,23 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import axios from 'axios';
 import { refreshAccessToken } from '../authUtils';
 
-import { seoulAreas } from '../constants';
+import { seoulAreas,
+    gangwonAreas,
+    incheonAreas,
+    gyeonggiAreas,
+    chungbukAreas,
+    chungnamAreas,
+    daejeonAreas,
+    sejongAreas,
+    jeonnamAreas,
+    jeonbukAreas,
+    gwangjuAreas,
+    gyeongnamAreas,
+    gyeongbukAreas,
+    busanAreas,
+    daeguAreas,
+    ulsanAreas,
+    jejuAreas } from '../constants';
 import { IoIosSearch } from "react-icons/io";
 import CustomAlert from '../components/CustomAlert';
 import CustomModal from '../components/CustomModal';
@@ -31,11 +47,9 @@ function Register() {
     const [showModal, setShowModal] = useState(false);
 
     //주소 검색 시 사용  
-    const defaultDistrict = Object.keys(seoulAreas)[0];
-    const defaultDong = seoulAreas[defaultDistrict][0];
-    const [selectedCity, setSelectedCity] = useState('서울특별시');
-    const [selectedDistrict, setSelectedDistrict] = useState(defaultDistrict);
-    const [selectedDong, setSelectedDong] = useState(defaultDong);
+    const [selectedProvince, setSelectedProvince] = useState('');
+    const [selectedCity, setSelectedCity] = useState('');
+    const [selectedDistrict, setSelectedDistrict] = useState('');
 
     //입력받은 판매점 정보
     const [title, setTitle] = useState('');
@@ -43,15 +57,96 @@ function Register() {
     const [mapx, setMapx] = useState(0); //x
     const [mapy, setMapy] = useState(0); //y
 
-    const handleDistrictSelect = (e) => {
-        const selected = e.target.value;
-        setSelectedDistrict(selected);
-        setSelectedDong(null); // 동 선택 초기화
+    const handleProvinceSelect = (e) => {
+        setSelectedProvince(e.target.value);
+        setSelectedCity('');
+        setSelectedDistrict('');
     };
 
-    const handleDongSelect = (e) => {
-        setSelectedDong(e.target.value);
+    const handleCitySelect = (e) => {
+        setSelectedCity(e.target.value);
+        setSelectedDistrict('');
     };
+
+    const handleDistrictSelect = (e) => {
+        setSelectedDistrict(e.target.value);
+    };
+
+    let cities = [];
+    let districts = [];
+
+    switch (selectedProvince) {
+        case '서울특별시':
+            cities = Object.keys(seoulAreas);
+            districts = selectedCity ? seoulAreas[selectedCity] : [];
+            break;
+        case '강원도':
+            cities = Object.keys(gangwonAreas);
+            districts = selectedCity ? gangwonAreas[selectedCity] : [];
+            break;
+        case '인천광역시':
+            cities = Object.keys(incheonAreas);
+            districts = selectedCity ? incheonAreas[selectedCity] : [];
+            break;
+        case '경기도':
+            cities = Object.keys(gyeonggiAreas);
+            districts = selectedCity ? gyeonggiAreas[selectedCity] : [];
+            break;
+        case '충청북도':
+            cities = Object.keys(chungbukAreas);
+            districts = selectedCity ? chungbukAreas[selectedCity] : [];
+            break;
+        case '충청남도':
+            cities = Object.keys(chungnamAreas);
+            districts = selectedCity ? chungnamAreas[selectedCity] : [];
+            break;
+        case '대전광역시':
+            cities = Object.keys(daejeonAreas);
+            districts = selectedCity ? daejeonAreas[selectedCity] : [];
+            break;
+        case '세종특별자치시':
+            cities = Object.keys(sejongAreas);
+            districts = selectedCity ? sejongAreas[selectedCity] : [];
+            break;
+        case '전라남도':
+            cities = Object.keys(jeonnamAreas);
+            districts = selectedCity ? jeonnamAreas[selectedCity] : [];
+            break;
+        case '전라북도':
+            cities = Object.keys(jeonbukAreas);
+            districts = selectedCity ? jeonbukAreas[selectedCity] : [];
+            break;
+        case '광주광역시':
+            cities = Object.keys(gwangjuAreas);
+            districts = selectedCity ? gwangjuAreas[selectedCity] : [];
+            break;
+        case '경상남도':
+            cities = Object.keys(gyeongnamAreas);
+            districts = selectedCity ? gyeongnamAreas[selectedCity] : [];
+            break;
+        case '경상북도':
+            cities = Object.keys(gyeongbukAreas);
+            districts = selectedCity ? gyeongbukAreas[selectedCity] : [];
+            break;
+        case '부산광역시':
+            cities = Object.keys(busanAreas);
+            districts = selectedCity ? busanAreas[selectedCity] : [];
+            break;
+        case '대구광역시':
+            cities = Object.keys(daeguAreas);
+            districts = selectedCity ? daeguAreas[selectedCity] : [];
+            break;
+        case '울산광역시':
+            cities = Object.keys(ulsanAreas);
+            districts = selectedCity ? ulsanAreas[selectedCity] : [];
+            break;
+        case '제주특별자치도':
+            cities = Object.keys(jejuAreas);
+            districts = selectedCity ? jejuAreas[selectedCity] : [];
+            break;
+        default:
+            break;
+    }
 
     const handleChange = (e) => {
         const newStore = e.target.value
@@ -82,7 +177,7 @@ function Register() {
 
     const searchStoreByName = () => {
         setTitle('');
-        if (selectedDistrict && selectedDong) {
+        if (selectedProvince && selectedCity && selectedDistrict)  {
             if (title.trim() !== '') {
                 if (localStorage.getItem('accessToken') === null) {
                     setModalMessage('로그인이 필요한 서비스입니다.');
@@ -90,7 +185,7 @@ function Register() {
                 } else {
                     axios
                         .get(
-                            `http://3.37.245.108:8080/api/v1/stores/search?query=${encodeURIComponent(selectedDistrict)}${encodeURIComponent(selectedDong)}${encodeURIComponent(title)}`,
+                            `http://3.37.245.108:8080/api/v1/stores/search?query=${encodeURIComponent(selectedProvince)}${encodeURIComponent(selectedCity)}${encodeURIComponent(selectedDistrict)}${encodeURIComponent(title)}`,
                             {
                                 withCredentials: true,
                                 headers: {
@@ -237,39 +332,54 @@ function Register() {
 
                 <select
                     className='valueDropdown'
-                    name='city'
-                    id='city'
-                    value={selectedCity}>
-                    <option value=''>서울특별시</option>
+                    name='province'
+                    id='province'
+                    onChange={handleProvinceSelect}
+                    value={selectedProvince}>
+                    <option value=''>시/도</option>
+                    <option value='서울특별시'>서울특별시</option>
+                    <option value='강원도'>강원도</option>
+                    <option value='인천광역시'>인천광역시</option>
+                    <option value='경기도'>경기도</option>
+                    <option value='충청북도'>충청북도</option>
+                    <option value='충청남도'>충청남도</option>
+                    <option value='대전광역시'>대전광역시</option>
+                    <option value='세종특별자치시'>세종특별자치시</option>
+                    <option value='전라남도'>전라남도</option>
+                    <option value='전라북도'>전라북도</option>
+                    <option value='광주광역시'>광주광역시</option>
+                    <option value='경상남도'>경상남도</option>
+                    <option value='경상북도'>경상북도</option>
+                    <option value='부산광역시'>부산광역시</option>
+                    <option value='대구광역시'>대구광역시</option>
+                    <option value='울산광역시'>울산광역시</option>
+                    <option value='제주특별자치도'>제주특별자치도</option>
                 </select>
 
-                {selectedCity && (
-                    <select
-                        className='valueDropdown'
-                        name='district'
-                        id='district'
-                        onChange={handleDistrictSelect}
-                        value={selectedDistrict}>
-                        <option disabled value=''>구</option>
-                        {Object.keys(seoulAreas).map((district, index) => (
-                            <option key={index} value={district}>{district}</option>
-                        ))}
-                    </select>
-                )}
+                <select
+                    className='valueDropdown'
+                    name='city'
+                    id='city'
+                    onChange={handleCitySelect}
+                    value={selectedCity}>
+                    <option disabled value=''>시/군/구</option>
+                    {cities.map((city, index) => (
+                        <option key={index} value={city}>{city}</option>
+                    ))}
+                </select>
 
-                {selectedDistrict && (
-                    <select
-                        className='valueDropdown'
-                        name='dong'
-                        id='dong'
-                        onChange={handleDongSelect}
-                        value={selectedDong}>
-                        <option disabled value=''>동</option>
-                        {seoulAreas[selectedDistrict].map((dong, index) => (
-                            <option key={index} value={dong}>{dong}</option>
-                        ))}
-                    </select>
-                )}    
+
+                <select
+                    className='valueDropdown'
+                    name='district'
+                    id='district'
+                    onChange={handleDistrictSelect}
+                    value={selectedDistrict}>
+                    <option disabled value=''>동/면/읍</option>
+                    {districts.map((district, index) => (
+                        <option key={index} value={district}>{district}</option>
+                    ))}
+                </select>  
 
                 <div className='infoTitle'>
                     가게 주소
