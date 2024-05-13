@@ -111,17 +111,18 @@ function MyPage() {
             </div>
             <div className='myPageContentWrap'>
                 <div className='profile'>
-                    <div className='myImage'>
-                        <img className='profileImage' src={profileImage || 'images/default.png'} alt='프로필 이미지'/>
+                    <div className='profileWrapper'>
+                        <div className='myImage'>
+                            <img className='profileImage' src={profileImage || 'images/default.png'} alt='프로필 이미지'/>
+                        </div>
+                        <div className='myName'>
+                            {nickname}
+                        </div>
+                        <div className='editButton' onClick={toggleUploader}><HiPencil/></div>
                     </div>
-                    <div className='myName'>
-                        {nickname}
+                    <div className='editProfileWrap'>
+                        {showUploader && <PopUp content={<ProfileUploader onClose={toggleUploader} profileImage={profileImage} setProfileImage={setProfileImage} />} onClose={toggleUploader} />}
                     </div>
-                    <div className='editButton' onClick={toggleUploader}><HiPencil/></div>
-                </div>
-                
-                <div className='editProfileWrap'>
-                { showUploader && <PopUp content={<ProfileUploader onClose={toggleUploader} profileImage={profileImage} setProfileImage={setProfileImage} />} onClose={toggleUploader} /> }
                 </div>
 
                 {
